@@ -1,0 +1,160 @@
+Messages:
+    prefix: "&7[&2&lChess&7] "
+    configReloaded: "&aConfig Reloaded!"
+    noPermissions: "&cYou don't have permissions."
+    commandCreateErrorUse: "&cYou need to use &7/chess create <arena>"
+    arenaAlreadyExists: "&cThat arena already exists."
+    arenaCreated: "&aArena created! Use &7/chess build %arena% &ato automatically construct the arena in your position."
+    arenaDoesNotExists: "&cThat arena doesn't exists."
+    commandBuildErrorUse: "&cYou need to use &7/chess build <arena>"
+    arenaBuilt: "&aThe arena was built correctly!"
+    commandSetSpawnErrorUse: "&cYou need to use &7/chess setspawn <arena>"
+    spawnSet: "&aSpawn set for arena &e%arena%&a."
+    mainLobbyDefined: "&aMain Lobby defined correctly."
+    commandJoinErrorUse: "&cYou need to use &7/chess join <arena>"
+    playerJoin: "&7%player% &ehas joined the game (&b%current_players%&8/&b2&e)"
+    playerLeave: "&7%player% &ehas left the game (&b%current_players%&8/&b2&e)"
+    arenaStartingMessage: "&eThe game starts in &7%time% &eseconds!"
+    gameStartingCancelled: "&7There are not enough players to start the game."
+    gameStarted: "&aGame started!"
+    blackPiecesInfo: "&eYou are the &0&lBLACK &epieces."
+    whitePiecesInfo: "&eYou are the &f&lWHITE &epieces."
+    gameFinished:
+    - "&e&m                                               "
+    - "&6%player% &ewon the game with &9%points% Points&e!"
+    - "&e&m                                               "
+    gameFinishedTie:
+    - "&e&m                                               "
+    - "&e                  There was a tie!"
+    - "&e&m                                               "
+    arenaDisabledError: "&cThe arena is disabled."
+    alreadyInArena: "&cYou are already in an arena."
+    arenaAlreadyStarted: "&cThe arena already started."
+    arenaIsFull: "&cThe arena is full."
+    notInAGame: "&cYou are not in a game."
+    commandEnableErrorUse: "&cYou need to use: &7/chess enable <arena>"
+    arenaAlreadyEnabled: "&cThe arena is already enabled."
+    enableArenaBuildError: "&cYou need to build the arena first by using &7/chess build <arena>"
+    enableArenaSpawnError: "&cYou need to set the arena spawn first by using &7/chess setspawn <arena>"
+    arenaEnabled: "&aArena &e%arena% &aenabled."
+    commandDisableErrorUse: "&cYou need to use: &7/chess disable <arena>"
+    arenaAlreadyDisabled: "&cThe arena is already disabled."
+    arenaDisabled: "&aArena &e%arena% &adisabled."
+    noMainLobby: "&cBefore creating an arena you need to set the Main Lobby with: &7/chess setmainlobby"
+    commandDeleteErrorUse: "&cYou need to use: &7/chess delete <arena>"
+    arenaDeleted: "&aArena &e%arena% &adeleted."
+    notYourTurn: "&cIs not your turn!"
+    notYourPiece: "&cThat is not your piece!"
+    pieceSelected: "&7&l%piece% &eselected."
+    piecePawn: "&aPawn"
+    pieceRook: "&aRook"
+    pieceKnight: "&aKnight"
+    pieceBishop: "&aBishop"
+    pieceQueen: "&aQueen"
+    pieceKing: "&aKing"
+    changeTurn: "&6➤ &eIt's &a%player% &eTurn."
+    pieceMove: "&6➤ &a%player% &emoved &a%piece% &eto &7[%coords%]&e."
+    pieceCaptured: "&6➤ &a%player% &emoved &a%piece% &eto &7[%coords%] &eand captured &c%player2%'s %player2_piece%&e."
+    castling: "&6➤ &a%player% &ecastled his King to &7[%coords%]&e."
+    promotion: "&6➤ &a%player% &epromoted his Pawn to &a%piece%&e."
+    check: "&6➤ &a%player%'s &cKing is in check!"
+    checkmate: "&6➤ &a%player%'s &cKing is in checkmate!"
+    actionbarPlayerTurn: "&9It's &e%player% &9Turn. &8(&6%time%&8)"
+    actionbarYourTurn: "&9It's your Turn. &8(&6%time%&8)"
+    gameScoreboardTitle: "&bMineChess"
+    gameScoreboardBody:
+    - "&1"
+    - "&cStatus:"
+    - "&e%status%"
+    - "&2"
+    - "&a&l%player_1% &cPoints: &a%player_1_points%"
+    - "&a&l%player_2% &cPoints: &a%player_2_points%"
+    - "&3"
+    - "&cmc.server.com"
+    statusWaiting: "&eWAITING"
+    statusStarting: "&eSTARTING IN &a%time%"
+    statusIngame: "&eENDS IN &a%time%"
+    statusFinishing: "&eFINISHING IN &a%time%"
+    gameScoreboardWaitingPlayer: "Player"
+    pawnPromotionInventoryTitle: "&cPawn Promotion"
+    promoteItemName: "&ePromote to: &a%piece%"
+    signFormat:
+    - "&8[&2Chess&8]"
+    - "&9%arena%"
+    - "%status%"
+    - "&a%current_players%&8/&a%max_players%"
+    signStatusWaiting: "&1WAITING"
+    signStatusStarting: "&6STARTING"
+    signStatusIngame: "&cINGAME"
+    signStatusDisabled: "&8DISABLED"
+    signStatusFinishing: "&4FINISHING"
+    titleKingInCheck: "&a%player%'s &cKing is in check!"
+    titleKingInCheckmate: "&a%player%'s &cKing is in checkmate!"
+    commandSpectateErrorUse: "&cYou need to use &7/chess spectate <arena>/<player>"
+    commandSpectateAllError: "&cThe arena doesn't exists or that player is not playing on it."
+    arenaMustHaveStarted: "&cThe arena must have started to spectate it!"
+    errorPlayerNotExists: "&7Player &e%player% &7doesn't have any stored stats."
+    commandPlayerStats:
+    - "&9&lStats of &e%player%"
+    - "&7Wins: &e%wins%"
+    - "&7Ties: &e%ties%"
+    - "&7Loses: &e%loses%"
+    - "&7Time Played: &d%time%"
+    noArenasAvailable: "&cThere are no arenas available."
+    errorClearInventory: "&c&lERROR! &7To join an arena clear your inventory first."
+Config:
+   arena_starting_cooldown: 10
+   arena_ending_phase_cooldown: 10
+   arena_time: 1200
+   piece_holograms_enabled: true
+   teleport_last_location: false
+   empty_inventory_to_join: false
+   click_distance: 15
+   time_in_each_turn:
+      enabled: true
+      time: 60
+      action_when_time_runs_out: move
+   leave_item_enabled: true
+   leave_item:
+      item: IRON_DOOR
+      name: "&7[&c&lLeave&7]"
+      lore:
+      - "&7Right Click to leave the game." 
+   select_item:
+      item: NAME_TAG
+      name: "&7[&a&lSelect and Move&7]"
+      lore:
+      - "&eLeft Click &7to select a piece."
+      - "&eRight Click &7to move a selected piece." 
+   commands_whitelist:
+   - "/chess leave"
+   - "/help"
+   per_arena_chat: true
+   soundCapturePiece: "BLOCK_NOTE_BLOCK_PLING;10;2"
+   soundLosePiece: "BLOCK_NOTE_BLOCK_PLING;10;0.1"
+   soundMovePiece: "BLOCK_STONE_STEP;10;1"
+   soundCastling: "BLOCK_PISTON_EXTEND;10;1.5"
+   soundSelectPiece: "UI_BUTTON_CLICK;10;1"
+   soundPromotion: "ENTITY_PLAYER_LEVELUP;10;2"
+   soundCheck: "ENTITY_BLAZE_DEATH;10;0.5"
+   pointsPawn: 1
+   pointsRook: 3
+   pointsKnight: 3
+   pointsBishop: 3
+   pointsQueen: 10
+   pointsKing: 20
+   winners_command_rewards:
+   - "msg %player% &aHere, take a reward!"
+   - "eco give %player% %random_5*points-10*points%"
+   losers_command_rewards:
+   - "msg %player% &aYou've lost! Here, take this compensation reward."
+   - "eco give %player% %random_2*points-3*points%"
+   minimum_time_for_rewards: 240
+   rewards_executed_after_teleport: true
+   mysql_database:
+     enabled: false
+     host: localhost
+     port: 3306
+     username: root
+     password: root
+     database: database
