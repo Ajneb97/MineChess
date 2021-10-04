@@ -42,16 +42,6 @@ import mc.ajneb97.managers.SignAdmin;
 import mc.ajneb97.mysql.ConexionMySQL;
 import mc.ajneb97.mysql.MySQL;
 
-//JAQUE: Al realizar un movimiento, comprobar por todas las piezas del jugador en su turno y ver si alguna posicion
-//       coincide con la del rey contrario.
-//JAQUE: Si el rey esta en jaque, en su turno solo mostrar los movimientos posibles para salir de jaque.
-//       Para esto hay que obtener TODOS los movimientos posibles del rey, y por cada uno de ellos comprobar si
-//       el rey ya no esta en jaque. Los movimientos validos que permiten al rey salir de jaque seran los movimientos
-//       finales.
-//JAQUE: Si el rey esta en jaque, al seleccionar una pieza comprobar por cada movimiento posible si ese movimiento
-//       saca del jaque al rey, y agregarlo a la lista. Para ver si el movimiento saca del jaque al rey, hay
-//       que comprobar por todas las piezas contrarias si pueden comer al rey o no
-//JAQUE: Eliminar los movimientos que harian que tu rey este en jaque
 
 public class MineChess extends JavaPlugin {
   
