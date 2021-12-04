@@ -25,6 +25,7 @@ import mc.ajneb97.versiones.V1_16;
 import mc.ajneb97.versiones.V1_16_R2;
 import mc.ajneb97.versiones.V1_16_R3;
 import mc.ajneb97.versiones.V1_17;
+import mc.ajneb97.versiones.V1_18;
 import mc.ajneb97.versiones.V1_8_R1;
 import mc.ajneb97.versiones.V1_8_R2;
 import mc.ajneb97.versiones.V1_8_R3;
@@ -68,7 +69,8 @@ public class Utilidades {
 				
 		  	}
 		  	meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,ItemFlag.HIDE_ENCHANTS,ItemFlag.HIDE_UNBREAKABLE,ItemFlag.HIDE_POTION_EFFECTS);
-		  	if(Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+		  	if(Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")
+		  			|| Bukkit.getVersion().contains("1.18")) {
 		  		meta.setUnbreakable(true);
 		  	}else {
 		  		meta.spigot().setUnbreakable(true); //SOLO FUNCIONA CON SPIGOT
@@ -80,6 +82,10 @@ public class Utilidades {
 	
 	public static void setSkullBlock(Location l, String id, String textura, int rot) {
 		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		if(packageName.contains("1_18")){
+			V1_18 u = new V1_18();
+			u.setSkullBlock(l,id,textura,rot);		
+		}
 		if(packageName.contains("1_17")){
 			V1_17 u = new V1_17();
 			u.setSkullBlock(l,id,textura,rot);		
@@ -148,6 +154,10 @@ public class Utilidades {
 	
 	public static void generarParticula(String particle, Location loc, float xOffset, float yOffset, float zOffset, float speed, int count, Player player) {
 		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		if(packageName.contains("1_18")){
+			V1_18 u = new V1_18();
+			u.generarParticula(particle, loc, xOffset, yOffset, zOffset, speed, count, player);		
+		}
 		if(packageName.contains("1_17")){
 			V1_17 u = new V1_17();
 			u.generarParticula(particle, loc, xOffset, yOffset, zOffset, speed, count, player);		
@@ -245,6 +255,11 @@ public class Utilidades {
 	
 	public static ItemStack getCabeza(ItemStack item, String id,String textura){
 		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		if(packageName.contains("1_18")){
+			V1_18 u = new V1_18();
+			ItemStack stack = u.getCabeza(item,id,textura);			
+			return stack;
+		}
 		if(packageName.contains("1_17")){
 			V1_17 u = new V1_17();
 			ItemStack stack = u.getCabeza(item,id,textura);			

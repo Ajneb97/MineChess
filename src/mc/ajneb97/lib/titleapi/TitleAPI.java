@@ -49,7 +49,7 @@ public class TitleAPI implements Listener {
     public static void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String title, String subtitle) {
         TitleSendEvent titleSendEvent = new TitleSendEvent(player, title, subtitle);
         if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
-				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")) {
         	if(title.isEmpty()) {
         		title = " ";
         	}

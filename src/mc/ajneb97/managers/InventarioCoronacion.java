@@ -38,7 +38,7 @@ public class InventarioCoronacion implements Listener {
 		
 		//Torre
 		if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
-				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")) {
 			item = new ItemStack(Material.valueOf("PLAYER_HEAD"),1);
 		}else {
 			item = new ItemStack(Material.SKULL_ITEM,1,(short) 3);
@@ -51,7 +51,7 @@ public class InventarioCoronacion implements Listener {
 		
 		//Caballo
 		if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
-				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")) {
 			item = new ItemStack(Material.valueOf("PLAYER_HEAD"),1);
 		}else {
 			item = new ItemStack(Material.SKULL_ITEM,1,(short) 3);
@@ -64,7 +64,7 @@ public class InventarioCoronacion implements Listener {
 		
 		//Alfil
 		if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
-				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")) {
 			item = new ItemStack(Material.valueOf("PLAYER_HEAD"),1);
 		}else {
 			item = new ItemStack(Material.SKULL_ITEM,1,(short) 3);
@@ -82,7 +82,7 @@ public class InventarioCoronacion implements Listener {
 		
 		//Reina
 		if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
-				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+				|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")) {
 			item = new ItemStack(Material.valueOf("PLAYER_HEAD"),1);
 		}else {
 			item = new ItemStack(Material.SKULL_ITEM,1,(short) 3);
