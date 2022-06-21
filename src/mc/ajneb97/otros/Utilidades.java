@@ -26,6 +26,7 @@ import mc.ajneb97.versiones.V1_16_R2;
 import mc.ajneb97.versiones.V1_16_R3;
 import mc.ajneb97.versiones.V1_17;
 import mc.ajneb97.versiones.V1_18;
+import mc.ajneb97.versiones.V1_19;
 import mc.ajneb97.versiones.V1_8_R1;
 import mc.ajneb97.versiones.V1_8_R2;
 import mc.ajneb97.versiones.V1_8_R3;
@@ -70,7 +71,7 @@ public class Utilidades {
 		  	}
 		  	meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,ItemFlag.HIDE_ENCHANTS,ItemFlag.HIDE_UNBREAKABLE,ItemFlag.HIDE_POTION_EFFECTS);
 		  	if(Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")
-		  			|| Bukkit.getVersion().contains("1.18")) {
+		  			|| Bukkit.getVersion().contains("1.18") || Bukkit.getVersion().contains("1.19")) {
 		  		meta.setUnbreakable(true);
 		  	}else {
 		  		meta.spigot().setUnbreakable(true); //SOLO FUNCIONA CON SPIGOT
@@ -82,42 +83,46 @@ public class Utilidades {
 	
 	public static void setSkullBlock(Location l, String id, String textura, int rot) {
 		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		if(packageName.contains("1_19")){
+			V1_19 u = new V1_19();
+			u.setSkullBlock(l,id,textura,rot);		
+		}else
 		if(packageName.contains("1_18")){
 			V1_18 u = new V1_18();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_17")){
 			V1_17 u = new V1_17();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_16_R3")){
 			V1_16_R3 u = new V1_16_R3();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_16_R2")){
 			V1_16_R2 u = new V1_16_R2();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_16_R1")){
 			V1_16 u = new V1_16();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_15_R1")){
 			V1_15 u = new V1_15();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_14_R1")){
 			V1_14 u = new V1_14();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_13_R2")){
 			V1_13_R2 u = new V1_13_R2();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_13_R1")){
 			V1_13 u = new V1_13();
 			u.setSkullBlock(l,id,textura,rot);		
-		}
+		}else
 		if(packageName.contains("1_12_R1")){
 			V1_12 u = new V1_12();
 			u.setSkullBlock(l,id,textura,rot);		
@@ -154,6 +159,10 @@ public class Utilidades {
 	
 	public static void generarParticula(String particle, Location loc, float xOffset, float yOffset, float zOffset, float speed, int count, Player player) {
 		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		if(packageName.contains("1_19")){
+			V1_19 u = new V1_19();
+			u.generarParticula(particle, loc, xOffset, yOffset, zOffset, speed, count, player);		
+		}
 		if(packageName.contains("1_18")){
 			V1_18 u = new V1_18();
 			u.generarParticula(particle, loc, xOffset, yOffset, zOffset, speed, count, player);		
@@ -255,6 +264,11 @@ public class Utilidades {
 	
 	public static ItemStack getCabeza(ItemStack item, String id,String textura){
 		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		if(packageName.contains("1_19")){
+			V1_19 u = new V1_19();
+			ItemStack stack = u.getCabeza(item,id,textura);			
+			return stack;
+		}
 		if(packageName.contains("1_18")){
 			V1_18 u = new V1_18();
 			ItemStack stack = u.getCabeza(item,id,textura);			

@@ -20,7 +20,8 @@ public class Tablero {
 		Material m = null;
 		if(color.equals("b")) {
 			if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
-					|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")) {
+					|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")
+					 || Bukkit.getVersion().contains("1.19")) {
 				m = Material.valueOf("WHITE_WOOL");
 			}else {
 				m = Material.WOOL;
@@ -37,7 +38,8 @@ public class Tablero {
 			l.clone().add(2,0,2).getBlock().setType(m);
 		}else {
 			if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
-					|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")) {
+					|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")
+					|| Bukkit.getVersion().contains("1.19")) {
 				m = Material.valueOf("GRAY_WOOL");
 				l.getBlock().setType(m);
 				l.clone().add(1,0,0).getBlock().setType(m);
@@ -172,7 +174,7 @@ public class Tablero {
 			if(color.equals("b")) {
 				Utilidades.setSkullBlock(l2, "eb1fc1a8-763e-442f-bf10-302b3beebb32", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI2Yjc3MjMyOWNmMzJmODY0M2M0OTI4NjI2YjZhMzI1MjMzZmY2MWFhOWM3NzI1ODczYTRiZDY2ZGIzZDY5MiJ9fX0=", rot);
 			}else {
-				Utilidades.setSkullBlock(l2, "c7b9f611-64c6-4e9c-ac97-8dedf8b97e17", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjZjNWVjYWM5NDJjNzdiOTVhYjQ2MjBkZjViODVlMzgwNjRjOTc0ZjljNWM1NzZiODQzNjIyODA2YTQ1NTcifX19", rot);
+				Utilidades.setSkullBlock(l2, "c766a367-5d10-4b8f-a2fe-d3796bfbfcc1", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDdmNTc2NmQyOTI4ZGMwZGYxYjM0MDRjM2JkMDczYzk0NzZkMjZjODA1NzNiMDMzMmU3Y2NlNzNkZjE1NDgyYSJ9fX0=", rot);
 			}
 		}else if(tipo.equals("rey")) {
 			l.getBlock().setType(m);
@@ -191,7 +193,7 @@ public class Tablero {
 			if(color.equals("b")) {
 				Utilidades.setSkullBlock(l2, "eb1fc1a8-763e-442f-bf10-302b3beebb32", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI2Yjc3MjMyOWNmMzJmODY0M2M0OTI4NjI2YjZhMzI1MjMzZmY2MWFhOWM3NzI1ODczYTRiZDY2ZGIzZDY5MiJ9fX0=", rot);
 			}else {
-				Utilidades.setSkullBlock(l2, "c7b9f611-64c6-4e9c-ac97-8dedf8b97e17", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjZjNWVjYWM5NDJjNzdiOTVhYjQ2MjBkZjViODVlMzgwNjRjOTc0ZjljNWM1NzZiODQzNjIyODA2YTQ1NTcifX19", rot);
+				Utilidades.setSkullBlock(l2, "c766a367-5d10-4b8f-a2fe-d3796bfbfcc1", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDdmNTc2NmQyOTI4ZGMwZGYxYjM0MDRjM2JkMDczYzk0NzZkMjZjODA1NzNiMDMzMmU3Y2NlNzNkZjE1NDgyYSJ9fX0=", rot);
 			}
 		}
 	}
