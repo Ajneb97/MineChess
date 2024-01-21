@@ -21,7 +21,7 @@ public class Tablero {
 		if(color.equals("b")) {
 			if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
 					|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")
-					 || Bukkit.getVersion().contains("1.19")) {
+					 || Bukkit.getVersion().contains("1.19") || Bukkit.getVersion().contains("1.20")) {
 				m = Material.valueOf("WHITE_WOOL");
 			}else {
 				m = Material.WOOL;
@@ -39,7 +39,7 @@ public class Tablero {
 		}else {
 			if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")
 					|| Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")
-					|| Bukkit.getVersion().contains("1.19")) {
+					|| Bukkit.getVersion().contains("1.19") || Bukkit.getVersion().contains("1.20")) {
 				m = Material.valueOf("GRAY_WOOL");
 				l.getBlock().setType(m);
 				l.clone().add(1,0,0).getBlock().setType(m);
