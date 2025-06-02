@@ -1,0 +1,20 @@
+main: mc.ajneb97.MineChess
+version: 2.0.1
+name: MineChess
+api-version: 1.13
+author: Ajneb97
+softdepend: [Multiverse-Core,PlaceholderAPI]
+
+commands:
+  minechess:
+    description: Main command of MineChess
+    aliases:
+      - chess
+
+permissions:
+  minechess.join:
+    default: true
+  minechess.leave:
+    default: true
+  minechess.spectate:
+    default: true

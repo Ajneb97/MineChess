@@ -1,0 +1,526 @@
+# Enables or disables the plugin update message when joining the server.
+update_notify: true
+
+# Time when starting the game in seconds.
+arena_starting_cooldown: 10
+
+# Time when ending the game in seconds.
+arena_ending_phase_cooldown: 10
+
+# If true, players will need to empty their inventories when joining an arena.
+empty_inventory_to_join: false
+
+# The max allowed distance in blocks to select chess pieces.
+select_piece_max_distance: 15
+
+# The max allowed distance in blocks from the arena lobby. If players leave this
+# limit, they will be teleported back to the arena lobby.
+max_distance_from_arena_lobby: 50
+
+# This option defines the time (in seconds) to automatically save
+# player data.
+player_data_save: 300
+
+# Options that will have all new created arenas
+arenas_default_values:
+  # Size of board's cells.
+  # SMALL (ONLY MineChess+): 1x1 (for models)
+  # MEDIUM (ONLY MineChess+): 2x2 (for models)
+  # LARGE: 3x3 (for blocks, models)
+  cell_size: LARGE
+
+  # Types of the pieces to use.
+  # BLOCK: Pieces are represented by blocks (can only be used with cell_size: LARGE).
+  # MODEL (ONLY MineChess+): Pieces are represented by custom models (requires resource-pack).
+  pieces_type: BLOCK
+
+  # Blocks of each cell of the board.
+  # All Materiales here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  board_black_cell_block: GRAY_WOOL
+  board_white_cell_block: WHITE_WOOL
+
+  # Game Mode of the arena
+  # ARENA_TIME:
+  #   The arena has a maximum amount of time, and players must complete their turn within a specific time limit.
+  # PLAYER_TIME (ONLY MineChess+):
+  #   Players have an individual total time limit. They can take as much time as they want during their turns.
+  #   The first player to run out of time loses the game.
+  gamemode: ARENA_TIME
+
+  # Some values depending on the gamemode.
+  gamemode_values:
+    # If gamemode is set to ARENA_TIME:
+    #   Maximum amount of time of the arena, in seconds.
+    # If gamemode is set to PLAYER_TIME
+    #   Maximum amount of time players have during the game, in seconds.
+    max_time: 600
+
+    # If gamemode is set to ARENA_TIME:
+    #   Maximum amount of time players have to play their turn, in seconds.
+    turn_time: 40
+
+  # Defines what should happen when the game ends because of time limit. Only
+  # applies if gamemode is set to ARENA_TIME.
+  # CHECK_POINTS:
+  #   When the game ends because of time limit, the player with more points will win the game.
+  # ALWAYS_TIE:
+  #   When the game ends because of time limit, its considered a tie.
+  end_time: CHECK_POINTS
+
+# Defines whether colored armor must be equipped to the players inside the arena.
+colored_armor: true
+
+# Defines a list of commands players can use inside the arena.
+commands_whitelist:
+  - "/minechess leave"
+  - "/help"
+
+# Defines some limitations that will apply when the game lasts
+# less than specified.
+game_time_limitations:
+  # Minimum amount of time the game should last to apply the limitations below.
+  min_time: 60
+
+  # When enabled, if the arena lasts less than the minimum, players will not
+  # receive rewards specified under the actions.rewards section.
+  limit_rewards: true
+
+  # When enabled, if the arena lasts less than the minimum, player stats
+  # (win, lose, tie) will not be updated.
+  limit_stats: true
+
+# Defines a per arena chat.
+per_arena_chat:
+  # Whether this option is enabled or not.
+  enabled: false
+
+  # The format of the per arena chat.
+  # You can use %player% and %message% variables.
+  format: "&f<&a%player%&f> &f%message%"
+
+# Defines properties for holograms above pieces.
+pieces_holograms:
+  # Whether pieces should have a hologram above or not.
+  enabled: false
+
+  # Hologram default values for each piece.
+  default_values:
+    # Text to display.
+    text: "%color% %piece%"
+
+    # Height of the hologram.
+    offset_y: 2.5
+
+# When enabled, hint holograms will appear above possible movement cells
+# after selecting a piece.
+# (ONLY MineChess+)
+special_movements_holograms:
+  # Whether this option should be enabled or not.
+  enabled: false
+
+  # Height of the holograms.
+  offset_y: 3.5
+
+  # Text of the hologram on each case.
+  movements:
+    castling:
+      - "&aCastling"
+    promotion:
+      - "&aPawn Promotion"
+    en_passant:
+      - "&aEn Passant"
+
+# Difficulties for player vs computer games.
+# (ONLY MineChess+)
+player_vs_computer:
+  # You can create your own difficulties
+  # max_depth:
+  #     How many turns should the computer simulate. A greater value increases difficulty but more
+  #     processing is necessary. Avoid to set it higher than 4.
+  # randomness:
+  #     How many random options should the computer have to choose. A lower value increases difficulty but
+  #     can lead to movements being too repetitive.
+  # max_delta:
+  #     The computer uses this value to get rid of random options that are not good movements.
+  #     A lower value increases difficulty.
+  # error_chance:
+  #     Chance between 0 and 1, that the computer makes a mistake and selects a bad movement.
+  difficulties:
+    easy:
+      max_depth: 2
+      randomness: 10
+      max_delta: 200
+      error_chance: 0.4
+    normal:
+      max_depth: 2
+      randomness: 10
+      max_delta: 120
+      error_chance: 0.2
+    hard:
+      max_depth: 3
+      randomness: 8
+      max_delta: 80
+      error_chance: 0
+
+# Defines multiple properties for the pieces of the board.
+# Detailed explanation of this section on the wiki!
+pieces:
+  pawn:
+    points: 1
+    black:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDdmNTc2NmQyOTI4ZGMwZGYxYjM0MDRjM2JkMDczYzk0NzZkMjZjODA1NzNiMDMzMmU3Y2NlNzNkZjE1NDgyYSJ9fX0="
+        - "COAL_BLOCK"
+    white:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI2Yjc3MjMyOWNmMzJmODY0M2M0OTI4NjI2YjZhMzI1MjMzZmY2MWFhOWM3NzI1ODczYTRiZDY2ZGIzZDY5MiJ9fX0="
+        - "IRON_BLOCK"
+  rook:
+    points: 3
+    black:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ1NTlkNzU0NjRiMmU0MGE1MThlNGRlOGU2Y2YzMDg1ZjBhM2NhMGIxYjcwMTI2MTRjNGNkOTZmZWQ2MDM3OCJ9fX0="
+        - "COAL_BLOCK"
+        - "COAL_BLOCK"
+    white:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ1NTlkNzU0NjRiMmU0MGE1MThlNGRlOGU2Y2YzMDg1ZjBhM2NhMGIxYjcwMTI2MTRjNGNkOTZmZWQ2MDM3OCJ9fX0="
+        - "IRON_BLOCK"
+        - "IRON_BLOCK"
+  bishop:
+    points: 3
+    black:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDdmNTc2NmQyOTI4ZGMwZGYxYjM0MDRjM2JkMDczYzk0NzZkMjZjODA1NzNiMDMzMmU3Y2NlNzNkZjE1NDgyYSJ9fX0="
+        - "COAL_BLOCK"
+        - "COAL_BLOCK"
+    white:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI2Yjc3MjMyOWNmMzJmODY0M2M0OTI4NjI2YjZhMzI1MjMzZmY2MWFhOWM3NzI1ODczYTRiZDY2ZGIzZDY5MiJ9fX0="
+        - "IRON_BLOCK"
+        - "IRON_BLOCK"
+  knight:
+    points: 3
+    black:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JiNGIyODg5OTFlZmI4Y2EwNzQzYmVjY2VmMzEyNThiMzFkMzlmMjQ5NTFlZmIxYzljMThhNDE3YmE0OGY5In19fQ=="
+        - "COAL_BLOCK"
+        - "COAL_BLOCK"
+    white:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JiNGIyODg5OTFlZmI4Y2EwNzQzYmVjY2VmMzEyNThiMzFkMzlmMjQ5NTFlZmIxYzljMThhNDE3YmE0OGY5In19fQ=="
+        - "IRON_BLOCK"
+        - "IRON_BLOCK"
+  queen:
+    points: 10
+    black:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZjg5M2ZjNmRlZmFkMjE4Zjc4MzZlZmVmYmU2MzZmMWMyY2MxYmI2NTBjODJmY2NkOTlmMmMxZWU2In19fQ=="
+        - "COAL_BLOCK"
+        - "COAL_BLOCK"
+        - "COAL_BLOCK"
+    white:
+      blocks:
+        - "PLAYER_HEAD;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZjg5M2ZjNmRlZmFkMjE4Zjc4MzZlZmVmYmU2MzZmMWMyY2MxYmI2NTBjODJmY2NkOTlmMmMxZWU2In19fQ=="
+        - "IRON_BLOCK"
+        - "IRON_BLOCK"
+        - "IRON_BLOCK"
+  king:
+    black:
+      blocks:
+        - "DIAMOND_BLOCK"
+        - "COAL_BLOCK"
+        - "COAL_BLOCK"
+        - "COAL_BLOCK"
+    white:
+      blocks:
+        - "DIAMOND_BLOCK"
+        - "IRON_BLOCK"
+        - "IRON_BLOCK"
+        - "IRON_BLOCK"
+
+# Configuration about visual interactions on pieces/cells.
+piece_interactions:
+  interact:
+    # Possibles Modes:
+    #
+    # PARTICLE (particles will be displayed on the cell)
+    #   value: <particle> (All particles here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html)
+    #   type: CIRCLE, SQUARE (Form of the particle)
+    #   size: <size> (Radius/size of the particle in blocks)
+    #   offset_y: <offset_y> (Optional, height of the particle)
+    #
+    # BLOCK (ONLY MineChess+) (the cell will be replaced with certain blocks)
+    #   value: <material> (All materials here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+    mode: PARTICLE
+
+    # Interaction to display when looking at a piece/cell.
+    see_cell:
+      value: FLAME
+      type: CIRCLE
+      size: 1.5
+
+    # Interaction to display when a cell/piece is selected.
+    selected_piece:
+      value: HAPPY_VILLAGER
+      type: CIRCLE
+      size: 1.5
+
+    # Interaction to display on possible movements when a cell/piece is selected.
+    valid_movements:
+      value: HAPPY_VILLAGER
+      type: SQUARE
+      size: 0.75
+
+    # Interaction to display when looking at a valid movement cell.
+    see_valid_movement_cell:
+      value: FLAME
+      type: SQUARE
+      size: 0.75
+
+# Configuration about piece animations when selecting and moving pieces.
+# This option only works when arena pieces_type is set to MODEL.
+# (ONLY MineChess+)
+piece_animations:
+  # Wether this option should be enabled or not.
+  enabled: false
+
+  # The max height the piece will reach when selecting/moving.
+  offset_y: 2
+
+  # Duration of the movement when selecting a piece, in ticks.
+  select_duration: 5
+
+  # Duration of the movement when the piece is moving, in ticks.
+  move_duration: 8
+
+# Configuration about actions to execute in different cases.
+actions:
+  # Game Actions.
+  # You need to use the actions defined in the wiki:
+  #   Use "to_all:" before an action, to execute the action to all players (including spectators)
+  #   Use "to_opponent:" before an action, to execute the action to the opponent player to the one making the movement.
+  #   Don't use any of the above, to execute the action to the player making the movement.
+  game:
+    # Actions to be executed when a player selects a piece.
+    # You can use the following variables: %player%, %piece%, %coords%
+    select_piece:
+      - "message: &6➤ &f&l%piece% &8[&f%coords%&8] &aselected!"
+      - "playsound: UI_BUTTON_CLICK;10;1.5"
+
+    # Actions to be executed when a player deselects a piece.
+    # You can use the following variables: %player%, %piece%, %coords%
+    deselect_piece:
+      - "message: &6➤ &f&l%piece% &8[&f%coords%&8] &adeselected!"
+      - "playsound: UI_BUTTON_CLICK;10;1.5"
+
+    # Actions to be executed when a player starts their turn.
+    # You can use the following variables: %player%
+    change_turn:
+      - "to_all: message: &6➤ &eIt's &a%player% &eTurn."
+      - "title: 10;40;10;none;&aIt's your turn to play."
+
+    # Actions to be executed when a player moves a piece to an empty cell.
+    # You can use the following variables: %player%, %opponent_player%, %piece%, %coords%
+    move_piece:
+      - "to_all: message: &6➤ &a%player% &emoved &a%piece% &eto &7[%coords%]&e."
+      - "to_all: playsound: BLOCK_STONE_STEP;10;1"
+
+    # Actions to be executed when a player moves a piece to a cell and captures a piece.
+    # You can use the following variables: %player%, %opponent_player%, %piece%, %opponent_player_piece%, %coords%
+    capture_piece:
+      - "to_all: message: &6➤ &a%player% &emoved &a%piece% &eto &7[%coords%] &eand captured &c%opponent_player%'s %opponent_player_piece%&e."
+      - "playsound: BLOCK_NOTE_BLOCK_PLING;10;2"
+      - "to_opponent: playsound: BLOCK_NOTE_BLOCK_PLING;10;0.1"
+
+    # Actions to be executed when a player moves a piece to a cell and captures a piece enpassant.
+    # You can use the following variables: %player%, %opponent_player%, %piece%, %opponent_player_piece%, %coords%
+    capture_piece_enpassant:
+      - "to_all: message: &6➤ &a%player% &emoved &a%piece% &eto &7[%coords%] &eand captured &c%opponent_player%'s %opponent_player_piece%&e. &7(En passant)"
+      - "playsound: BLOCK_NOTE_BLOCK_PLING;10;2"
+      - "to_opponent: playsound: BLOCK_NOTE_BLOCK_PLING;10;0.1"
+
+    # Actions to be executed when a player puts the opponent in check and the opponent's turn start.
+    # You can use the following variables: %player%, %opponent_player%
+    king_in_check:
+      - "to_all: message: &6➤ &a%opponent_player%'s &cKing is in check!"
+      - "to_all: message: &6➤ &eIt's &a%opponent_player% &eTurn."
+      - "to_all: title: 10;40;10;&e&lCHECK!;&a%opponent_player%'s &cKing is in check!"
+      - "to_all: playsound: ENTITY_BLAZE_DEATH;10;0.5"
+
+    # Actions to be executed when a player executes a castling move.
+    # You can use the following variables: %player%, %opponent_player%, %coords%
+    castling:
+      - "to_all: message: &6➤ &a%player% &ecastled his King to &7[%coords%]&e."
+      - "to_all: playsound: BLOCK_PISTON_EXTEND;10;1.5"
+
+    # Actions to be executed when a player promotes a pawn.
+    # You can use the following variables: %player%, %opponent_player%, %piece%
+    promotion:
+      - "to_all: message: &6➤ &a%player% &epromoted his Pawn to &a%piece%&e."
+      - "to_all: playsound: ENTITY_PLAYER_LEVELUP;10;2"
+
+  # End Game Actions.
+  # You need to use the actions defined in the wiki:
+  #   Use "to_all:" before an action, to execute the action to all players (including spectators)
+  #   Use "to_winner:" before an action, to execute the action to the winner of the game.
+  # It is recommended you use "to_all:" on all actions, since these actions only represent messages
+  # and information about the game.
+  end_game:
+    # Actions to be executed when the arena ends because of max time reached and arena End Time option
+    # is set to CHECK_POINTS.
+    # You can use the following variables: %player_winner%, %player_winner_points%, %player_loser%, %player_loser_points%
+    end_by_time:
+      - "to_all: title: 10;80;10;&e&lTIME IS UP!;&6%player_winner% &ewins the game!"
+      - "to_all: centered_message: &e&m                                               "
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&lTIME IS UP!"
+      - "to_all: centered_message: &6%player_winner% &ewins the game with &9%player_winner_points% Points&e!"
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&m                                               "
+
+    # Actions to be executed when the arena ends because of a player running out of time and
+    # arena gamemode is set to PLAYER_TIME
+    # You can use the following variables: %player_winner%, %player_winner_points%, %player_loser%, %player_loser_points%
+    end_by_player_time:
+      - "to_all: title: 10;80;10;&e&lTIME IS UP!;&6%player_winner% &ewins the game!"
+      - "to_all: centered_message: &e&m                                               "
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&lTIME IS UP!"
+      - "to_all: centered_message: &6%player_winner% &ewins the game since"
+      - "to_all: centered_message: &6%player_loser% &ehas run out of time!"
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&m                                               "
+
+    # Actions to be executed when the arena ends because of max time reached and one of these cases apply:
+    #   1. Arena End Time option is set to ALWAYS_TIE.
+    #   2. Arena End Time option is set to CHECK_POINTS, and both players have the same amount of points.
+    # You can use the following variables: %player_white%, %player_black%
+    end_by_time_tie:
+      - "to_all: title: 10;80;10;&e&lTIME IS UP!;&eIt's a tie!"
+      - "to_all: centered_message: &e&m                                               "
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&lTIME IS UP!"
+      - "to_all: centered_message: &eIt's a tie!"
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&m                                               "
+
+    # Actions to be executed when the arena ends by a stalemate.
+    # (one of the players has no more possible movements but is not in check)
+    # You can use the following variables: %player_stalemate%
+    end_by_stalemate_tie:
+      - "to_all: title: 10;80;10;&e&lSTALEMATE!;&eIt's a tie!"
+      - "to_all: centered_message: &e&m                                               "
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&lSTALEMATE!"
+      - "to_all: centered_message: &eIt's a tie! &6%player_stalemate% &edoesn't have more"
+      - "to_all: centered_message: &epossible moves."
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&m                                               "
+
+    # Actions to be executed when the arena ends by a checkmate.
+    # You can use the following variables: %player_winner%, %player_winner_points%
+    end_by_checkmate:
+      - "to_all: title: 10;80;10;&e&lCHECKMATE!;&6%player_winner% &ewins the game!"
+      - "to_all: centered_message: &e&m                                               "
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&lCHECKMATE!"
+      - "to_all: centered_message: &6%player_winner% &ewins the game with &9%player_winner_points% Points&e!"
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&m                                               "
+
+    # Actions to be executed when a player leaves the arena granting the victory.
+    # You can use the following variables: %player_winner%, %player_winner_points%
+    end_by_leave:
+      - "to_all: title: 10;80;10;&e&lPLAYER LEFT!;&6%player_winner% &ewins the game!"
+      - "to_all: centered_message: &e&m                                               "
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&lPLAYER LEFT!"
+      - "to_all: centered_message: &6%player_winner% &ewins the game with &9%player_winner_points% Points&e!"
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&m                                               "
+
+  # Reward Actions.
+  # You need to use the actions defined in the wiki:
+  #   Use "to_all:" before an action, to give the reward to all players (doesn't include spectators)
+  #   Use "to_winner:" before an action, to give the reward to the winner of the game.
+  rewards:
+    # Whether the rewards must be given after teleporting the player to the main lobby.
+    # This allows you to give items as rewards, however it's not recommended to enable since
+    # players leaving the arena before the automatic teleport will lose the reward.
+    after_teleport: false
+
+    # Rewards to be given when the arena ends because of max time reached and arena End Time option
+    # is set to CHECK_POINTS.
+    # You can use the following variable: %player_winner%
+    end_by_time:
+      - "to_winner: console_command: eco give %player_winner% 100"
+
+    # Rewards to be given when the arena ends because of a player running out of time and
+    # arena gamemode is set to PLAYER_TIME
+    # You can use the following variable: %player_winner%
+    end_by_player_time:
+      - "to_winner: console_command: eco give %player_winner% 100"
+
+    # Rewards to be given when the arena ends because of max time reached and one of these cases apply:
+    #   1. Arena End Time option is set to ALWAYS_TIE.
+    #   2. Arena End Time option is set to CHECK_POINTS, and both players have the same amount of points.
+    # You can use the following variable: %player%
+    end_by_time_tie:
+      - "to_all: console_command: eco give %player% 50"
+
+    # Rewards to be given when the arena ends by a stalemate.
+    # (one of the players has no more possible movements but is not in check)
+    # You can use the following variable: %player%
+    end_by_stalemate_tie:
+      - "to_all: console_command: eco give %player% 50"
+
+    # Rewards to be given when the arena ends by a checkmate.
+    # You can use the following variable: %player_winner%
+    end_by_checkmate:
+      - "to_winner: console_command: eco give %player_winner% 100"
+
+    # Rewards to be given when a player leaves the arena granting the victory.
+    # You can use the following variable: %player_winner%
+    end_by_leave:
+      - "to_winner: console_command: eco give %player_winner% 100"
+
+# Configuration about game items.
+# Use the item properties defined in the wiki:
+# https://ajneb97.gitbook.io/minechess/items-tutorial
+game_items:
+  # Item used to leave the arena.
+  leave_item:
+    enabled: true
+    item:
+      id: IRON_DOOR
+      name: "&7[&c&lLeave&7]"
+      lore:
+        - "&7Right Click to leave the game."
+
+  # Item used to interact with pieces.
+  select_item:
+    item:
+      id: NAME_TAG
+      name: "&7[&b&lSelect Piece&7]"
+      lore:
+        - "&eLeft Click &7to select piece"
+        - "&eRight Click &7to move piece"
+
+  # Item used to join another arena after finishing the game.
+  play_again_item:
+    enabled: true
+    item:
+      id: LIME_DYE
+      name: "&7[&9&lPlay Again&7]"
+      lore:
+        - "&7Right Click to play again."
+
+# MySQL support credentials.
+mysql_database:
+  enabled: false
+  host: localhost
+  port: 3306
+  username: root
+  password: root
+  database: database

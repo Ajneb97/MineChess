@@ -1,0 +1,120 @@
+inventories:
+  arenas:
+    slots: 54
+    title: "&4Chess Arenas &7%current_page%&8/&7%total_pages%"
+    0-9;17;18;26;27;35;36;44-53:
+      item:
+        id: BLACK_STAINED_GLASS_PANE
+        name: " "
+    10-16;19-25;28-34;37-43:
+      type: arena
+    52:
+      item:
+        id: ARROW
+        name: "&7Previous Page"
+      type: previous_page
+    53:
+      item:
+        id: ARROW
+        name: "&7Next Page"
+      type: next_page
+  promotion:
+    slots: 27
+    title: "&4Pawn Promotion"
+    10:
+      type: "piece: rook"
+    12:
+      type: "piece: bishop"
+    14:
+      type: "piece: knight"
+    16:
+      type: "piece: queen"
+    0;8;18;26:
+      item:
+        id: BLACK_STAINED_GLASS_PANE
+        name: " "
+custom_items:
+  arena:
+    available:
+      id: GREEN_TERRACOTTA
+      name: '#ffb5b5Arena: &4%arena%'
+      lore:
+        - '&fPlayers: &7%current_players%&8/&72'
+        - '&fStatus: %status%'
+        - ''
+        - '&a&lCLICK to join'
+    ingame:
+      id: RED_TERRACOTTA
+      name: '#ffb5b5Arena: &4%arena%'
+      lore:
+        - '&fPlayers: &7%current_players%&8/&72'
+        - '&fStatus: %status%'
+        - ''
+        - '&a&lCLICK to spectate'
+    disabled:
+      id: CYAN_TERRACOTTA
+      name: '#ffb5b5Arena: &4%arena%'
+      lore:
+        - '&7This arena is disabled'
+  piece_rook:
+    black:
+      id: PLAYER_HEAD
+      name: "&4&lRook"
+      lore:
+        - "&7Click to promote Pawn to Rook."
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ1NTlkNzU0NjRiMmU0MGE1MThlNGRlOGU2Y2YzMDg1ZjBhM2NhMGIxYjcwMTI2MTRjNGNkOTZmZWQ2MDM3OCJ9fX0="
+    white:
+      id: PLAYER_HEAD
+      name: "&4&lRook"
+      lore:
+        - "&7Click to promote Pawn to Rook."
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ1NTlkNzU0NjRiMmU0MGE1MThlNGRlOGU2Y2YzMDg1ZjBhM2NhMGIxYjcwMTI2MTRjNGNkOTZmZWQ2MDM3OCJ9fX0="
+  piece_bishop:
+    black:
+      id: PLAYER_HEAD
+      name: "&4&lBishop"
+      lore:
+        - "&7Click to promote Pawn to Bishop."
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDdmNTc2NmQyOTI4ZGMwZGYxYjM0MDRjM2JkMDczYzk0NzZkMjZjODA1NzNiMDMzMmU3Y2NlNzNkZjE1NDgyYSJ9fX0="
+    white:
+      id: PLAYER_HEAD
+      name: "&4&lBishop"
+      lore:
+        - "&7Click to promote Pawn to Bishop."
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI2Yjc3MjMyOWNmMzJmODY0M2M0OTI4NjI2YjZhMzI1MjMzZmY2MWFhOWM3NzI1ODczYTRiZDY2ZGIzZDY5MiJ9fX0="
+  piece_knight:
+    black:
+      id: PLAYER_HEAD
+      name: "&4&lKnight"
+      lore:
+        - "&7Click to promote Pawn to Knight."
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JiNGIyODg5OTFlZmI4Y2EwNzQzYmVjY2VmMzEyNThiMzFkMzlmMjQ5NTFlZmIxYzljMThhNDE3YmE0OGY5In19fQ=="
+    white:
+      id: PLAYER_HEAD
+      name: "&4&lKnight"
+      lore:
+        - "&7Click to promote Pawn to Knight."
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JiNGIyODg5OTFlZmI4Y2EwNzQzYmVjY2VmMzEyNThiMzFkMzlmMjQ5NTFlZmIxYzljMThhNDE3YmE0OGY5In19fQ=="
+  piece_queen:
+    black:
+      id: PLAYER_HEAD
+      name: "&4&lQueen"
+      lore:
+        - "&7Click to promote Pawn to Queen."
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZjg5M2ZjNmRlZmFkMjE4Zjc4MzZlZmVmYmU2MzZmMWMyY2MxYmI2NTBjODJmY2NkOTlmMmMxZWU2In19fQ=="
+    white:
+      id: PLAYER_HEAD
+      name: "&4&lQueen"
+      lore:
+        - "&7Click to promote Pawn to Queen."
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZjg5M2ZjNmRlZmFkMjE4Zjc4MzZlZmVmYmU2MzZmMWMyY2MxYmI2NTBjODJmY2NkOTlmMmMxZWU2In19fQ=="
+
+

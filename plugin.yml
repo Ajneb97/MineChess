@@ -1,9 +1,0 @@
-main: mc.ajneb97.MineChess
-version: 1.16.1
-name: MineChess
-api-version: 1.13
-softdepend: [Multiverse-Core,HolographicDisplays,PlaceholderAPI]
-
-commands:
-  chess:
-    description: Main command of MineChess
