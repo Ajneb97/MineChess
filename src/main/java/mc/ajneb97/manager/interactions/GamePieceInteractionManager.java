@@ -142,7 +142,6 @@ public class GamePieceInteractionManager {
         if(movement.getType().name().startsWith("PROMOTION")){
             gamePlayer.setPromotionPos(new int[]{seeingPos[0],seeingPos[1]});
 
-            // AI check
             plugin.getInventoryManager().openInventory(new InventoryPlayer(gamePlayer.getPlayer(), InventoryType.PROMOTION));
             return;
         }

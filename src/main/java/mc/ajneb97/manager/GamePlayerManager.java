@@ -349,6 +349,8 @@ public class GamePlayerManager {
                             player.openInventory(event.getInventory());
                         }
                     }.runTaskLater(plugin,1L);
+                }else{
+                    plugin.getInventoryManager().removeInventoryPlayer(player);
                 }
             }else{
                 plugin.getInventoryManager().removeInventoryPlayer(player);
