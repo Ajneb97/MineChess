@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessagesConfigManager {
 
@@ -52,6 +54,18 @@ public class MessagesConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = configFile.getConfig();
+
+            if(!text.contains("inventoryEditingArenaLocationResetItemName:")){
+                config.set("inventoryEditingArenaLocationResetItemName", "&4&lReset Arena Locations");
+                List<String> list = new ArrayList<>();
+                list.add("&7This will reset the locations of player");
+                list.add("&7spawns and arena lobby to the default values.");
+                list.add("");
+                list.add("&a&lCLICK &ato reset");
+                config.set("inventoryEditingArenaLocationResetItemLore", list);
+                config.set("inventoryEditingArenaLocationsReset", "&aLocations reset.");
+                configFile.saveConfig();
+            }
 
             if(!text.contains("commandJoinComputerError:")){
                 config.set("commandJoinComputerError", "&cYou must use &7/minechess joincomputer <difficulty>");

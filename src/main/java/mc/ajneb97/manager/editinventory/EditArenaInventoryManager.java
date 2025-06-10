@@ -1,6 +1,7 @@
 package mc.ajneb97.manager.editinventory;
 
 import mc.ajneb97.MineChess;
+import mc.ajneb97.manager.BoardManager;
 import mc.ajneb97.model.ArenaEndTimeMode;
 import mc.ajneb97.model.editinventory.EditInventoryPlayer;
 import mc.ajneb97.utils.InventoryItem;
@@ -60,6 +61,10 @@ public class EditArenaInventoryManager {
         new InventoryItem(inv,28, Material.COMPASS).name(messagesConfig.getString("inventoryEditingArenaLocationSpawnPlayerItemName")
                         .replace("%color%",colorBlack))
                 .lore(setLoreLocation(lore,messagesConfig,arena.getSpawnPlayer2Location())).ready();
+
+        new InventoryItem(inv,37, Material.REDSTONE_BLOCK).name(messagesConfig.getString("inventoryEditingArenaLocationResetItemName"))
+                .lore(messagesConfig.getStringList("inventoryEditingArenaLocationResetItemLore")).ready();
+
 
         // Gamemode
         lore = messagesConfig.getStringList("inventoryEditingArenaGameModeItemLore");
@@ -138,6 +143,17 @@ public class EditArenaInventoryManager {
         openMainInventory(editInventoryPlayer);
     }
 
+    private void clickItemResetLocations(EditInventoryPlayer editInventoryPlayer){
+        Arena arena = editInventoryPlayer.getArena();
+        Location boardStartLocation = arena.getBoardStartLocation();
+        arena.configureLocations(boardStartLocation, BoardManager.CELL_SIZE);
+
+        FileConfiguration messages = plugin.getMessagesConfig();
+        plugin.getMessagesManager().sendMessage(editInventoryPlayer.getPlayer(),messages.getString("inventoryEditingArenaLocationsReset"),true);
+        plugin.getConfigsManager().getArenasConfigManager().saveArena(arena);
+        openMainInventory(editInventoryPlayer);
+    }
+
     private void clickItemEndMode(EditInventoryPlayer editInventoryPlayer, ClickType clickType){
         Arena arena = editInventoryPlayer.getArena();
 
@@ -211,6 +227,7 @@ public class EditArenaInventoryManager {
             case 10 -> clickItemLocation(editInventoryPlayer,clickType,"lobby");
             case 19 -> clickItemLocation(editInventoryPlayer,clickType,"spawn_1");
             case 28 -> clickItemLocation(editInventoryPlayer,clickType,"spawn_2");
+            case 37 -> clickItemResetLocations(editInventoryPlayer);
             case 25 -> clickItemEndMode(editInventoryPlayer,clickType);
             case 23 -> clickItemTime(editInventoryPlayer,clickType,"max_time");
             case 24 -> clickItemTime(editInventoryPlayer,clickType,"turn_time");

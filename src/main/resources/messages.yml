@@ -205,3 +205,10 @@ inventoryEditingArenaPiecesTypeItemLore:
   - ""
   - "&a&lCLICK &ato change"
 inventoryEditingArenaPiecesTypeChanged: "&aPieces Type changed."
+inventoryEditingArenaLocationResetItemName: "&4&lReset Arena Locations"
+inventoryEditingArenaLocationResetItemLore:
+  - "&7This will reset the locations of player"
+  - "&7spawns and arena lobby to the default values."
+  - ""
+  - "&a&lCLICK &ato reset"
+inventoryEditingArenaLocationsReset: "&aLocations reset."

@@ -30,7 +30,7 @@ import java.util.List;
 public class BoardManager {
 
     private MineChess plugin;
-    private final int CELL_SIZE = 3;
+    public static final int CELL_SIZE = 3;
 
     public BoardManager(MineChess plugin){
         this.plugin = plugin;
