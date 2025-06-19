@@ -33,7 +33,7 @@ public class PlayerListener implements Listener {
         String latestVersion = plugin.getUpdateCheckerManager().getLatestVersion();
         if(player.isOp() && plugin.getConfigsManager().getMainConfigManager().isUpdateNotify() && !plugin.version.equals(latestVersion)){
             player.sendMessage(MessagesManager.getColoredMessage(plugin.prefix+" &cThere is a new version available. &e(&7"+latestVersion+"&e)"));
-            player.sendMessage(MessagesManager.getColoredMessage("&cYou can download it at: &fhttps://www.spigotmc.org/resources/122419/"));
+            player.sendMessage(MessagesManager.getColoredMessage("&cYou can download it at: &fhttps://modrinth.com/plugin/minechess-minigame"));
         }
     }
 

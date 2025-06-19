@@ -6,7 +6,6 @@ import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.game.GameEndsReason;
 import mc.ajneb97.model.game.GameLeaveReason;
 import mc.ajneb97.model.game.GamePlayer;
-import mc.ajneb97.model.game.GameStatus;
 import mc.ajneb97.manager.GamePlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -91,7 +90,6 @@ public class ArenaCooldownManager {
         }
 
         gamePlayerManager.showActionbar(arena);
-        gamePlayerManager.checkMustTeleportArenaLobby(arena);
     }
 
     private void executeEnding(){

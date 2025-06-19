@@ -6,10 +6,7 @@ import mc.ajneb97.database.MySQLConnection;
 import mc.ajneb97.listener.OtherListenerNew;
 import mc.ajneb97.manager.*;
 import mc.ajneb97.manager.editinventory.EditInventoryManager;
-import mc.ajneb97.tasks.ArenaParticlesTask;
-import mc.ajneb97.tasks.PlayerDataSaveTask;
-import mc.ajneb97.tasks.ScoreboardManager;
-import mc.ajneb97.tasks.SignManager;
+import mc.ajneb97.tasks.*;
 import mc.ajneb97.utils.ServerVersion;
 import mc.ajneb97.versions.NMSItemManager;
 import mc.ajneb97.api.ExpansionMineChess;
@@ -44,6 +41,7 @@ public class MineChess extends JavaPlugin {
 
     private ScoreboardManager scoreboardManager;
     private SignManager signManager;
+    private ArenaTpLobbyTask arenaTpLobbyTask;
     private ArenaParticlesTask arenaParticlesTask;
     private PlayerDataSaveTask playerDataSaveTask;
 
@@ -65,6 +63,7 @@ public class MineChess extends JavaPlugin {
 
         this.scoreboardManager = new ScoreboardManager(this);
         this.signManager = new SignManager(this);
+        this.arenaTpLobbyTask = new ArenaTpLobbyTask(this);
         this.arenaParticlesTask = new ArenaParticlesTask(this);
 
         this.configsManager = new ConfigsManager(this);
@@ -75,6 +74,7 @@ public class MineChess extends JavaPlugin {
 
         this.scoreboardManager.start();
         this.signManager.start();
+        this.arenaTpLobbyTask.start();
         this.arenaParticlesTask.start();
         reloadPlayerDataSaveTask();
         this.boardManager.cleanArenas();
@@ -229,7 +229,7 @@ public class MineChess extends JavaPlugin {
             String latestVersion = result.getLatestVersion();
             if(latestVersion != null){
                 Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage("&cThere is a new version available. &e(&7"+latestVersion+"&e)"));
-                Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage("&cYou can download it at: &fhttps://www.spigotmc.org/resources/122419/"));
+                Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage("&cYou can download it at: &fhttps://modrinth.com/plugin/minechess-minigame"));
             }
         }else{
             Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage(prefix+" &cError while checking update."));
