@@ -25,10 +25,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class ArenaManager {
 
@@ -178,27 +175,26 @@ public class ArenaManager {
     }
 
     public Arena getAvailableArena(){
-        Arena arena = null;
+        ArrayList<Arena> availableArenas = new ArrayList<>();
         for(Arena a : arenas){
-            if(a.isDisabled()){
-                continue;
-            }
-            if(a.isInGame()){
-                continue;
-            }
-            if(a.isFull()){
+            if(a.isDisabled() || a.isInGame() || a.isFull()){
                 continue;
             }
 
-            if(arena == null){
-                arena = a;
-            }else{
-                if(a.getGamePlayers().size() > arena.getGamePlayers().size()){
-                    arena = a;
-                }
-            }
+            availableArenas.add(a);
         }
-        return arena;
+
+        if(availableArenas.isEmpty()){
+            return null;
+        }
+
+        // Order
+        availableArenas.sort(Comparator.comparing((Arena a) -> a.getGamePlayers().size()).reversed());
+        if(!availableArenas.get(0).getGamePlayers().isEmpty()){
+            return availableArenas.get(0);
+        }else{
+            return availableArenas.get(new Random().nextInt(availableArenas.size()));
+        }
     }
 
     private void playerJoinsArena(Player player, Arena arena, FileConfiguration messagesConfig, MessagesManager msgManager){
