@@ -5,5 +5,6 @@ public enum GameEndsReason {
     PLAYER_TIME,
     CHECKMATE,
     STALEMATE,
-    PLAYER_LEAVES
+    PLAYER_LEAVES,
+    MOVEMENTS_WITHOUT_PROGRESS
 }

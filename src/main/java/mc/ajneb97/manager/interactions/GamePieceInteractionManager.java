@@ -19,6 +19,7 @@ import mc.ajneb97.model.internal.CheckValidationResult;
 import mc.ajneb97.model.internal.CommonVariable;
 import mc.ajneb97.model.internal.PieceToUpdate;
 import mc.ajneb97.utils.GameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -98,8 +99,9 @@ public class GamePieceInteractionManager {
         variables.add(new CommonVariable("%player%",gamePlayer.getName()));
         variables.add(new CommonVariable("%opponent_player%",opponentPlayer.getName()));
 
-        if(movement.getType().equals(MovementType.CAPTURE) || movement.getType().equals(MovementType.EN_PASSANT)
-                || movement.getType().equals(MovementType.PROMOTION_CAPTURE)){
+        boolean isCapture = movement.getType().equals(MovementType.CAPTURE) || movement.getType().equals(MovementType.EN_PASSANT)
+                || movement.getType().equals(MovementType.PROMOTION_CAPTURE);
+        if(isCapture){
             String capturedPieceName = GameUtils.getPieceNameFromConfig(movePieceResult.getCapturedPieceType(),messagesConfig);
 
             variables.add(new CommonVariable("%piece%",movedPieceName));
@@ -145,6 +147,12 @@ public class GamePieceInteractionManager {
             plugin.getInventoryManager().openInventory(new InventoryPlayer(gamePlayer.getPlayer(), InventoryType.PROMOTION));
             return;
         }
+
+        // Movements without progress (50 move rule)
+        if(consecutiveMovementsWithoutProgressReached(arena,isCapture,selectedPiece.getType().equals(PieceType.PAWN),mainConfigManager)){
+            return;
+        }
+
 
         plugin.getArenaManager().changeTurn(arena,!result.equals(CheckValidationResult.CHECK));
     }
@@ -202,6 +210,21 @@ public class GamePieceInteractionManager {
         }
 
         return CheckValidationResult.NONE;
+    }
+
+    private boolean consecutiveMovementsWithoutProgressReached(Arena arena,boolean isCapture,boolean isPawnMovement,MainConfigManager mainConfigManager){
+        if(isCapture || isPawnMovement){
+            arena.setMovementsWithoutProgress(0);
+            return false;
+        }
+
+        arena.setMovementsWithoutProgress(arena.getMovementsWithoutProgress()+1);
+        int maxMovements = mainConfigManager.getMaxConsecutiveMovementsWithoutProgress();
+        if(arena.getMovementsWithoutProgress() >= maxMovements){
+            plugin.getArenaManager().getGameEndManager().startEndingStage(arena,GameEndsReason.MOVEMENTS_WITHOUT_PROGRESS);
+            return true;
+        }
+        return false;
     }
 
     private void capturePoints(GamePlayer gamePlayer,PieceType pieceType,MainConfigManager mainConfigManager){

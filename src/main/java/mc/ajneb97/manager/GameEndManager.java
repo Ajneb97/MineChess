@@ -123,6 +123,9 @@ public class GameEndManager {
             case PLAYER_LEAVES -> {
                 return mainConfigManager.getGameActions().getGameActionsEndGame().getEndByLeaveActions();
             }
+            case MOVEMENTS_WITHOUT_PROGRESS -> {
+                return mainConfigManager.getGameActions().getGameActionsEndGame().getEndByMovementsWithoutProgressTie();
+            }
         }
         return null;
     }
@@ -147,6 +150,9 @@ public class GameEndManager {
             }
             case PLAYER_LEAVES -> {
                 return mainConfigManager.getGameActions().getGameActionsRewards().getEndByLeaveActions();
+            }
+            case MOVEMENTS_WITHOUT_PROGRESS -> {
+                return mainConfigManager.getGameActions().getGameActionsRewards().getEndByMovementsWithoutProgressTie();
             }
         }
         return null;
@@ -178,6 +184,12 @@ public class GameEndManager {
             case CHECKMATE, PLAYER_LEAVES -> {
                 variables.add(new CommonVariable("%player_winner%",winner.getName()));
                 variables.add(new CommonVariable("%player_winner_points%",winner.getPoints()+""));
+            }
+            case MOVEMENTS_WITHOUT_PROGRESS -> {
+                variables.add(new CommonVariable("%player_white%",arena.getPlayerWhite().getName()));
+                variables.add(new CommonVariable("%player_black%",arena.getPlayerBlack().getName()));
+                int maxMovements = plugin.getConfigsManager().getMainConfigManager().getMaxConsecutiveMovementsWithoutProgress();
+                variables.add(new CommonVariable("%max%",maxMovements+""));
             }
         }
         return variables;

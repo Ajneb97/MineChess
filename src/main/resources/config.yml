@@ -130,6 +130,11 @@ special_movements_holograms:
     en_passant:
       - "&aEn Passant"
 
+# This value represents the number of consecutive player movements
+# without moving a pawn or capturing a piece. If this number is reached,
+# the game will end in a tie.
+max_consecutive_movements_without_progress: 50
+
 # Difficulties for player vs computer games.
 # (ONLY MineChess+)
 player_vs_computer:
@@ -440,6 +445,20 @@ actions:
       - "to_all: centered_message: "
       - "to_all: centered_message: &e&m                                               "
 
+    # Actions to be executed when the arena ends due to the fifty-move rule.
+    # (the max_consecutive_movements_without_progress value is reached, meaning players
+    # are stuck, no captures or pawns moves have occurred in the last X movements)
+    # You can use the following variables: %player_white%, %player_black%, %max%
+    end_by_movements_without_progress_tie:
+      - "to_all: title: 10;80;10;&e&lFIFTY-MOVE RULE!;&eIt's a tie!"
+      - "to_all: centered_message: &e&m                                               "
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&l%max% MOVEMENTS WITHOUT PROGRESS!"
+      - "to_all: centered_message: &eIt's a tie! No captures or pawns moves have occurred in"
+      - "to_all: centered_message: &ethe last &6%max% &emovements!"
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&m                                               "
+
   # Reward Actions.
   # You need to use the actions defined in the wiki:
   #   Use "to_all:" before an action, to give the reward to all players (doesn't include spectators)
@@ -484,6 +503,13 @@ actions:
     # You can use the following variable: %player_winner%
     end_by_leave:
       - "to_winner: console_command: eco give %player_winner% 100"
+
+    # Rewards to be given when the arena ends due to the fifty-move rule.
+    # (the max_consecutive_movements_without_progress value is reached, meaning players
+    # are stuck, no captures or pawns moves have occurred in the last X movements)
+    # You can use the following variable: %player%
+    end_by_movements_without_progress_tie:
+      - "to_all: console_command: eco give %player% 50"
 
 # Configuration about game items.
 # Use the item properties defined in the wiki:

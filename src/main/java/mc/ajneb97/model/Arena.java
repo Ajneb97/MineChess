@@ -33,6 +33,7 @@ public class Arena {
     private GameEndsReason endReason;
     private long millisStart;
     private ArrayList<GamePlayer> spectators;
+    private int movementsWithoutProgress;
 
     private ArenaCooldownManager arenaCooldownManager;
 
@@ -283,6 +284,7 @@ public class Arena {
         this.board.createInitialBoard();
         millisStart = 0;
         endReason = null;
+        movementsWithoutProgress = 0;
     }
 
     public PlayerColor getColor(GamePlayer gamePlayer){
@@ -407,4 +409,11 @@ public class Arena {
         this.spectators.removeIf(g -> g.getPlayer().equals(player));
     }
 
+    public int getMovementsWithoutProgress() {
+        return movementsWithoutProgress;
+    }
+
+    public void setMovementsWithoutProgress(int movementsWithoutProgress) {
+        this.movementsWithoutProgress = movementsWithoutProgress;
+    }
 }

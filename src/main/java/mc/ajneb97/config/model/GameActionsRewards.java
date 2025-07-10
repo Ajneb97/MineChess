@@ -10,10 +10,11 @@ public class GameActionsRewards {
     private List<String> endByStalemateTieActions;
     private List<String> endByCheckmateActions;
     private List<String> endByLeaveActions;
+    private List<String> endByMovementsWithoutProgressTie;
 
     public GameActionsRewards(boolean afterTeleport, List<String> endByTimeActions, List<String> endByPlayerTimeActions,
                               List<String> endByTimeTieActions, List<String> endByStalemateTieActions, List<String> endByCheckmateActions,
-                              List<String> endByLeaveActions) {
+                              List<String> endByLeaveActions, List<String> endByMovementsWithoutProgressTie) {
         this.afterTeleport = afterTeleport;
         this.endByTimeActions = endByTimeActions;
         this.endByPlayerTimeActions = endByPlayerTimeActions;
@@ -21,6 +22,7 @@ public class GameActionsRewards {
         this.endByStalemateTieActions = endByStalemateTieActions;
         this.endByCheckmateActions = endByCheckmateActions;
         this.endByLeaveActions = endByLeaveActions;
+        this.endByMovementsWithoutProgressTie = endByMovementsWithoutProgressTie;
     }
 
     public boolean isAfterTeleport() {
@@ -77,5 +79,13 @@ public class GameActionsRewards {
 
     public void setEndByLeaveActions(List<String> endByLeaveActions) {
         this.endByLeaveActions = endByLeaveActions;
+    }
+
+    public List<String> getEndByMovementsWithoutProgressTie() {
+        return endByMovementsWithoutProgressTie;
+    }
+
+    public void setEndByMovementsWithoutProgressTie(List<String> endByMovementsWithoutProgressTie) {
+        this.endByMovementsWithoutProgressTie = endByMovementsWithoutProgressTie;
     }
 }

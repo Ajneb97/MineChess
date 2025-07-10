@@ -41,6 +41,7 @@ public class MainConfigManager {
     private GameActions gameActions;
     private Arena arenaDefaultValues;
     private PiecesHologramsConfig piecesHologramsConfig;
+    private int maxConsecutiveMovementsWithoutProgress;
     private boolean isMySQL;
     private boolean updateNotify;
 
@@ -50,18 +51,7 @@ public class MainConfigManager {
         this.configFile = new CommonConfig("config.yml",plugin,null,false);
         configFile.registerConfig();
 
-        ServerVersion serverVersion = MineChess.serverVersion;
-        if(this.configFile.isFirstTime() && !serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_21_R1)){
-            checkAndFix();
-        }
-
         checkUpdate();
-    }
-
-    public void checkAndFix(){
-        //FileConfiguration config = configFile.getConfig();
-        //config.set("inventories.main_inventory.0;1;7;8;9;17;36;44;45;46;52;53.item.id","STAINED_GLASS_PANE:15");
-        //configFile.saveConfig();
     }
 
     public void configure() {
@@ -144,7 +134,8 @@ public class MainConfigManager {
                 config.getStringList("actions.end_game.end_by_time_tie"),
                 config.getStringList("actions.end_game.end_by_stalemate_tie"),
                 config.getStringList("actions.end_game.end_by_checkmate"),
-                config.getStringList("actions.end_game.end_by_leave")
+                config.getStringList("actions.end_game.end_by_leave"),
+                config.getStringList("actions.end_game.end_by_movements_without_progress_tie")
         );
         GameActionsRewards gameActionsRewards = new GameActionsRewards(
                 config.getBoolean("actions.rewards.after_teleport"),
@@ -153,7 +144,8 @@ public class MainConfigManager {
                 config.getStringList("actions.rewards.end_by_time_tie"),
                 config.getStringList("actions.rewards.end_by_stalemate_tie"),
                 config.getStringList("actions.rewards.end_by_checkmate"),
-                config.getStringList("actions.rewards.end_by_leave")
+                config.getStringList("actions.rewards.end_by_leave"),
+                config.getStringList("actions.rewards.end_by_movements_without_progress_tie")
         );
         gameActions = new GameActions(gameActionsGame,gameActionsEndGame,gameActionsRewards);
 
@@ -164,6 +156,8 @@ public class MainConfigManager {
                         config.getDouble("pieces_holograms.default_values.offset_y")
                 )
         );
+
+        maxConsecutiveMovementsWithoutProgress = config.getInt("max_consecutive_movements_without_progress");
 
         isMySQL = config.getBoolean("mysql_database.enabled");
 
@@ -234,11 +228,29 @@ public class MainConfigManager {
         Path pathConfig = Paths.get(configFile.getRoute());
         try{
             String text = new String(Files.readAllBytes(pathConfig));
+            FileConfiguration config = getConfig();
+            if(!text.contains("max_consecutive_movements_without_progress:")){
+                config.set("max_consecutive_movements_without_progress",50);
+                List<String> list = new ArrayList<>();
+                list.add("to_all: title: 10;80;10;&e&lFIFTY-MOVE RULE!;&eIt's a tie!");
+                list.add("to_all: centered_message: &e&m                                               ");
+                list.add("to_all: centered_message: ");
+                list.add("to_all: centered_message: &e&l%max% MOVEMENTS WITHOUT PROGRESS!");
+                list.add("to_all: centered_message: &eIt's a tie! No captures or pawns moves have occurred in");
+                list.add("to_all: centered_message: &ethe last &6%max% &emovements!");
+                list.add("to_all: centered_message: ");
+                list.add("to_all: centered_message: &e&m                                               ");
+                config.set("actions.end_game.end_by_movements_without_progress_tie",list);
+                list = new ArrayList<>();
+                list.add("to_all: console_command: eco give %player% 50");
+                config.set("actions.rewards.end_by_movements_without_progress_tie",list);
+                configFile.saveConfig();
+            }
             if(!text.contains("verifyServerCertificate:")){
-                getConfig().set("mysql_database.pool.connectionTimeout",5000);
-                getConfig().set("mysql_database.advanced.verifyServerCertificate",false);
-                getConfig().set("mysql_database.advanced.useSSL",true);
-                getConfig().set("mysql_database.advanced.allowPublicKeyRetrieval",true);
+                config.set("mysql_database.pool.connectionTimeout",5000);
+                config.set("mysql_database.advanced.verifyServerCertificate",false);
+                config.set("mysql_database.advanced.useSSL",true);
+                config.set("mysql_database.advanced.allowPublicKeyRetrieval",true);
                 configFile.saveConfig();
             }
         }catch(IOException e){
@@ -335,4 +347,7 @@ public class MainConfigManager {
         return gameTimeLimitations;
     }
 
+    public int getMaxConsecutiveMovementsWithoutProgress() {
+        return maxConsecutiveMovementsWithoutProgress;
+    }
 }

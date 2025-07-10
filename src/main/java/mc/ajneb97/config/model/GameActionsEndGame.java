@@ -9,15 +9,18 @@ public class GameActionsEndGame {
     private List<String> endByStalemateTieActions;
     private List<String> endByCheckmateActions;
     private List<String> endByLeaveActions;
+    private List<String> endByMovementsWithoutProgressTie;
 
     public GameActionsEndGame(List<String> endByTimeActions, List<String> endByPlayerTimeActions, List<String> endByTimeTieActions,
-                              List<String> endByStalemateTieActions, List<String> endByCheckmateActions, List<String> endByLeaveActions) {
+                              List<String> endByStalemateTieActions, List<String> endByCheckmateActions, List<String> endByLeaveActions,
+                              List<String> endByMovementsWithoutProgressTie) {
         this.endByTimeActions = endByTimeActions;
         this.endByPlayerTimeActions = endByPlayerTimeActions;
         this.endByTimeTieActions = endByTimeTieActions;
         this.endByStalemateTieActions = endByStalemateTieActions;
         this.endByCheckmateActions = endByCheckmateActions;
         this.endByLeaveActions = endByLeaveActions;
+        this.endByMovementsWithoutProgressTie = endByMovementsWithoutProgressTie;
     }
 
     public List<String> getEndByTimeActions() {
@@ -66,5 +69,13 @@ public class GameActionsEndGame {
 
     public void setEndByLeaveActions(List<String> endByLeaveActions) {
         this.endByLeaveActions = endByLeaveActions;
+    }
+
+    public List<String> getEndByMovementsWithoutProgressTie() {
+        return endByMovementsWithoutProgressTie;
+    }
+
+    public void setEndByMovementsWithoutProgressTie(List<String> endByMovementsWithoutProgressTie) {
+        this.endByMovementsWithoutProgressTie = endByMovementsWithoutProgressTie;
     }
 }
