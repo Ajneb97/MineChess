@@ -4,6 +4,7 @@ import mc.ajneb97.MineChess;
 import mc.ajneb97.config.model.CommonConfig;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public abstract class DataFolderConfigManager {
     protected String folderName;
@@ -36,6 +37,24 @@ public abstract class DataFolderConfigManager {
         CommonConfig commonConfig = new CommonConfig(pathName, plugin, folderName, true);
         commonConfig.registerConfig();
         return commonConfig;
+    }
+
+    public ArrayList<CommonConfig> getConfigs(){
+        ArrayList<CommonConfig> configs = new ArrayList<>();
+
+        String pathFile = plugin.getDataFolder() + File.separator + folderName;
+        File folder = new File(pathFile);
+        File[] listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                String pathName = file.getName();
+                CommonConfig commonConfig = new CommonConfig(pathName, plugin, folderName, true);
+                commonConfig.registerConfig();
+                configs.add(commonConfig);
+            }
+        }
+
+        return configs;
     }
 
     public abstract void createFiles();

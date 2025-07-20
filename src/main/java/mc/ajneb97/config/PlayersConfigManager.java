@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -30,56 +31,48 @@ public class PlayersConfigManager extends DataFolderConfigManager{
         Map<UUID, PlayerData> players = new HashMap<>();
         Map<UUID, PlayerDataBackup> playersBackup = new HashMap<>();
 
-        String path = plugin.getDataFolder() + File.separator + folderName;
-        File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                String pathName = file.getName();
-                CommonConfig commonConfig = new CommonConfig(pathName, plugin, folderName, true);
-                commonConfig.registerConfig();
+        ArrayList<CommonConfig> configFiles = getConfigs();
+        for(CommonConfig commonConfig : configFiles){
+            FileConfiguration config = commonConfig.getConfig();
+            String uuidString = commonConfig.getPath().replace(".yml", "");
+            String name = config.getString("name");
+            int wins = config.getInt("wins");
+            int loses = config.getInt("loses");
+            int ties = config.getInt("ties");
+            long millisPlayed = config.getLong("millis_played");
 
-                FileConfiguration config = commonConfig.getConfig();
-                String uuidString = commonConfig.getPath().replace(".yml", "");
-                String name = config.getString("name");
-                int wins = config.getInt("wins");
-                int loses = config.getInt("loses");
-                int ties = config.getInt("ties");
-                long millisPlayed = config.getLong("millis_played");
-
-                PlayerDataBackup backup = null;
-                if(config.contains("backup")){
-                    GameMode gamemode = GameMode.valueOf(config.getString("backup.gamemode"));
-                    float xp = (float)config.getDouble("backup.xp");
-                    int level = config.getInt("backup.level");
-                    int food = config.getInt("backup.food");
-                    double health = config.getDouble("backup.health");
-                    double maxHealth = config.getDouble("backup.max_health");
-                    boolean allowFlight = config.getBoolean("backup.allow_flight");
-                    boolean isFlying = config.getBoolean("backup.is_flying");
-                    ItemStack[] inventory = new ItemStack[41];
-                    if(config.contains("backup.inventory")){
-                        for(String key : config.getConfigurationSection("backup.inventory").getKeys(false)){
-                            inventory[Integer.parseInt(key)] = config.getItemStack("backup.inventory."+key);
-                        }
+            PlayerDataBackup backup = null;
+            if(config.contains("backup")){
+                GameMode gamemode = GameMode.valueOf(config.getString("backup.gamemode"));
+                float xp = (float)config.getDouble("backup.xp");
+                int level = config.getInt("backup.level");
+                int food = config.getInt("backup.food");
+                double health = config.getDouble("backup.health");
+                double maxHealth = config.getDouble("backup.max_health");
+                boolean allowFlight = config.getBoolean("backup.allow_flight");
+                boolean isFlying = config.getBoolean("backup.is_flying");
+                ItemStack[] inventory = new ItemStack[41];
+                if(config.contains("backup.inventory")){
+                    for(String key : config.getConfigurationSection("backup.inventory").getKeys(false)){
+                        inventory[Integer.parseInt(key)] = config.getItemStack("backup.inventory."+key);
                     }
-
-                    backup = new PlayerDataBackup(inventory,gamemode,xp,level,food,health,maxHealth,allowFlight,isFlying);
                 }
 
-                UUID uuid = UUID.fromString(uuidString);
-                PlayerData playerData = new PlayerData(uuid,name);
-                playerData.setWins(wins);
-                playerData.setLoses(loses);
-                playerData.setTies(ties);
-                playerData.setMillisPlayed(millisPlayed);
-
-                if(backup != null){
-                    playersBackup.put(uuid,backup);
-                }
-
-                players.put(uuid,playerData);
+                backup = new PlayerDataBackup(inventory,gamemode,xp,level,food,health,maxHealth,allowFlight,isFlying);
             }
+
+            UUID uuid = UUID.fromString(uuidString);
+            PlayerData playerData = new PlayerData(uuid,name);
+            playerData.setWins(wins);
+            playerData.setLoses(loses);
+            playerData.setTies(ties);
+            playerData.setMillisPlayed(millisPlayed);
+
+            if(backup != null){
+                playersBackup.put(uuid,backup);
+            }
+
+            players.put(uuid,playerData);
         }
 
         plugin.getPlayerDataManager().setPlayers(players);
