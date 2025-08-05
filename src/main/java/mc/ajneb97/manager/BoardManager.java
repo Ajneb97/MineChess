@@ -24,6 +24,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -215,9 +216,20 @@ public class BoardManager {
 
         ArmorStand a;
         if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_17_R1)){
-            a = world.spawn(currentLocation,ArmorStand.class, armorStand -> {
-                setHologramProperties(armorStand,text,pieceName,pieceColor);
-            });
+            if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_20_R3)){
+                a = world.spawn(currentLocation,ArmorStand.class, armorStand -> {
+                    setHologramProperties(armorStand,text,pieceName,pieceColor);
+                });
+            }else{
+                try {
+                    a = (ArmorStand) world.getClass().getMethod("spawn",Location.class,Class.class,org.bukkit.util.Consumer.class)
+                            .invoke(world, currentLocation, ArmorStand.class, (org.bukkit.util.Consumer<ArmorStand>) armorStand -> {
+                                setHologramProperties(armorStand,text,pieceName,pieceColor);
+                            });
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }else{
             a = world.spawn(currentLocation, ArmorStand.class);
             setHologramProperties(a,text,pieceName,pieceColor);
