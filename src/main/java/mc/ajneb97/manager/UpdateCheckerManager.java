@@ -19,7 +19,7 @@ public class UpdateCheckerManager {
     public UpdateCheckerResult check(){
         try {
             HttpURLConnection con = (HttpURLConnection) new URL(
-                    "https://api.spigotmc.org/legacy/update.php?resource=122419").openConnection();
+                    "https://api.spigotmc.org/legacy/update.php?resource=74178").openConnection();
             int timed_out = 1500;
             con.setConnectTimeout(timed_out);
             con.setReadTimeout(timed_out);

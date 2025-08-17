@@ -129,15 +129,6 @@ public class BoardManager {
         for(Arena arena : plugin.getArenaManager().getArenas()){
             removeBoardPieces(arena);
         }
-
-        NamespacedKey key = new NamespacedKey(plugin, "minechess");
-        for(World world : Bukkit.getWorlds()){
-            for(Entity e : world.getEntities()){
-                if(e.getPersistentDataContainer().has(key, PersistentDataType.STRING)){
-                    e.remove();
-                }
-            }
-        }
     }
 
     public void buildPiece(Piece piece,int x,int y,Arena arena,MainConfigManager mainConfigManager){
@@ -246,6 +237,9 @@ public class BoardManager {
         armorStand.setAI(false);
         armorStand.setInvulnerable(true);
         armorStand.setInvisible(true);
+        armorStand.setMarker(true);
+        armorStand.setPersistent(false);
+
         armorStand.setCustomName(MessagesManager.getColoredMessage(text.replace("%piece%",pieceName).replace("%color%",pieceColor)));
         armorStand.setCustomNameVisible(true);
 

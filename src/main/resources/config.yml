@@ -109,7 +109,7 @@ pieces_holograms:
     text: "%color% %piece%"
 
     # Height of the hologram.
-    offset_y: 2.5
+    offset_y: 5
 
 # When enabled, hint holograms will appear above possible movement cells
 # after selecting a piece.
