@@ -55,6 +55,11 @@ public class MessagesConfigManager {
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = configFile.getConfig();
 
+            if(!text.contains("playerSpectateNotPlaying:")){
+                config.set("playerSpectateNotPlaying", "&cThat player is not playing.");
+                configFile.saveConfig();
+            }
+
             if(!text.contains("inventoryEditingArenaLocationResetItemName:")){
                 config.set("inventoryEditingArenaLocationResetItemName", "&4&lReset Arena Locations");
                 List<String> list = new ArrayList<>();

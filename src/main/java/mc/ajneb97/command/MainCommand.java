@@ -7,6 +7,7 @@ import mc.ajneb97.manager.MessagesManager;
 import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.game.GameLeaveReason;
 import mc.ajneb97.utils.PlayerUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MainCommand implements CommandExecutor, TabCompleter {
@@ -79,7 +81,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess join <name> &8Joins an arena."));
             sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess joinrandom &8Joins a random arena."));
             sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess leave &8Leaves the Arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess spectate <name> &8Spectates an arena."));
+            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess spectate <arena/player> &8Spectates an arena or a player."));
             sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess setmainlobby &8Sets the Main Lobby."));
             sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess enable <name> &8Enables an arena."));
             sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess disable <name> &8Disables an arena."));
@@ -349,7 +351,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     }
 
     public void spectate(Player player,String[] args,MessagesManager msgManager,FileConfiguration messagesConfig) {
-        // /minechess spectate <arena>
+        // /minechess spectate <arena/player>
         if (!PlayerUtils.isMineChessAdmin(player) && !player.hasPermission("minechess.spectate")) {
             msgManager.sendMessage(player, messagesConfig.getString("noPermissions"), true);
             return;
@@ -363,6 +365,18 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         ArenaManager arenasManager = plugin.getArenaManager();
         Arena arena = arenasManager.getArenaByName(args[1]);
         if(arena == null){
+            // Check for spectate player
+            Player p = Bukkit.getPlayer(args[1]);
+            if(p != null){
+                arena = arenasManager.getGamePlayerManager().getArenaByPlayer(p);
+                if(arena != null){
+                    arenasManager.getGameSpectatorManager().joinArena(player,arena);
+                }else{
+                    msgManager.sendMessage(player,messagesConfig.getString("playerSpectateNotPlaying"),true);
+                }
+                return;
+            }
+
             msgManager.sendMessage(player,messagesConfig.getString("arenaDoesNotExist").replace("%arena%",args[1]),true);
             return;
         }
@@ -396,6 +410,17 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             if(args.length == 2) {
                 for(String c : commands) {
                     if(args[0].equalsIgnoreCase(c)){
+                        if(c.equals("spectate")){
+                            List<String> arenaCompletions = getArenaCompletions(args);
+                            if(arenaCompletions != null){
+                                completions.addAll(arenaCompletions);
+                            }
+                            List<String> playerCompletions = getPlayerCompletions(args);
+                            if(playerCompletions != null){
+                                completions.addAll(playerCompletions);
+                            }
+                            return completions;
+                        }
                         return getArenaCompletions(args);
                     }
                 }
@@ -453,4 +478,19 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         return completions;
     }
 
+    private List<String> getPlayerCompletions(String[] args){
+        List<String> completions = new ArrayList<>();
+        String argPlayer = args[1];
+
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(argPlayer.isEmpty() || player.getName().toLowerCase().startsWith(argPlayer.toLowerCase())) {
+                completions.add(player.getName());
+            }
+        }
+
+        if(completions.isEmpty()){
+            return null;
+        }
+        return completions;
+    }
 }
