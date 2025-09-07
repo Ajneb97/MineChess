@@ -6,6 +6,7 @@ public class PieceInteraction {
     private ParticleFormType type;
     private double size;
     private double offsetY;
+    private boolean enabled;
 
     public PieceInteraction(String value) {
         this.value = value;
@@ -41,6 +42,14 @@ public class PieceInteraction {
 
     public void setOffsetY(double offsetY) {
         this.offsetY = offsetY;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public enum ParticleFormType{

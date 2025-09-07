@@ -77,6 +77,9 @@ public class GamePlayer {
     public boolean isPossibleMovementCell(int[] pos){
         if(selectedPieceAvailableMovements != null){
             for(Movement m : selectedPieceAvailableMovements){
+                if(m.isPutsInCheck()){
+                    continue;
+                }
                 if(pos[0] == m.getX() && pos[1] == m.getY()){
                     return true;
                 }
@@ -88,6 +91,9 @@ public class GamePlayer {
     public Movement getPossibleMovementCell(int[] pos){
         if(selectedPieceAvailableMovements != null){
             for(Movement m : selectedPieceAvailableMovements){
+                if(m.isPutsInCheck()){
+                    continue;
+                }
                 if(pos[0] == m.getX() && pos[1] == m.getY()){
                     return m;
                 }

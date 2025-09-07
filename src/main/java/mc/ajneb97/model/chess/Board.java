@@ -199,15 +199,12 @@ public class Board {
             Piece[][] boardBackup = deepCopyBoard(board);
             PlayerColor pieceColor = piece.getColor();
 
-            Iterator<Movement> iterator = movements.iterator();
-            while (iterator.hasNext()) {
-                Movement movement = iterator.next();
-
+            for(Movement movement : movements){
                 move(x,y,movement);
 
                 boolean kingInCheck = verifyInCheck(pieceColor); // Verifies if pieceColor is in check.
                 if (kingInCheck) {
-                    iterator.remove();
+                    movement.setPutsInCheck(true);
                 }
 
                 board = deepCopyBoard(boardBackup);
@@ -522,6 +519,9 @@ public class Board {
 
                 ArrayList<Movement> movementsPiece = getPossibleMovements(i, j, true);
                 for(Movement m : movementsPiece){
+                    if(m.isPutsInCheck()){
+                        continue;
+                    }
                     movements.add(new CoordinateMovement(i,j,m));
                 }
             }

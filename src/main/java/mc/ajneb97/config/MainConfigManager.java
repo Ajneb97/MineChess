@@ -114,7 +114,8 @@ public class MainConfigManager {
                 configurePieceInteraction(config,"piece_interactions.interact.see_cell"),
                 configurePieceInteraction(config,"piece_interactions.interact.selected_piece"),
                 configurePieceInteraction(config,"piece_interactions.interact.valid_movements"),
-                configurePieceInteraction(config,"piece_interactions.interact.see_valid_movement_cell")
+                configurePieceInteraction(config,"piece_interactions.interact.see_valid_movement_cell"),
+                configurePieceInteraction(config,"piece_interactions.interact.invalid_check_movements")
         );
 
         GameActionsGame gameActionsGame = new GameActionsGame(
@@ -195,6 +196,7 @@ public class MainConfigManager {
         PieceInteraction.ParticleFormType type = null;
         double size = 0;
         double offsetY = 0;
+        boolean enabled = true;
         if(config.contains(path+".type")){
             type = PieceInteraction.ParticleFormType.valueOf(config.getString(path+".type"));
         }
@@ -204,11 +206,15 @@ public class MainConfigManager {
         if(config.contains(path+".offset_y")){
             offsetY = config.getDouble(path+".offset_y");
         }
+        if(config.contains(path+".enabled")){
+            enabled = config.getBoolean(path+".enabled");
+        }
 
         PieceInteraction pieceInteraction = new PieceInteraction(value);
         pieceInteraction.setType(type);
         pieceInteraction.setSize(size);
         pieceInteraction.setOffsetY(offsetY);
+        pieceInteraction.setEnabled(enabled);
 
         return pieceInteraction;
     }
@@ -229,6 +235,13 @@ public class MainConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = getConfig();
+            if(!text.contains("invalid_check_movements:")){
+                config.set("piece_interactions.interact.invalid_check_movements.enabled",true);
+                config.set("piece_interactions.interact.invalid_check_movements.value","DUST;255;41;0");
+                config.set("piece_interactions.interact.invalid_check_movements.type","SQUARE");
+                config.set("piece_interactions.interact.invalid_check_movements.size",0.75);
+                configFile.saveConfig();
+            }
             if(!text.contains("max_consecutive_movements_without_progress:")){
                 config.set("max_consecutive_movements_without_progress",50);
                 List<String> list = new ArrayList<>();

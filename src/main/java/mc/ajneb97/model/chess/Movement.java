@@ -4,6 +4,7 @@ public class Movement {
     private int x;
     private int y;
     private MovementType type;
+    private boolean putsInCheck;
 
     public Movement(int x, int y) {
         this.x = x;
@@ -39,5 +40,13 @@ public class Movement {
 
     public void setType(MovementType type) {
         this.type = type;
+    }
+
+    public boolean isPutsInCheck() {
+        return putsInCheck;
+    }
+
+    public void setPutsInCheck(boolean putsInCheck) {
+        this.putsInCheck = putsInCheck;
     }
 }

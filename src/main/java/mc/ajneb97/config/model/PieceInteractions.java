@@ -6,13 +6,15 @@ public class PieceInteractions {
     private PieceInteraction selectedPiece;
     private PieceInteraction validMovements;
     private PieceInteraction seeValidMovementCell;
+    private PieceInteraction invalidCheckMovements;
 
     public PieceInteractions(PieceInteraction seeCell, PieceInteraction selectedPiece, PieceInteraction validMovements,
-                             PieceInteraction seeValidMovementCell) {
+                             PieceInteraction seeValidMovementCell, PieceInteraction invalidCheckMovements) {
         this.seeCell = seeCell;
         this.selectedPiece = selectedPiece;
         this.validMovements = validMovements;
         this.seeValidMovementCell = seeValidMovementCell;
+        this.invalidCheckMovements = invalidCheckMovements;
     }
 
     public PieceInteraction getSeeCell() {
@@ -45,5 +47,13 @@ public class PieceInteractions {
 
     public void setSeeValidMovementCell(PieceInteraction seeValidMovementCell) {
         this.seeValidMovementCell = seeValidMovementCell;
+    }
+
+    public PieceInteraction getInvalidCheckMovements() {
+        return invalidCheckMovements;
+    }
+
+    public void setInvalidCheckMovements(PieceInteraction invalidCheckMovements) {
+        this.invalidCheckMovements = invalidCheckMovements;
     }
 }

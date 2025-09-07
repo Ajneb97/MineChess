@@ -251,6 +251,11 @@ piece_interactions:
     #
     # PARTICLE (particles will be displayed on the cell)
     #   value: <particle> (All particles here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html)
+    #     You can spawn a Redstone particle with colors, configuring the effect as:
+    #       REDSTONE;<red>;<green>;<blue> (1.16.5-1.20.4)
+    #       DUST;<red>;<green>;<blue> (1.20.5+)
+    #     Color codes: https://htmlcolorcodes.com/
+    #
     #   type: CIRCLE, SQUARE (Form of the particle)
     #   size: <size> (Radius/size of the particle in blocks)
     #   offset_y: <offset_y> (Optional, height of the particle)
@@ -280,6 +285,13 @@ piece_interactions:
     # Interaction to display when looking at a valid movement cell.
     see_valid_movement_cell:
       value: FLAME
+      type: SQUARE
+      size: 0.75
+
+    # Interaction to display on invalid possible movements that would put your king in check/checkmate.
+    invalid_check_movements:
+      enabled: true
+      value: DUST;255;41;0
       type: SQUARE
       size: 0.75
 

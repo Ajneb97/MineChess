@@ -50,10 +50,13 @@ public class ParticleUtils {
     public static void spawnParticle(Player player,String particle,Location l,float speed,int amount,double offsetX,double offsetY,double offsetZ){
         try {
             if(particle.startsWith("REDSTONE;") || particle.startsWith("DUST;")) {
-                String[] sep = particle.split(";");
-                int rgb = Integer.parseInt(sep[1]);
-                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(rgb), 1);
-                player.spawnParticle(Particle.valueOf(sep[0]),l,amount,offsetX,offsetY,offsetZ,speed,dustOptions);
+                String[] effectSeparated = particle.split(";");
+                int red = Integer.parseInt(effectSeparated[1]);
+                int green = Integer.parseInt(effectSeparated[2]);
+                int blue = Integer.parseInt(effectSeparated[3]);
+
+                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(red,green,blue), 1);
+                player.spawnParticle(Particle.valueOf(effectSeparated[0]),l,amount,offsetX,offsetY,offsetZ,speed,dustOptions);
             }else {
                 player.spawnParticle(Particle.valueOf(particle),l,amount,offsetX,offsetY,offsetZ,speed);
             }

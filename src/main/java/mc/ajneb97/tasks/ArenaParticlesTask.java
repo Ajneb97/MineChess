@@ -39,6 +39,7 @@ public class ArenaParticlesTask {
         PieceInteraction selectedPieceInteraction = mainConfigManager.getPieceInteractions().getSelectedPiece();
         PieceInteraction validMovementsInteraction = mainConfigManager.getPieceInteractions().getValidMovements();
         PieceInteraction seeValidMovementsCellInteraction = mainConfigManager.getPieceInteractions().getSeeValidMovementCell();
+        PieceInteraction invalidCheckMovementsInteraction = mainConfigManager.getPieceInteractions().getInvalidCheckMovements();
 
         for(Arena arena : arenaManager.getArenas()){
             for(GamePlayer gamePlayer : arena.getGamePlayers()){
@@ -52,10 +53,14 @@ public class ArenaParticlesTask {
                 boolean alreadySeeing = false;
                 if(movementsPos != null){
                     for(Movement movement : movementsPos){
-                        particlesAtPos(gamePlayer,arena,new int[]{movement.getX(), movement.getY()},validMovementsInteraction,boardManager);
-                        if(seeingPos != null && seeingPos[0] == movement.getX() && seeingPos[1] == movement.getY()){
-                            particlesAtPos(gamePlayer,arena,new int[]{movement.getX(), movement.getY()},seeValidMovementsCellInteraction,boardManager);
-                            alreadySeeing = true;
+                        if(movement.isPutsInCheck()){
+                            particlesAtPos(gamePlayer,arena,new int[]{movement.getX(), movement.getY()},invalidCheckMovementsInteraction,boardManager);
+                        }else{
+                            particlesAtPos(gamePlayer,arena,new int[]{movement.getX(), movement.getY()},validMovementsInteraction,boardManager);
+                            if(seeingPos != null && seeingPos[0] == movement.getX() && seeingPos[1] == movement.getY()){
+                                particlesAtPos(gamePlayer,arena,new int[]{movement.getX(), movement.getY()},seeValidMovementsCellInteraction,boardManager);
+                                alreadySeeing = true;
+                            }
                         }
                     }
                 }
@@ -70,6 +75,10 @@ public class ArenaParticlesTask {
     }
 
     private void particlesAtPos(GamePlayer gamePlayer, Arena arena, int[] pos, PieceInteraction pieceInteraction, BoardManager boardManager){
+        if(!pieceInteraction.isEnabled()){
+            return;
+        }
+
         Location l = boardManager.getCellLocationFromPositionCentered(pos,arena);
         l.add(0,1.5+pieceInteraction.getOffsetY(),0);
 
