@@ -136,7 +136,7 @@ public class PlayerListener implements Listener {
         if(event.isCancelled()){
             return;
         }
-        plugin.getArenaManager().getGamePlayerManager().moveCamera(event.getPlayer());
+        plugin.getArenaManager().getGamePlayerManager().moveCamera(event.getPlayer(),event);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

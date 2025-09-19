@@ -226,7 +226,7 @@ public class GamePlayerManager {
         }
     }
 
-    public void moveCamera(Player player){
+    public void moveCamera(Player player,PlayerMoveEvent event){
         Arena arena = getArenaByPlayer(player);
         if(arena == null){
             return;
@@ -239,6 +239,11 @@ public class GamePlayerManager {
         GamePlayer gamePlayer = arena.getGamePlayer(player);
 
         if(!arena.isTurnPlayer(gamePlayer)){
+            return;
+        }
+
+        if(gamePlayer.isOnPromotion()){
+            event.setCancelled(true);
             return;
         }
 
@@ -338,6 +343,10 @@ public class GamePlayerManager {
 
     public void inventoryClose(Player player, InventoryCloseEvent event) {
         InventoryManager invManager = plugin.getInventoryManager();
+        if(event.getInventory().getType().equals(org.bukkit.event.inventory.InventoryType.CRAFTING)){
+            return;
+        }
+
         InventoryPlayer inventoryPlayer = invManager.getInventoryPlayer(player);
         if(inventoryPlayer != null){
             if(inventoryPlayer.getInventoryType().equals(InventoryType.PROMOTION) ){
@@ -348,7 +357,7 @@ public class GamePlayerManager {
                         public void run() {
                             player.openInventory(event.getInventory());
                         }
-                    }.runTaskLater(plugin,1L);
+                    }.runTaskLater(plugin,3L);
                 }else{
                     plugin.getInventoryManager().removeInventoryPlayer(player);
                 }

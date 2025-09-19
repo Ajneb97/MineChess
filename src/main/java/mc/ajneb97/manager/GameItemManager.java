@@ -26,6 +26,10 @@ public class GameItemManager {
         }
 
         GamePlayer gamePlayer = arena.getGamePlayer(player,true);
+        if(gamePlayer.isOnPromotion()){
+            return;
+        }
+
         if(clickType.name().contains("RIGHT")){
             switch (type) {
                 case "leave" -> arenasManager.leaveArena(player, arena, GameLeaveReason.ITEM);
