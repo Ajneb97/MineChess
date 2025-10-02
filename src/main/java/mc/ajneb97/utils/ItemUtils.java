@@ -181,7 +181,7 @@ public class ItemUtils {
 		ServerVersion serverVersion = MineChess.serverVersion;
 		if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_20_R2)){
 			UUID uuid = id != null ? UUID.fromString(id) : UUID.randomUUID();
-			PlayerProfile profile = Bukkit.createPlayerProfile(uuid);
+			PlayerProfile profile = Bukkit.createPlayerProfile(uuid,"minechess");
 			PlayerTextures textures = profile.getTextures();
 			URL url;
 			try {
