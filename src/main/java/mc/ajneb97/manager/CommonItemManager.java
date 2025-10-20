@@ -6,6 +6,8 @@ import mc.ajneb97.utils.OtherUtils;
 import mc.ajneb97.utils.ServerVersion;
 import mc.ajneb97.model.internal.CommonVariable;
 import mc.ajneb97.utils.ItemUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -40,15 +42,26 @@ public class CommonItemManager {
         }
 
         ServerVersion serverVersion = MineChess.serverVersion;
+        boolean isPaper = plugin.getDependencyManager().isPaper();
         if(item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();
             if(meta.hasDisplayName()) {
-                commonItem.setName(meta.getDisplayName().replace("§", "&"));
+                if(isPaper && serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_19_R1)){
+                    commonItem.setName(LegacyComponentSerializer.legacyAmpersand().serialize(meta.displayName()));
+                }else{
+                    commonItem.setName(meta.getDisplayName().replace("§", "&"));
+                }
             }
             if(meta.hasLore()) {
-                List<String> lore = new ArrayList<String>();
-                for(String l : meta.getLore()) {
-                    lore.add(l.replace("§", "&"));
+                List<String> lore = new ArrayList<>();
+                if(isPaper && serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_19_R1)){
+                    for (Component line : meta.lore()) {
+                        lore.add(LegacyComponentSerializer.legacyAmpersand().serialize(line));
+                    }
+                }else{
+                    for(String l : meta.getLore()) {
+                        lore.add(l.replace("§", "&"));
+                    }
                 }
                 commonItem.setLore(lore);
             }

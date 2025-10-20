@@ -483,43 +483,43 @@ actions:
 
     # Rewards to be given when the arena ends because of max time reached and arena End Time option
     # is set to CHECK_POINTS.
-    # You can use the following variable: %player_winner%
+    # You can use the following variables: %player_winner%, %player_winner_points%
     end_by_time:
       - "to_winner: console_command: eco give %player_winner% 100"
 
     # Rewards to be given when the arena ends because of a player running out of time and
     # arena gamemode is set to PLAYER_TIME
-    # You can use the following variable: %player_winner%
+    # You can use the following variables: %player_winner%, %player_winner_points%
     end_by_player_time:
       - "to_winner: console_command: eco give %player_winner% 100"
 
     # Rewards to be given when the arena ends because of max time reached and one of these cases apply:
     #   1. Arena End Time option is set to ALWAYS_TIE.
     #   2. Arena End Time option is set to CHECK_POINTS, and both players have the same amount of points.
-    # You can use the following variable: %player%
+    # You can use the following variables: %player%, %points%
     end_by_time_tie:
       - "to_all: console_command: eco give %player% 50"
 
     # Rewards to be given when the arena ends by a stalemate.
     # (one of the players has no more possible movements but is not in check)
-    # You can use the following variable: %player%
+    # You can use the following variables: %player%, %points%
     end_by_stalemate_tie:
       - "to_all: console_command: eco give %player% 50"
 
     # Rewards to be given when the arena ends by a checkmate.
-    # You can use the following variable: %player_winner%
+    # You can use the following variables: %player_winner%, %player_winner_points%
     end_by_checkmate:
       - "to_winner: console_command: eco give %player_winner% 100"
 
     # Rewards to be given when a player leaves the arena granting the victory.
-    # You can use the following variable: %player_winner%
+    # You can use the following variables: %player_winner%, %player_winner_points%
     end_by_leave:
       - "to_winner: console_command: eco give %player_winner% 100"
 
     # Rewards to be given when the arena ends due to the fifty-move rule.
     # (the max_consecutive_movements_without_progress value is reached, meaning players
     # are stuck, no captures or pawns moves have occurred in the last X movements)
-    # You can use the following variable: %player%
+    # You can use the following variables: %player%, %points%
     end_by_movements_without_progress_tie:
       - "to_all: console_command: eco give %player% 50"
 

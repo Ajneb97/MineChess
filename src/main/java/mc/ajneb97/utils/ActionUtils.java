@@ -32,6 +32,7 @@ public class ActionUtils {
                     if(g == null){
                         continue;
                     }
+                    variables.add(new CommonVariable("%points%",g.getPoints()+""));
                     executeAction(g.getPlayer(),action,plugin,variables);
                 }
             }else if(action.startsWith("to_opponent: ")){

@@ -149,6 +149,7 @@ public class MineChess extends JavaPlugin {
                 serverVersion = ServerVersion.v1_21_R5;
                 break;
             case "1.21.9":
+            case "1.21.10":
                 serverVersion = ServerVersion.v1_21_R6;
                 break;
             default:
