@@ -1,6 +1,7 @@
 package mc.ajneb97.manager.inventory;
 
 import mc.ajneb97.MineChess;
+import mc.ajneb97.config.MainConfigManager;
 import mc.ajneb97.manager.CommonItemManager;
 import mc.ajneb97.model.chess.PieceType;
 import mc.ajneb97.model.inventory.CommonInventory;
@@ -13,6 +14,7 @@ import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.PlayerColor;
 import mc.ajneb97.model.game.GamePlayer;
 import mc.ajneb97.utils.ItemUtils;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -81,7 +83,13 @@ public class InventoryManager {
         CommonInventory inventory = getInventory(inventoryPlayer.getInventoryType());
 
         String title = inventory.getTitle();
-        Inventory inv = Bukkit.createInventory(null,inventory.getSlots(), MessagesManager.getColoredMessage(title));
+        MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
+        Inventory inv;
+        if(mainConfigManager.isUseMiniMessage()){
+            inv = Bukkit.createInventory(null,inventory.getSlots(), MiniMessage.miniMessage().deserialize(title));
+        }else{
+            inv = Bukkit.createInventory(null, inventory.getSlots(), MessagesManager.getLegacyColoredMessage(title));
+        }
 
         List<CommonInventoryItem> items = inventory.getItems();
         CommonItemManager commonItemManager = plugin.getCommonItemManager();

@@ -8,6 +8,7 @@ import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.ArenaSign;
 import mc.ajneb97.model.game.GameStatus;
 import mc.ajneb97.utils.PlayerUtils;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -82,14 +83,18 @@ public class SignManager {
         String status = getSignStatus(arena,messagesConfig);
         int currentPlayers = arena.getGamePlayers().size();
         int maxPlayers = 2;
+
+        boolean isMiniMessage = plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage();
         for(int i=0;i<signFormat.size();i++){
             String line = signFormat.get(i).replace("%arena%",arenaName).replace("%status%",status)
                             .replace("%current_players%",currentPlayers+"")
                             .replace("%max_players%",maxPlayers+"");
-            event.setLine(i, MessagesManager.getColoredMessage(line));
+            if(isMiniMessage){
+                event.line(i, MiniMessage.miniMessage().deserialize(line));
+            }else{
+                event.setLine(i, MessagesManager.getLegacyColoredMessage(line));
+            }
         }
-
-
 
         ArenaSign arenaSign = new ArenaSign(arenaSigns.size()+1, arenaName, event.getBlock().getLocation());
         arenaSigns.add(arenaSign);
@@ -143,6 +148,8 @@ public class SignManager {
     public void execute(){
         ArenaManager arenaManager = plugin.getArenaManager();
         ArrayList<ArenaSign> arenaSignsClone = new ArrayList<>(arenaSigns);
+        boolean isMiniMessage = plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage();
+
         for(ArenaSign arenaSign : arenaSignsClone){
             Location l = arenaSign.getLocation();
             Arena arena = arenaManager.getArenaByName(arenaSign.getArenaName());
@@ -177,7 +184,11 @@ public class SignManager {
                             .replace("%current_players%",currentPlayers+"")
                             .replace("%max_players%",maxPlayers+"");
                     //side.setLine(i, MessagesManager.getColoredMessage(line));
-                    sign.setLine(i, MessagesManager.getColoredMessage(line));
+                    if(isMiniMessage){
+                        sign.line(i, MiniMessage.miniMessage().deserialize(line));
+                    }else{
+                        sign.setLine(i, MessagesManager.getLegacyColoredMessage(line));
+                    }
                 }
                 sign.update();
 

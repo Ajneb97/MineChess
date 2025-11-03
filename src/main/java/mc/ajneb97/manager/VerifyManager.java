@@ -27,18 +27,18 @@ public class VerifyManager {
     }
 
     public void sendVerification(Player player) {
-        player.sendMessage(MessagesManager.getColoredMessage("&f&l- - - - - - - - &6&lMINECHESS VERIFY &f&l- - - - - - - -"));
-        player.sendMessage(MessagesManager.getColoredMessage(""));
+        player.sendMessage(MessagesManager.getLegacyColoredMessage("&f&l- - - - - - - - &6&lMINECHESS VERIFY &f&l- - - - - - - -"));
+        player.sendMessage(MessagesManager.getLegacyColoredMessage(""));
         if(errors.isEmpty()) {
-            player.sendMessage(MessagesManager.getColoredMessage("&aThere are no errors in the plugin ;)"));
+            player.sendMessage(MessagesManager.getLegacyColoredMessage("&aThere are no errors in the plugin ;)"));
         }else {
-            player.sendMessage(MessagesManager.getColoredMessage("&e&oHover on the errors to see more information."));
+            player.sendMessage(MessagesManager.getLegacyColoredMessage("&e&oHover on the errors to see more information."));
             for(MineChessBaseError error : errors) {
                 error.sendMessage(player);
             }
         }
-        player.sendMessage(MessagesManager.getColoredMessage(""));
-        player.sendMessage(MessagesManager.getColoredMessage("&f&l- - - - - - - - &6&lMINECHESS VERIFY &f&l- - - - - - - -"));
+        player.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+        player.sendMessage(MessagesManager.getLegacyColoredMessage("&f&l- - - - - - - - &6&lMINECHESS VERIFY &f&l- - - - - - - -"));
     }
 
     public void verify() {

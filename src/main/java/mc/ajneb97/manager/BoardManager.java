@@ -14,6 +14,7 @@ import mc.ajneb97.model.PlayerColor;
 import mc.ajneb97.model.chess.Board;
 import mc.ajneb97.model.internal.PieceToUpdate;
 import mc.ajneb97.utils.GameUtils;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -240,7 +241,13 @@ public class BoardManager {
         armorStand.setMarker(true);
         armorStand.setPersistent(false);
 
-        armorStand.setCustomName(MessagesManager.getColoredMessage(text.replace("%piece%",pieceName).replace("%color%",pieceColor)));
+        MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
+        text = text.replace("%piece%",pieceName).replace("%color%",pieceColor);
+        if(mainConfigManager.isUseMiniMessage()){
+            armorStand.customName(MiniMessage.miniMessage().deserialize(text));
+        }else{
+            armorStand.setCustomName(MessagesManager.getLegacyColoredMessage(text));
+        }
         armorStand.setCustomNameVisible(true);
 
         armorStand.getPersistentDataContainer().set(new NamespacedKey(plugin, "minechess"), PersistentDataType.STRING, "piece_hologram");

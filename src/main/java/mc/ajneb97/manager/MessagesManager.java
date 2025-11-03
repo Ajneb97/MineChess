@@ -1,7 +1,9 @@
 package mc.ajneb97.manager;
 
+import mc.ajneb97.api.MineChessAPI;
 import mc.ajneb97.libs.centeredmessages.DefaultFontInfo;
 import mc.ajneb97.model.game.GamePlayer;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -59,27 +61,29 @@ public class MessagesManager {
 
 	public void sendMessage(CommandSender sender, String message, boolean prefix){
 		if(!message.isEmpty()){
-			if(prefix){
-				sender.sendMessage(getColoredMessage(this.prefix+message));
-			}else{
-				sender.sendMessage(getColoredMessage(message));
-			}
-		}
-	}
-
-	public void sendMessage(ArrayList<GamePlayer> gamePlayers, String message, boolean prefix){
-		if(!message.isEmpty()){
-			for(GamePlayer gamePlayer : gamePlayers){
+			if(MineChessAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
 				if(prefix){
-					gamePlayer.getPlayer().sendMessage(getColoredMessage(this.prefix+message));
+					sender.sendMessage(MiniMessage.miniMessage().deserialize(this.prefix+message));
 				}else{
-					gamePlayer.getPlayer().sendMessage(getColoredMessage(message));
+					sender.sendMessage(MiniMessage.miniMessage().deserialize(message));
+				}
+			}else{
+				if(prefix){
+					sender.sendMessage(getLegacyColoredMessage(this.prefix+message));
+				}else{
+					sender.sendMessage(getLegacyColoredMessage(message));
 				}
 			}
 		}
 	}
 
-	public static String getColoredMessage(String message) {
+	public void sendMessage(ArrayList<GamePlayer> gamePlayers, String message, boolean prefix){
+		for(GamePlayer gamePlayer : gamePlayers){
+			sendMessage(gamePlayer.getPlayer(),message,prefix);
+		}
+	}
+
+	public static String getLegacyColoredMessage(String message) {
 		Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
 		Matcher match = pattern.matcher(message);
 

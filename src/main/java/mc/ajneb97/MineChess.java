@@ -92,8 +92,8 @@ public class MineChess extends JavaPlugin {
             mySQLConnection.setupMySql();
         }
 
-        Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getColoredMessage("&eHas been enabled! &fVersion: "+version));
-        Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getColoredMessage("&eThanks for using my plugin!   &f~Ajneb97"));
+        Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getLegacyColoredMessage("&eHas been enabled! &fVersion: "+version));
+        Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getLegacyColoredMessage("&eThanks for using my plugin!   &f~Ajneb97"));
 
         updateCheckerManager = new UpdateCheckerManager(version);
         updateMessage(updateCheckerManager.check());
@@ -102,7 +102,7 @@ public class MineChess extends JavaPlugin {
     public void onDisable(){
         arenaManager.endAllArenasFromServerStop();
         configsManager.getPlayersConfigManager().saveConfigs();
-        Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getColoredMessage("&eHas been disabled! &fVersion: "+version));
+        Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getLegacyColoredMessage("&eHas been disabled! &fVersion: "+version));
     }
     public void registerCommands(){
         this.getCommand("minechess").setExecutor(new MainCommand(this));
@@ -118,7 +118,7 @@ public class MineChess extends JavaPlugin {
     }
 
     public void setPrefix(){
-        prefix = MessagesManager.getColoredMessage("&6[&fMineChess&6] ");
+        prefix = MessagesManager.getLegacyColoredMessage("&6[&fMineChess&6] ");
     }
 
     public void setVersion(){
@@ -241,11 +241,11 @@ public class MineChess extends JavaPlugin {
         if(!result.isError()){
             String latestVersion = result.getLatestVersion();
             if(latestVersion != null){
-                Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage("&cThere is a new version available. &e(&7"+latestVersion+"&e)"));
-                Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage("&cYou can download it at: &fhttps://modrinth.com/plugin/minechess-minigame"));
+                Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage("&cThere is a new version available. &e(&7"+latestVersion+"&e)"));
+                Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage("&cYou can download it at: &fhttps://modrinth.com/plugin/minechess-minigame"));
             }
         }else{
-            Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage(prefix+" &cError while checking update."));
+            Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage(prefix+" &cError while checking update."));
         }
 
     }

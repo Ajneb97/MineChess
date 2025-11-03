@@ -44,6 +44,7 @@ public class MainConfigManager {
     private int maxConsecutiveMovementsWithoutProgress;
     private boolean isMySQL;
     private boolean updateNotify;
+    private boolean useMiniMessage;
 
 
     public MainConfigManager(MineChess plugin){
@@ -161,6 +162,7 @@ public class MainConfigManager {
         maxConsecutiveMovementsWithoutProgress = config.getInt("max_consecutive_movements_without_progress");
 
         isMySQL = config.getBoolean("mysql_database.enabled");
+        useMiniMessage = config.getBoolean("use_minimessage");
 
         configureArenaDefaultValues(config);
     }
@@ -235,6 +237,10 @@ public class MainConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = getConfig();
+            if(!text.contains("use_minimessage:")){
+                getConfig().set("use_minimessage",false);
+                configFile.saveConfig();
+            }
             if(!text.contains("invalid_check_movements:")){
                 config.set("piece_interactions.interact.invalid_check_movements.enabled",true);
                 config.set("piece_interactions.interact.invalid_check_movements.value","DUST;255;41;0");
@@ -362,5 +368,9 @@ public class MainConfigManager {
 
     public int getMaxConsecutiveMovementsWithoutProgress() {
         return maxConsecutiveMovementsWithoutProgress;
+    }
+
+    public boolean isUseMiniMessage() {
+        return useMiniMessage;
     }
 }

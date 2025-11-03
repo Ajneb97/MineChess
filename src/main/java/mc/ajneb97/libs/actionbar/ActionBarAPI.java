@@ -1,7 +1,9 @@
 package mc.ajneb97.libs.actionbar;
 
 import mc.ajneb97.MineChess;
+import mc.ajneb97.api.MineChessAPI;
 import mc.ajneb97.manager.MessagesManager;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -15,7 +17,12 @@ public class ActionBarAPI
         if(player == null){
             return;
         }
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(MessagesManager.getColoredMessage(message)));
+
+        if(MineChessAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
+            player.sendActionBar(MiniMessage.miniMessage().deserialize(message));
+        }else{
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(MessagesManager.getLegacyColoredMessage(message)));
+        }
     }
   
   public static void sendActionBar(final Player player, final String message, int duration, MineChess plugin) {

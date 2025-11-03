@@ -1,12 +1,14 @@
 package mc.ajneb97.manager.editinventory;
 
 import mc.ajneb97.MineChess;
+import mc.ajneb97.config.MainConfigManager;
 import mc.ajneb97.manager.BoardManager;
 import mc.ajneb97.model.ArenaEndTimeMode;
 import mc.ajneb97.model.editinventory.EditInventoryPlayer;
 import mc.ajneb97.utils.InventoryItem;
 import mc.ajneb97.manager.MessagesManager;
 import mc.ajneb97.model.Arena;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,7 +33,13 @@ public class EditArenaInventoryManager {
         Arena arena = editInventoryPlayer.getArena();
 
         FileConfiguration messagesConfig = plugin.getMessagesConfig();
-        Inventory inv = Bukkit.createInventory(null, 54, MessagesManager.getColoredMessage(messagesConfig.getString("inventoryEditingArenaTitle")));
+        MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
+        Inventory inv;
+        if(mainConfigManager.isUseMiniMessage()){
+            inv = Bukkit.createInventory(null,54, MiniMessage.miniMessage().deserialize(messagesConfig.getString("inventoryEditingArenaTitle")));
+        }else{
+            inv = Bukkit.createInventory(null, 54, MessagesManager.getLegacyColoredMessage(messagesConfig.getString("inventoryEditingArenaTitle")));
+        }
 
         // Decoration
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);

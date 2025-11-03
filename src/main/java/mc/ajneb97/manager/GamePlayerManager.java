@@ -185,10 +185,10 @@ public class GamePlayerManager {
             String format = config.getFormat();
             String message = event.getMessage();
 
+            MessagesManager msgManager = plugin.getMessagesManager();
             for(GamePlayer p : arena.getGamePlayers()){
-                String msg = MessagesManager.getColoredMessage(format.replace("%player%",player.getName())
-                        .replace("%message%",message));
-                p.getPlayer().sendMessage(msg);
+                msgManager.sendMessage(p.getPlayer(),format.replace("%player%",player.getName())
+                        .replace("%message%",message),false);
             }
         }
     }

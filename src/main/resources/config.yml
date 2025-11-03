@@ -554,6 +554,10 @@ game_items:
       lore:
         - "&7Right Click to play again."
 
+# Defines if every message/text in the plugin should use the MiniMessage format.
+# Only works on Paper 1.19.4+.
+use_minimessage: true
+
 # MySQL support credentials.
 mysql_database:
   enabled: false

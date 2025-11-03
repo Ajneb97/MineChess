@@ -72,23 +72,23 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
     public void help(CommandSender sender){
         if(PlayerUtils.isMineChessAdmin(sender)) {
-            sender.sendMessage(MessagesManager.getColoredMessage("&7[ [ &6[&fMineChess&6] &7] ]"));
-            sender.sendMessage(MessagesManager.getColoredMessage(""));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess create <name> &8Creates a new arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess build <name> &8Builds an arena on your current position."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess edit <name> &8Opens the editing GUI for an arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess delete <name> &8Deletes an arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess join <name> &8Joins an arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess joinrandom &8Joins a random arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess leave &8Leaves the Arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess spectate <arena/player> &8Spectates an arena or a player."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess setmainlobby &8Sets the Main Lobby."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess enable <name> &8Enables an arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess disable <name> &8Disables an arena."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess verify &8Checks the plugin for errors."));
-            sender.sendMessage(MessagesManager.getColoredMessage("&6/minechess reload &8Reloads the config."));
-            sender.sendMessage(MessagesManager.getColoredMessage(""));
-            sender.sendMessage(MessagesManager.getColoredMessage("&7[ [ &6[&fMineChess&6] &7] ]"));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7[ [ &6[&fMineChess&6] &7] ]"));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess create <name> &8Creates a new arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess build <name> &8Builds an arena on your current position."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess edit <name> &8Opens the editing GUI for an arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess delete <name> &8Deletes an arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess join <name> &8Joins an arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess joinrandom &8Joins a random arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess leave &8Leaves the Arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess spectate <arena/player> &8Spectates an arena or a player."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess setmainlobby &8Sets the Main Lobby."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess enable <name> &8Enables an arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess disable <name> &8Disables an arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess verify &8Checks the plugin for errors."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess reload &8Reloads the config."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7[ [ &6[&fMineChess&6] &7] ]"));
         }
     }
 
@@ -99,7 +99,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         }
 
         if(!plugin.getConfigsManager().reload()){
-            sender.sendMessage(MineChess.prefix+MessagesManager.getColoredMessage("&cThere was an error reloading the config, check the console."));
+            sender.sendMessage(MineChess.prefix+MessagesManager.getLegacyColoredMessage("&cThere was an error reloading the config, check the console."));
             return;
         }
         msgManager.sendMessage(sender,messagesConfig.getString("configReloaded"),true);

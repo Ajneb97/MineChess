@@ -9,6 +9,9 @@ import mc.ajneb97.model.game.GamePlayer;
 import mc.ajneb97.model.game.GameStatus;
 import mc.ajneb97.utils.OtherUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -80,6 +83,8 @@ public class ScoreboardManager {
         String whiteTime = getPlayerTime(arena,arena.getPlayerWhite());
         String blackTime = getPlayerTime(arena,arena.getPlayerBlack());
 
+        boolean isMiniMessage = plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage();
+
         for (GamePlayer gamePlayer : players) {
             Player player = gamePlayer.getPlayer();
             if(player == null){
@@ -101,12 +106,26 @@ public class ScoreboardManager {
                 if (isPlaceholderAPI) {
                     line = PlaceholderAPI.setPlaceholders(player, line);
                 }
-                replacedScoreboardBody.add(MessagesManager.getColoredMessage(line));
+
+                if(isMiniMessage){
+                    Component component = MiniMessage.miniMessage().deserialize(line);
+                    line = LegacyComponentSerializer.legacyAmpersand().serialize(component);
+                    replacedScoreboardBody.add(MessagesManager.getLegacyColoredMessage(line));
+                }else{
+                    replacedScoreboardBody.add(MessagesManager.getLegacyColoredMessage(line));
+                }
             }
 
             if (!board.isDeleted()) {
                 try {
-                    board.updateTitle(MessagesManager.getColoredMessage(gameScoreboardTitle));
+                    if(isMiniMessage){
+                        Component component = MiniMessage.miniMessage().deserialize(gameScoreboardTitle);
+                        gameScoreboardTitle = LegacyComponentSerializer.legacyAmpersand().serialize(component);
+                        board.updateTitle(MessagesManager.getLegacyColoredMessage(gameScoreboardTitle));
+                    }else{
+                        board.updateTitle(MessagesManager.getLegacyColoredMessage(gameScoreboardTitle));
+                    }
+
                     board.updateLines(replacedScoreboardBody);
                 } catch (Exception ignored) {
 

@@ -1,6 +1,10 @@
 package mc.ajneb97.utils;
 
+import mc.ajneb97.api.MineChessAPI;
 import mc.ajneb97.manager.MessagesManager;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
@@ -8,6 +12,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryItem {
@@ -16,12 +21,14 @@ public class InventoryItem {
 	private int slot;
 	private ItemStack item;
 	private ItemMeta meta;
+	private boolean useMiniMessage;
 	
 	public InventoryItem(Inventory inventory, int slot, Material material) {
 		this.inventory = inventory;
 		this.item = new ItemStack(material);
 		this.meta = item.getItemMeta();
 		this.slot = slot;
+		this.useMiniMessage = MineChessAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -36,15 +43,28 @@ public class InventoryItem {
 	}
 	
 	public InventoryItem name(String name) {
-		meta.setDisplayName(MessagesManager.getColoredMessage(name));
+		if(useMiniMessage){
+			meta.displayName(MiniMessage.miniMessage().deserialize(name).decoration(TextDecoration.ITALIC, false));
+		}else{
+			meta.setDisplayName(MessagesManager.getLegacyColoredMessage(name));
+		}
 		return this;
 	}
 	
 	public InventoryItem lore(List<String> lore) {
-		for(int i=0;i<lore.size();i++) {
-			lore.set(i, MessagesManager.getColoredMessage(lore.get(i)));
+		List<String> loreCopy = new ArrayList<>(lore);
+		if(useMiniMessage){
+			List<Component> loreComponent = new ArrayList<>();
+			for(int i=0;i<loreCopy.size();i++) {
+				loreComponent.add(MiniMessage.miniMessage().deserialize(loreCopy.get(i)).decoration(TextDecoration.ITALIC, false));
+			}
+			meta.lore(loreComponent);
+		}else{
+			for(int i=0;i<loreCopy.size();i++) {
+				loreCopy.set(i, MessagesManager.getLegacyColoredMessage(loreCopy.get(i)));
+			}
+			meta.setLore(loreCopy);
 		}
-		meta.setLore(lore);
 		return this;
 	}
 	
