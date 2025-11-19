@@ -10,10 +10,11 @@ public class GameActionsEndGame {
     private List<String> endByCheckmateActions;
     private List<String> endByLeaveActions;
     private List<String> endByMovementsWithoutProgressTie;
+    private List<String> endByInsufficientMaterialTie;
 
     public GameActionsEndGame(List<String> endByTimeActions, List<String> endByPlayerTimeActions, List<String> endByTimeTieActions,
                               List<String> endByStalemateTieActions, List<String> endByCheckmateActions, List<String> endByLeaveActions,
-                              List<String> endByMovementsWithoutProgressTie) {
+                              List<String> endByMovementsWithoutProgressTie, List<String> endByInsufficientMaterialTie) {
         this.endByTimeActions = endByTimeActions;
         this.endByPlayerTimeActions = endByPlayerTimeActions;
         this.endByTimeTieActions = endByTimeTieActions;
@@ -21,6 +22,7 @@ public class GameActionsEndGame {
         this.endByCheckmateActions = endByCheckmateActions;
         this.endByLeaveActions = endByLeaveActions;
         this.endByMovementsWithoutProgressTie = endByMovementsWithoutProgressTie;
+        this.endByInsufficientMaterialTie = endByInsufficientMaterialTie;
     }
 
     public List<String> getEndByTimeActions() {
@@ -77,5 +79,13 @@ public class GameActionsEndGame {
 
     public void setEndByMovementsWithoutProgressTie(List<String> endByMovementsWithoutProgressTie) {
         this.endByMovementsWithoutProgressTie = endByMovementsWithoutProgressTie;
+    }
+
+    public List<String> getEndByInsufficientMaterialTie() {
+        return endByInsufficientMaterialTie;
+    }
+
+    public void setEndByInsufficientMaterialTie(List<String> endByInsufficientMaterialTie) {
+        this.endByInsufficientMaterialTie = endByInsufficientMaterialTie;
     }
 }

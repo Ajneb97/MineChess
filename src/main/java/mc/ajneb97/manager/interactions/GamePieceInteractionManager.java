@@ -17,9 +17,8 @@ import mc.ajneb97.model.chess.PieceType;
 import mc.ajneb97.model.game.GamePlayer;
 import mc.ajneb97.model.internal.CheckValidationResult;
 import mc.ajneb97.model.internal.CommonVariable;
-import mc.ajneb97.model.internal.PieceToUpdate;
+import mc.ajneb97.model.internal.CoordinatePiece;
 import mc.ajneb97.utils.GameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -87,7 +86,7 @@ public class GamePieceInteractionManager {
 
         BoardManager boardManager = plugin.getBoardManager();
         MovePieceResult movePieceResult = arena.getBoard().move(selectedPos[0],selectedPos[1],movement);
-        for(PieceToUpdate p : movePieceResult.getPiecesToUpdate()){
+        for(CoordinatePiece p : movePieceResult.getPiecesToUpdate()){
             boardManager.updateCell(p, arena);
         }
 
@@ -153,13 +152,17 @@ public class GamePieceInteractionManager {
             return;
         }
 
+        // Insufficient material
+        if(insufficientMaterialReached(arena)){
+            return;
+        }
 
         plugin.getArenaManager().changeTurn(arena,!result.equals(CheckValidationResult.CHECK));
     }
 
     public void promotePawn(Arena arena, GamePlayer gamePlayer, PieceType pieceType){
         int[] promotionPos = gamePlayer.getPromotionPos();
-        PieceToUpdate pieceToUpdate = arena.getBoard().promotePawn(promotionPos[0],promotionPos[1],pieceType,arena.getColor(gamePlayer));
+        CoordinatePiece pieceToUpdate = arena.getBoard().promotePawn(promotionPos[0],promotionPos[1],pieceType,arena.getColor(gamePlayer));
         gamePlayer.setPromotionPos(null);
         gamePlayer.getPlayer().closeInventory();
 
@@ -222,6 +225,14 @@ public class GamePieceInteractionManager {
         int maxMovements = mainConfigManager.getMaxConsecutiveMovementsWithoutProgress();
         if(arena.getMovementsWithoutProgress() >= maxMovements){
             plugin.getArenaManager().getGameEndManager().startEndingStage(arena,GameEndsReason.MOVEMENTS_WITHOUT_PROGRESS);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean insufficientMaterialReached(Arena arena){
+        if(arena.getBoard().isInsufficientMaterial()){
+            plugin.getArenaManager().getGameEndManager().startEndingStage(arena,GameEndsReason.INSUFFICIENT_MATERIAL);
             return true;
         }
         return false;

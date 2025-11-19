@@ -12,7 +12,7 @@ import mc.ajneb97.config.MainConfigManager;
 import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.PlayerColor;
 import mc.ajneb97.model.chess.Board;
-import mc.ajneb97.model.internal.PieceToUpdate;
+import mc.ajneb97.model.internal.CoordinatePiece;
 import mc.ajneb97.utils.GameUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.*;
@@ -22,7 +22,6 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.lang.reflect.InvocationTargetException;
@@ -253,7 +252,7 @@ public class BoardManager {
         armorStand.getPersistentDataContainer().set(new NamespacedKey(plugin, "minechess"), PersistentDataType.STRING, "piece_hologram");
     }
 
-    public void updateCell(PieceToUpdate pieceToUpdate, Arena arena){
+    public void updateCell(CoordinatePiece pieceToUpdate, Arena arena){
         MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
         Piece piece = arena.getBoard().getPiece(pieceToUpdate.getX(),pieceToUpdate.getY());
         removePiece(pieceToUpdate.getPiece(),pieceToUpdate.getX(),pieceToUpdate.getY(),arena);

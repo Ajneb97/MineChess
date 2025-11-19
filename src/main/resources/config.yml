@@ -471,6 +471,19 @@ actions:
       - "to_all: centered_message: "
       - "to_all: centered_message: &e&m                                               "
 
+    # Actions to be executed when the arena ends due to insufficient material.
+    # (impossibility of checkmate with the current pieces on the board)
+    # You can use the following variables: %player_white%, %player_black%
+    end_by_insufficient_material_tie:
+      - "to_all: title: 10;80;10;&e&lINSUFFICIENT MATERIAL!;&eIt's a tie!"
+      - "to_all: centered_message: &e&m                                               "
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&l%max% INSUFFICIENT MATERIAL!"
+      - "to_all: centered_message: &eIt's a tie! Impossibility of checkmate due to"
+      - "to_all: centered_message: &einsufficient pieces on the board!"
+      - "to_all: centered_message: "
+      - "to_all: centered_message: &e&m                                               "
+
   # Reward Actions.
   # You need to use the actions defined in the wiki:
   #   Use "to_all:" before an action, to give the reward to all players (doesn't include spectators)
@@ -521,6 +534,12 @@ actions:
     # are stuck, no captures or pawns moves have occurred in the last X movements)
     # You can use the following variables: %player%, %points%
     end_by_movements_without_progress_tie:
+      - "to_all: console_command: eco give %player% 50"
+
+    # Rewards to be given when the arena ends due to insufficient material.
+    # (impossibility of checkmate with the current pieces on the board)
+    # You can use the following variables: %player%, %points%
+    end_by_insufficient_material_tie:
       - "to_all: console_command: eco give %player% 50"
 
 # Configuration about game items.

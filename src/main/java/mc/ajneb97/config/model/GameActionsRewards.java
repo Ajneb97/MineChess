@@ -11,10 +11,12 @@ public class GameActionsRewards {
     private List<String> endByCheckmateActions;
     private List<String> endByLeaveActions;
     private List<String> endByMovementsWithoutProgressTie;
+    private List<String> endByInsufficientMaterialTie;
 
     public GameActionsRewards(boolean afterTeleport, List<String> endByTimeActions, List<String> endByPlayerTimeActions,
                               List<String> endByTimeTieActions, List<String> endByStalemateTieActions, List<String> endByCheckmateActions,
-                              List<String> endByLeaveActions, List<String> endByMovementsWithoutProgressTie) {
+                              List<String> endByLeaveActions, List<String> endByMovementsWithoutProgressTie,
+                              List<String> endByInsufficientMaterialTie) {
         this.afterTeleport = afterTeleport;
         this.endByTimeActions = endByTimeActions;
         this.endByPlayerTimeActions = endByPlayerTimeActions;
@@ -23,6 +25,7 @@ public class GameActionsRewards {
         this.endByCheckmateActions = endByCheckmateActions;
         this.endByLeaveActions = endByLeaveActions;
         this.endByMovementsWithoutProgressTie = endByMovementsWithoutProgressTie;
+        this.endByInsufficientMaterialTie = endByInsufficientMaterialTie;
     }
 
     public boolean isAfterTeleport() {
@@ -87,5 +90,13 @@ public class GameActionsRewards {
 
     public void setEndByMovementsWithoutProgressTie(List<String> endByMovementsWithoutProgressTie) {
         this.endByMovementsWithoutProgressTie = endByMovementsWithoutProgressTie;
+    }
+
+    public List<String> getEndByInsufficientMaterialTie() {
+        return endByInsufficientMaterialTie;
+    }
+
+    public void setEndByInsufficientMaterialTie(List<String> endByInsufficientMaterialTie) {
+        this.endByInsufficientMaterialTie = endByInsufficientMaterialTie;
     }
 }

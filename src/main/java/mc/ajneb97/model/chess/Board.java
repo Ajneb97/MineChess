@@ -3,11 +3,12 @@ package mc.ajneb97.model.chess;
 import mc.ajneb97.model.internal.MovePieceResult;
 import mc.ajneb97.model.PlayerColor;
 import mc.ajneb97.model.internal.CoordinateMovement;
-import mc.ajneb97.model.internal.PieceToUpdate;
+import mc.ajneb97.model.internal.CoordinatePiece;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 public class Board {
     private Piece[][] board;
@@ -63,7 +64,7 @@ public class Board {
         int xEnd = movement.getX();
         int yEnd = movement.getY();
 
-        ArrayList<PieceToUpdate> piecesToUpdate = new ArrayList<>();
+        ArrayList<CoordinatePiece> piecesToUpdate = new ArrayList<>();
 
         int[] capturedPiecePosition = null;
         PieceType capturedPieceType = null;
@@ -71,7 +72,7 @@ public class Board {
         piece.setHasMoved(true);
 
         // Update starting position
-        piecesToUpdate.add(new PieceToUpdate(xStart,yStart,board[xStart][yStart]));
+        piecesToUpdate.add(new CoordinatePiece(xStart,yStart,board[xStart][yStart]));
         board[xStart][yStart] = null;
 
         if(board[xEnd][yEnd] != null && !movement.getType().name().startsWith("CASTLING")){
@@ -81,7 +82,7 @@ public class Board {
 
         if(!movement.getType().name().startsWith("CASTLING")){
             // Update end position
-            piecesToUpdate.add(new PieceToUpdate(xEnd,yEnd,board[xEnd][yEnd]));
+            piecesToUpdate.add(new CoordinatePiece(xEnd,yEnd,board[xEnd][yEnd]));
             board[xEnd][yEnd] = piece;
         }
 
@@ -105,25 +106,25 @@ public class Board {
             capturedPieceType = board[xEnd][yEnd+direction].getType();
 
             // Update en passant end position
-            piecesToUpdate.add(new PieceToUpdate(xEnd,yEnd+direction,board[xEnd][yEnd+direction]));
+            piecesToUpdate.add(new CoordinatePiece(xEnd,yEnd+direction,board[xEnd][yEnd+direction]));
             board[xEnd][yEnd+direction] = null;
         }
 
         // Castling
         if(movement.getType().equals(MovementType.CASTLING_SHORT)){
             // Update positions
-            piecesToUpdate.add(new PieceToUpdate(xEnd,yEnd,board[xEnd][yEnd]));
-            piecesToUpdate.add(new PieceToUpdate(6,yStart,board[6][yStart]));
-            piecesToUpdate.add(new PieceToUpdate(5,yStart,board[5][yStart]));
+            piecesToUpdate.add(new CoordinatePiece(xEnd,yEnd,board[xEnd][yEnd]));
+            piecesToUpdate.add(new CoordinatePiece(6,yStart,board[6][yStart]));
+            piecesToUpdate.add(new CoordinatePiece(5,yStart,board[5][yStart]));
 
             board[6][yStart] = piece;
             board[5][yStart] = board[xEnd][yEnd];
             board[xEnd][yEnd] = null;
         }else if(movement.getType().equals(MovementType.CASTLING_LONG)){
             // Update positions
-            piecesToUpdate.add(new PieceToUpdate(xEnd,yEnd,board[xEnd][yEnd]));
-            piecesToUpdate.add(new PieceToUpdate(2,yStart,board[2][yStart]));
-            piecesToUpdate.add(new PieceToUpdate(3,yStart,board[3][yStart]));
+            piecesToUpdate.add(new CoordinatePiece(xEnd,yEnd,board[xEnd][yEnd]));
+            piecesToUpdate.add(new CoordinatePiece(2,yStart,board[2][yStart]));
+            piecesToUpdate.add(new CoordinatePiece(3,yStart,board[3][yStart]));
 
             board[2][yStart] = piece;
             board[3][yStart] = board[xEnd][yEnd];
@@ -137,10 +138,10 @@ public class Board {
         return new MovePieceResult(piecesToUpdate,capturedPieceType);
     }
 
-    public PieceToUpdate promotePawn(int x,int y,PieceType pieceType,PlayerColor playerColor){
+    public CoordinatePiece promotePawn(int x, int y, PieceType pieceType, PlayerColor playerColor){
         Piece newPiece = new Piece(pieceType,playerColor);
 
-        PieceToUpdate pieceToUpdate = new PieceToUpdate(x,y,board[x][y]);
+        CoordinatePiece pieceToUpdate = new CoordinatePiece(x,y,board[x][y]);
 
         newPiece.setHasMoved(true);
         board[x][y] = newPiece;
@@ -527,6 +528,74 @@ public class Board {
             }
         }
         return movements;
+    }
+
+    public List<CoordinatePiece> getPieces(PlayerColor playerColor){
+        List<CoordinatePiece> pieces = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                Piece piece = board[i][j];
+                if(piece != null && piece.getColor().equals(playerColor)){
+                    pieces.add(new CoordinatePiece(i,j,piece));
+                }
+            }
+        }
+        return pieces;
+    }
+
+    public boolean isInsufficientMaterial(){
+        List<CoordinatePiece> piecesWhite = getPieces(PlayerColor.WHITE);
+        List<CoordinatePiece> piecesBlack = getPieces(PlayerColor.BLACK);
+
+        int total = piecesWhite.size() + piecesBlack.size();
+
+        if (total > 4) return false;
+
+        // King against king
+        if (piecesWhite.size() == 1 && piecesBlack.size() == 1) {
+            return true;
+        }
+
+        // King against king+bishop | King against king+knight
+        if (isKingAndMinorVsKing(piecesWhite, piecesBlack)) return true;
+        if (isKingAndMinorVsKing(piecesBlack, piecesWhite)) return true;
+
+        // King+bishop against king+bishop (bishop same color)
+        return isKingBishopVsKingBishopSameColor(piecesWhite, piecesBlack);
+    }
+
+    private boolean isKingAndMinorVsKing(List<CoordinatePiece> a, List<CoordinatePiece> b) {
+        if (a.size() == 2 && b.size() == 1) {
+            for (CoordinatePiece p : a) {
+                if (p.getPiece().getType() == PieceType.BISHOP || p.getPiece().getType() == PieceType.KNIGHT) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isKingBishopVsKingBishopSameColor(List<CoordinatePiece> a, List<CoordinatePiece> b) {
+        if (a.size() == 2 && b.size() == 2) {
+            CoordinatePiece aBishop = null;
+            CoordinatePiece bBishop = null;
+
+            for (CoordinatePiece p : a) {
+                if (p.getPiece().getType() == PieceType.BISHOP) aBishop = p;
+            }
+            for (CoordinatePiece p : b) {
+                if (p.getPiece().getType() == PieceType.BISHOP) bBishop = p;
+            }
+
+            if (aBishop != null && bBishop != null) {
+                return isOnLightSquare(aBishop.getX(),aBishop.getY()) == isOnLightSquare(bBishop.getX(), bBishop.getY());
+            }
+        }
+        return false;
+    }
+
+    public boolean isOnLightSquare(int x, int y) {
+        return (x + y) % 2 == 0;
     }
 
     public void showBoardStatus(CommandSender sender){

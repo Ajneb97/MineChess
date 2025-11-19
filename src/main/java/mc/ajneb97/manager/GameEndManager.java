@@ -126,6 +126,9 @@ public class GameEndManager {
             case MOVEMENTS_WITHOUT_PROGRESS -> {
                 return mainConfigManager.getGameActions().getGameActionsEndGame().getEndByMovementsWithoutProgressTie();
             }
+            case INSUFFICIENT_MATERIAL -> {
+                return mainConfigManager.getGameActions().getGameActionsEndGame().getEndByInsufficientMaterialTie();
+            }
         }
         return null;
     }
@@ -153,6 +156,9 @@ public class GameEndManager {
             }
             case MOVEMENTS_WITHOUT_PROGRESS -> {
                 return mainConfigManager.getGameActions().getGameActionsRewards().getEndByMovementsWithoutProgressTie();
+            }
+            case INSUFFICIENT_MATERIAL -> {
+                return mainConfigManager.getGameActions().getGameActionsRewards().getEndByInsufficientMaterialTie();
             }
         }
         return null;
@@ -190,6 +196,10 @@ public class GameEndManager {
                 variables.add(new CommonVariable("%player_black%",arena.getPlayerBlack().getName()));
                 int maxMovements = plugin.getConfigsManager().getMainConfigManager().getMaxConsecutiveMovementsWithoutProgress();
                 variables.add(new CommonVariable("%max%",maxMovements+""));
+            }
+            case INSUFFICIENT_MATERIAL -> {
+                variables.add(new CommonVariable("%player_white%",arena.getPlayerWhite().getName()));
+                variables.add(new CommonVariable("%player_black%",arena.getPlayerBlack().getName()));
             }
         }
         return variables;

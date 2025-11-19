@@ -137,7 +137,8 @@ public class MainConfigManager {
                 config.getStringList("actions.end_game.end_by_stalemate_tie"),
                 config.getStringList("actions.end_game.end_by_checkmate"),
                 config.getStringList("actions.end_game.end_by_leave"),
-                config.getStringList("actions.end_game.end_by_movements_without_progress_tie")
+                config.getStringList("actions.end_game.end_by_movements_without_progress_tie"),
+                config.getStringList("actions.end_game.end_by_insufficient_material_tie")
         );
         GameActionsRewards gameActionsRewards = new GameActionsRewards(
                 config.getBoolean("actions.rewards.after_teleport"),
@@ -147,7 +148,8 @@ public class MainConfigManager {
                 config.getStringList("actions.rewards.end_by_stalemate_tie"),
                 config.getStringList("actions.rewards.end_by_checkmate"),
                 config.getStringList("actions.rewards.end_by_leave"),
-                config.getStringList("actions.rewards.end_by_movements_without_progress_tie")
+                config.getStringList("actions.rewards.end_by_movements_without_progress_tie"),
+                config.getStringList("actions.rewards.end_by_insufficient_material_tie")
         );
         gameActions = new GameActions(gameActionsGame,gameActionsEndGame,gameActionsRewards);
 
@@ -237,6 +239,22 @@ public class MainConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = getConfig();
+            if(!text.contains("end_by_insufficient_material_tie:")){
+                List<String> list = new ArrayList<>();
+                list.add("to_all: title: 10;80;10;&e&lINSUFFICIENT MATERIAL!;&eIt's a tie!");
+                list.add("to_all: centered_message: &e&m                                               ");
+                list.add("to_all: centered_message: ");
+                list.add("to_all: centered_message: &e&l%max% INSUFFICIENT MATERIAL!");
+                list.add("to_all: centered_message: &eIt's a tie! Impossibility of checkmate due to");
+                list.add("to_all: centered_message: &einsufficient pieces on the board!");
+                list.add("to_all: centered_message: ");
+                list.add("to_all: centered_message: &e&m                                               ");
+                config.set("actions.end_game.end_by_insufficient_material_tie",list);
+                list = new ArrayList<>();
+                list.add("to_all: console_command: eco give %player% 50");
+                config.set("actions.rewards.end_by_insufficient_material_tie",list);
+                configFile.saveConfig();
+            }
             if(!text.contains("use_minimessage:")){
                 getConfig().set("use_minimessage",false);
                 configFile.saveConfig();

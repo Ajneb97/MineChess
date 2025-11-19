@@ -2,12 +2,12 @@ package mc.ajneb97.model.internal;
 
 import mc.ajneb97.model.chess.Piece;
 
-public class PieceToUpdate {
+public class CoordinatePiece {
     private int x;
     private int y;
     private Piece piece;
 
-    public PieceToUpdate(int x, int y, Piece piece) {
+    public CoordinatePiece(int x, int y, Piece piece) {
         this.x = x;
         this.y = y;
         this.piece = piece;
