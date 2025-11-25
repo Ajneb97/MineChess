@@ -135,6 +135,14 @@ special_movements_holograms:
 # the game will end in a tie.
 max_consecutive_movements_without_progress: 50
 
+# Defines whether certain rules should be deactivated or not.
+enabled_rules:
+  # Enables/Disables the game end due to movements without progress.
+  end_by_movements_without_progress: true
+
+  # Enables/Disables the game end due to insufficient material.
+  end_by_insufficient_material: true
+
 # Difficulties for player vs computer games.
 # (ONLY MineChess+)
 player_vs_computer:

@@ -153,7 +153,7 @@ public class GamePieceInteractionManager {
         }
 
         // Insufficient material
-        if(insufficientMaterialReached(arena)){
+        if(insufficientMaterialReached(arena,mainConfigManager)){
             return;
         }
 
@@ -216,6 +216,10 @@ public class GamePieceInteractionManager {
     }
 
     private boolean consecutiveMovementsWithoutProgressReached(Arena arena,boolean isCapture,boolean isPawnMovement,MainConfigManager mainConfigManager){
+        if(mainConfigManager.getEnabledRulesConfig().isEndByMovementsWithoutProgressEnabled()){
+            return false;
+        }
+
         if(isCapture || isPawnMovement){
             arena.setMovementsWithoutProgress(0);
             return false;
@@ -230,7 +234,10 @@ public class GamePieceInteractionManager {
         return false;
     }
 
-    private boolean insufficientMaterialReached(Arena arena){
+    private boolean insufficientMaterialReached(Arena arena,MainConfigManager mainConfigManager){
+        if(mainConfigManager.getEnabledRulesConfig().isEndByInsufficientMaterialEnabled()){
+            return false;
+        }
         if(arena.getBoard().isInsufficientMaterial()){
             plugin.getArenaManager().getGameEndManager().startEndingStage(arena,GameEndsReason.INSUFFICIENT_MATERIAL);
             return true;

@@ -42,6 +42,7 @@ public class MainConfigManager {
     private Arena arenaDefaultValues;
     private PiecesHologramsConfig piecesHologramsConfig;
     private int maxConsecutiveMovementsWithoutProgress;
+    private EnabledRulesConfig enabledRulesConfig;
     private boolean isMySQL;
     private boolean updateNotify;
     private boolean useMiniMessage;
@@ -163,6 +164,11 @@ public class MainConfigManager {
 
         maxConsecutiveMovementsWithoutProgress = config.getInt("max_consecutive_movements_without_progress");
 
+        enabledRulesConfig = new EnabledRulesConfig(
+                config.getBoolean("enabled_rules.end_by_movements_without_progress"),
+                config.getBoolean("enabled_rules.end_by_insufficient_material")
+        );
+
         isMySQL = config.getBoolean("mysql_database.enabled");
         useMiniMessage = config.getBoolean("use_minimessage");
 
@@ -239,6 +245,11 @@ public class MainConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = getConfig();
+            if(!text.contains("enabled_rules:")){
+                config.set("enabled_rules.end_by_movements_without_progress",true);
+                config.set("enabled_rules.end_by_insufficient_material",true);
+                configFile.saveConfig();
+            }
             if(!text.contains("end_by_insufficient_material_tie:")){
                 List<String> list = new ArrayList<>();
                 list.add("to_all: title: 10;80;10;&e&lINSUFFICIENT MATERIAL!;&eIt's a tie!");
@@ -390,5 +401,9 @@ public class MainConfigManager {
 
     public boolean isUseMiniMessage() {
         return useMiniMessage;
+    }
+
+    public EnabledRulesConfig getEnabledRulesConfig() {
+        return enabledRulesConfig;
     }
 }
