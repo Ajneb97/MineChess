@@ -3,7 +3,7 @@ version: ${project.version}
 name: MineChess
 api-version: 1.13
 author: Ajneb97
-softdepend: [Multiverse-Core,PlaceholderAPI]
+softdepend: [Multiverse-Core,My_Worlds,PlaceholderAPI]
 
 commands:
   minechess:

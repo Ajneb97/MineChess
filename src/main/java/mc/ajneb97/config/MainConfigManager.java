@@ -46,6 +46,7 @@ public class MainConfigManager {
     private boolean isMySQL;
     private boolean updateNotify;
     private boolean useMiniMessage;
+    private WinnerFireworksConfig winnerFireworksConfig;
 
 
     public MainConfigManager(MineChess plugin){
@@ -172,6 +173,15 @@ public class MainConfigManager {
         isMySQL = config.getBoolean("mysql_database.enabled");
         useMiniMessage = config.getBoolean("use_minimessage");
 
+        winnerFireworksConfig = new WinnerFireworksConfig(
+                config.getStringList("winner_fireworks.colors"),
+                config.getStringList("winner_fireworks.fade"),
+                config.getString("winner_fireworks.type"),
+                config.getInt("winner_fireworks.power"),
+                config.getBoolean("winner_fireworks.flicker"),
+                config.getBoolean("winner_fireworks.trail")
+        );
+
         configureArenaDefaultValues(config);
     }
 
@@ -245,6 +255,20 @@ public class MainConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = getConfig();
+            if(!text.contains("winner_fireworks:")){
+                List<String> list = new ArrayList<>();
+                list.add("WHITE");list.add("BLACK");
+                config.set("winner_fireworks.colors",list);
+
+                list = new ArrayList<>();
+                list.add("RED");
+                config.set("winner_fireworks.fade",list);
+                config.set("winner_fireworks.type","BALL");
+                config.set("winner_fireworks.power",1);
+                config.set("winner_fireworks.flicker",false);
+                config.set("winner_fireworks.trail",true);
+                configFile.saveConfig();
+            }
             if(!text.contains("enabled_rules:")){
                 config.set("enabled_rules.end_by_movements_without_progress",true);
                 config.set("enabled_rules.end_by_insufficient_material",true);
@@ -405,5 +429,9 @@ public class MainConfigManager {
 
     public EnabledRulesConfig getEnabledRulesConfig() {
         return enabledRulesConfig;
+    }
+
+    public WinnerFireworksConfig getWinnerFireworksConfig() {
+        return winnerFireworksConfig;
     }
 }

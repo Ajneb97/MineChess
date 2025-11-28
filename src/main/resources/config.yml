@@ -550,6 +550,25 @@ actions:
     end_by_insufficient_material_tie:
       - "to_all: console_command: eco give %player% 50"
 
+# Configuration for winner fireworks.
+# colors: Main colors of the fireworks. All colors here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Color.html.
+#         You can specify the name of the color, or a HEX color code in this format: #<color>
+# fade: Fade colors of the fireworks.
+# type: Type of the fireworks. All types here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/FireworkEffect.Type.html.
+# power: Power of the fireworks, could be 0,1,2,3.
+# flicker: Whether the fireworks must have the flicker property or not, could be true or false.
+# trail: Whether the fireworks must have the trail property or not, could be true or false.
+winner_fireworks:
+  colors:
+    - WHITE
+    - BLACK
+  fade:
+    - RED
+  type: BALL
+  power: 1
+  flicker: false
+  trail: true
+
 # Configuration about game items.
 # Use the item properties defined in the wiki:
 # https://ajneb97.gitbook.io/minechess/items-tutorial

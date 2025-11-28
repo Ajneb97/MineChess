@@ -421,8 +421,8 @@ public class ArenaManager {
 
                 Arena arenaPlayer = plugin.getArenaManager().getGamePlayerManager().getArenaByPlayer(player);
                 if(arenaPlayer != null && arenaPlayer.equals(arena)){
-                    String actionLine = "colors:RED type:BALL fade:AQUA power:2";
-                    ActionUtils.firework(arena.getWinner().getPlayer(),actionLine,plugin);
+                    MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
+                    ActionUtils.firework(arena.getWinner().getPlayer(),mainConfigManager.getWinnerFireworksConfig(),plugin);
                 }
             }
         }.runTask(plugin);

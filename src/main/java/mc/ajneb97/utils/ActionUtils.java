@@ -2,6 +2,7 @@ package mc.ajneb97.utils;
 
 import mc.ajneb97.MineChess;
 import mc.ajneb97.api.MineChessAPI;
+import mc.ajneb97.config.model.WinnerFireworksConfig;
 import mc.ajneb97.config.model.gameitems.SoundConfig;
 import mc.ajneb97.model.internal.VariablesProperties;
 import mc.ajneb97.libs.titles.TitleAPI;
@@ -167,39 +168,34 @@ public class ActionUtils {
         TitleAPI.sendTitle(player,fadeIn,stay,fadeOut,title,subtitle);
     }
 
-    public static void firework(Player player, String actionLine, MineChess plugin){
-        ArrayList<Color> colors = new ArrayList<Color>();
+    public static void firework(Player player, WinnerFireworksConfig winnerFireworksConfig, MineChess plugin){
+        ArrayList<Color> colors = new ArrayList<>();
         FireworkEffect.Type type = null;
-        ArrayList<Color> fadeColors = new ArrayList<Color>();
-        int power = 0;
+        ArrayList<Color> fadeColors = new ArrayList<>();
+        int power = winnerFireworksConfig.getPower();
+        boolean flicker = winnerFireworksConfig.isFlicker();
+        boolean trail = winnerFireworksConfig.isTrail();
 
-        String[] sep = actionLine.split(" ");
-        for(String s : sep) {
-            if(s.startsWith("colors:")) {
-                s = s.replace("colors:", "");
-                String[] colorsSep = s.split(",");
-                for(String colorSep : colorsSep) {
-                    colors.add(OtherUtils.getFireworkColorFromName(colorSep));
-                }
-            }else if(s.startsWith("type:")) {
-                s = s.replace("type:", "");
-                type = FireworkEffect.Type.valueOf(s);
-            }else if(s.startsWith("fade:")) {
-                s = s.replace("fade:", "");
-                String[] colorsSep = s.split(",");
-                for(String colorSep : colorsSep) {
-                    fadeColors.add(OtherUtils.getFireworkColorFromName(colorSep));
-                }
-            }else if(s.startsWith("power:")) {
-                s = s.replace("power:", "");
-                power = Integer.parseInt(s);
+        if(winnerFireworksConfig.getColors() != null){
+            for(String color : winnerFireworksConfig.getColors()) {
+                colors.add(OtherUtils.getFireworkColorFromName(color));
             }
+        }
+
+        if(winnerFireworksConfig.getFade() != null){
+            for(String fade : winnerFireworksConfig.getFade()) {
+                fadeColors.add(OtherUtils.getFireworkColorFromName(fade));
+            }
+        }
+
+        if(winnerFireworksConfig.getType() != null){
+            type = FireworkEffect.Type.valueOf(winnerFireworksConfig.getType());
         }
 
         Location location = player.getLocation();
 
         ServerVersion serverVersion = MineChess.serverVersion;
-        EntityType entityType = null;
+        EntityType entityType;
         if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_20_R4)){
             entityType = EntityType.FIREWORK_ROCKET;
         }else{
@@ -207,7 +203,7 @@ public class ActionUtils {
         }
         Firework firework = (Firework) location.getWorld().spawnEntity(location, entityType);
         FireworkMeta fireworkMeta = firework.getFireworkMeta();
-        FireworkEffect effect = FireworkEffect.builder().flicker(false)
+        FireworkEffect effect = FireworkEffect.builder().flicker(flicker).trail(trail)
                 .withColor(colors)
                 .with(type)
                 .withFade(fadeColors)
