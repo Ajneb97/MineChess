@@ -14,7 +14,8 @@ import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.PlayerColor;
 import mc.ajneb97.model.game.GamePlayer;
 import mc.ajneb97.utils.ItemUtils;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+
+import mc.ajneb97.utils.MiniMessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -86,7 +87,7 @@ public class InventoryManager {
         MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
         Inventory inv;
         if(mainConfigManager.isUseMiniMessage()){
-            inv = Bukkit.createInventory(null,inventory.getSlots(), MiniMessage.miniMessage().deserialize(title));
+            inv = MiniMessageUtils.createInventory(inventory.getSlots(), title);
         }else{
             inv = Bukkit.createInventory(null, inventory.getSlots(), MessagesManager.getLegacyColoredMessage(title));
         }

@@ -7,6 +7,7 @@ import mc.ajneb97.config.model.PieceStructure;
 import mc.ajneb97.config.model.PiecesHologramsConfig;
 import mc.ajneb97.model.chess.Piece;
 import mc.ajneb97.utils.BlockUtils;
+import mc.ajneb97.utils.MiniMessageUtils;
 import mc.ajneb97.utils.ServerVersion;
 import mc.ajneb97.config.MainConfigManager;
 import mc.ajneb97.model.Arena;
@@ -14,7 +15,6 @@ import mc.ajneb97.model.PlayerColor;
 import mc.ajneb97.model.chess.Board;
 import mc.ajneb97.model.internal.CoordinatePiece;
 import mc.ajneb97.utils.GameUtils;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -243,7 +243,7 @@ public class BoardManager {
         MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
         text = text.replace("%piece%",pieceName).replace("%color%",pieceColor);
         if(mainConfigManager.isUseMiniMessage()){
-            armorStand.customName(MiniMessage.miniMessage().deserialize(text));
+            MiniMessageUtils.setEntityCustomName(armorStand,text);
         }else{
             armorStand.setCustomName(MessagesManager.getLegacyColoredMessage(text));
         }

@@ -2,13 +2,13 @@ package mc.ajneb97.tasks;
 
 import mc.ajneb97.MineChess;
 import mc.ajneb97.manager.ArenaManager;
+import mc.ajneb97.utils.MiniMessageUtils;
 import mc.ajneb97.utils.OtherUtils;
 import mc.ajneb97.manager.MessagesManager;
 import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.ArenaSign;
 import mc.ajneb97.model.game.GameStatus;
 import mc.ajneb97.utils.PlayerUtils;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -90,7 +90,7 @@ public class SignManager {
                             .replace("%current_players%",currentPlayers+"")
                             .replace("%max_players%",maxPlayers+"");
             if(isMiniMessage){
-                event.line(i, MiniMessage.miniMessage().deserialize(line));
+                MiniMessageUtils.setSignEventLine(event,i,line);
             }else{
                 event.setLine(i, MessagesManager.getLegacyColoredMessage(line));
             }
@@ -185,7 +185,7 @@ public class SignManager {
                             .replace("%max_players%",maxPlayers+"");
                     //side.setLine(i, MessagesManager.getColoredMessage(line));
                     if(isMiniMessage){
-                        sign.line(i, MiniMessage.miniMessage().deserialize(line));
+                        MiniMessageUtils.setSignLine(sign,i,line);
                     }else{
                         sign.setLine(i, MessagesManager.getLegacyColoredMessage(line));
                     }

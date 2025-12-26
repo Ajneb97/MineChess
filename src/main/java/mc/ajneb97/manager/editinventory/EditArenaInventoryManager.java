@@ -8,7 +8,7 @@ import mc.ajneb97.model.editinventory.EditInventoryPlayer;
 import mc.ajneb97.utils.InventoryItem;
 import mc.ajneb97.manager.MessagesManager;
 import mc.ajneb97.model.Arena;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import mc.ajneb97.utils.MiniMessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,7 +36,7 @@ public class EditArenaInventoryManager {
         MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
         Inventory inv;
         if(mainConfigManager.isUseMiniMessage()){
-            inv = Bukkit.createInventory(null,54, MiniMessage.miniMessage().deserialize(messagesConfig.getString("inventoryEditingArenaTitle")));
+            inv = MiniMessageUtils.createInventory(54,messagesConfig.getString("inventoryEditingArenaTitle"));
         }else{
             inv = Bukkit.createInventory(null, 54, MessagesManager.getLegacyColoredMessage(messagesConfig.getString("inventoryEditingArenaTitle")));
         }

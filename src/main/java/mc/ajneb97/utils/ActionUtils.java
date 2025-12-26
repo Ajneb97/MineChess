@@ -10,9 +10,6 @@ import mc.ajneb97.manager.MessagesManager;
 import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.game.GamePlayer;
 import mc.ajneb97.model.internal.CommonVariable;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
@@ -132,7 +129,7 @@ public class ActionUtils {
 
     public static void message(Player player,String actionLine){
         if(MineChessAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(actionLine));
+            MiniMessageUtils.message(player,actionLine);
         }else{
             player.sendMessage(MessagesManager.getLegacyColoredMessage(actionLine));
         }
@@ -140,11 +137,7 @@ public class ActionUtils {
 
     public static void centeredMessage(Player player,String actionLine){
         if(MineChessAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
-            MiniMessage mm = MiniMessage.miniMessage();
-            Component component = mm.deserialize(actionLine);
-            String centeredTextLegacy = MessagesManager.getCenteredMessage(LegacyComponentSerializer.legacySection().serialize(component)); // to legacy
-            Component centeredTextMiniMessage = LegacyComponentSerializer.legacySection().deserialize(centeredTextLegacy); // to minimessage
-            player.sendMessage(centeredTextMiniMessage);
+            MiniMessageUtils.centeredMessage(player,actionLine);
         }else{
             actionLine = MessagesManager.getLegacyColoredMessage(actionLine);
             player.sendMessage(MessagesManager.getCenteredMessage(actionLine));

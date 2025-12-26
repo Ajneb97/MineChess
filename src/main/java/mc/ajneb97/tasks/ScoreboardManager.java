@@ -7,11 +7,9 @@ import mc.ajneb97.manager.MessagesManager;
 import mc.ajneb97.model.Arena;
 import mc.ajneb97.model.game.GamePlayer;
 import mc.ajneb97.model.game.GameStatus;
+import mc.ajneb97.utils.MiniMessageUtils;
 import mc.ajneb97.utils.OtherUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -108,8 +106,7 @@ public class ScoreboardManager {
                 }
 
                 if(isMiniMessage){
-                    Component component = MiniMessage.miniMessage().deserialize(line);
-                    line = LegacyComponentSerializer.legacyAmpersand().serialize(component);
+                    line = MiniMessageUtils.miniMessageToLegacy(line);
                     replacedScoreboardBody.add(MessagesManager.getLegacyColoredMessage(line));
                 }else{
                     replacedScoreboardBody.add(MessagesManager.getLegacyColoredMessage(line));
@@ -119,8 +116,7 @@ public class ScoreboardManager {
             if (!board.isDeleted()) {
                 try {
                     if(isMiniMessage){
-                        Component component = MiniMessage.miniMessage().deserialize(gameScoreboardTitle);
-                        gameScoreboardTitle = LegacyComponentSerializer.legacyAmpersand().serialize(component);
+                        gameScoreboardTitle = MiniMessageUtils.miniMessageToLegacy(gameScoreboardTitle);
                         board.updateTitle(MessagesManager.getLegacyColoredMessage(gameScoreboardTitle));
                     }else{
                         board.updateTitle(MessagesManager.getLegacyColoredMessage(gameScoreboardTitle));
