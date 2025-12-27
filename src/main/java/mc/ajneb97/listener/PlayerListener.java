@@ -26,7 +26,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
-        plugin.getPlayerDataManager().setJoinPlayerData(event.getPlayer());
+        plugin.getPlayerDataManager().manageJoin(event.getPlayer());
 
         //Update notification
         Player player = event.getPlayer();
@@ -39,7 +39,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event){
-        plugin.getArenaManager().getGamePlayerManager().leaveServer(event.getPlayer());
+        plugin.getPlayerDataManager().manageLeave(event.getPlayer());
     }
 
     @EventHandler

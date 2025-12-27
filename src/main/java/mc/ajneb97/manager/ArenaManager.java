@@ -362,7 +362,11 @@ public class ArenaManager {
         player.teleport(location);
 
         //Restore backup
-        plugin.getPlayerDataManager().getPlayerDataBackupManager().restorePlayerDataBackup(player,false,!reason.equals(GameLeaveReason.SERVER_STOP));
+        PlayerDataBackupManager backupManager = plugin.getPlayerDataManager().getPlayerDataBackupManager();
+        backupManager.restorePlayerDataBackup(player,false);
+        if(!reason.equals(GameLeaveReason.LEAVE_SERVER)){
+            backupManager.clearPlayerDataBackup(player,!reason.equals(GameLeaveReason.SERVER_STOP));
+        }
         arena.removeGamePlayer(player);
 
         if(reason.equals(GameLeaveReason.ARENA_DISABLED)){

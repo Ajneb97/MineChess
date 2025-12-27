@@ -1,6 +1,7 @@
 package mc.ajneb97.manager;
 
 import mc.ajneb97.MineChess;
+import mc.ajneb97.model.data.PlayerData;
 import mc.ajneb97.model.data.PlayerDataBackup;
 import mc.ajneb97.utils.ItemUtils;
 import mc.ajneb97.utils.ServerVersion;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -18,6 +20,7 @@ public class PlayerDataBackupManager {
     private Map<UUID, PlayerDataBackup> players;
 
     public PlayerDataBackupManager(MineChess plugin){
+        this.players = new HashMap<>();
         this.plugin = plugin;
     }
 
@@ -25,15 +28,15 @@ public class PlayerDataBackupManager {
         return players;
     }
 
-    public void setPlayers(Map<UUID, PlayerDataBackup> players) {
-        this.players = players;
-    }
-
     public PlayerDataBackup getPlayer(Player player){
         return players.get(player.getUniqueId());
     }
 
-    public void restorePlayerDataBackup(Player player, boolean teleportToLobby, boolean async){
+    public void addPlayerBackup(PlayerData playerData){
+        players.put(playerData.getUuid(),playerData.getBackup());
+    }
+
+    public void restorePlayerDataBackup(Player player, boolean teleportToLobby){
         PlayerDataBackup playerDataBackup = getPlayer(player);
         if(playerDataBackup == null){
             return;
@@ -66,7 +69,9 @@ public class PlayerDataBackupManager {
         }
 
         players.remove(player.getUniqueId());
+    }
 
+    public void clearPlayerDataBackup(Player player,boolean async){
         if(async){
             new BukkitRunnable(){
                 @Override

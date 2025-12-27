@@ -10,6 +10,7 @@ public class PlayerData {
     private int loses;
     private long millisPlayed;
     private boolean modified;
+    private PlayerDataBackup backup;
 
     public PlayerData(UUID uuid,String name){
         this.uuid = uuid;
@@ -75,5 +76,13 @@ public class PlayerData {
 
     public void addMillisPlayed(long value){
         this.millisPlayed = millisPlayed+value;
+    }
+
+    public PlayerDataBackup getBackup() {
+        return backup;
+    }
+
+    public void setBackup(PlayerDataBackup backup) {
+        this.backup = backup;
     }
 }

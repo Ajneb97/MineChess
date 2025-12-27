@@ -83,7 +83,11 @@ public class GameSpectatorManager {
         }
 
         plugin.getScoreboardManager().removeScoreboard(player);
-        plugin.getPlayerDataManager().getPlayerDataBackupManager().restorePlayerDataBackup(player,false,!reason.equals(GameLeaveReason.SERVER_STOP));
+        PlayerDataBackupManager backupManager = plugin.getPlayerDataManager().getPlayerDataBackupManager();
+        backupManager.restorePlayerDataBackup(player,false);
+        if(!reason.equals(GameLeaveReason.LEAVE_SERVER)){
+            backupManager.clearPlayerDataBackup(player,!reason.equals(GameLeaveReason.SERVER_STOP));
+        }
 
         arena.removeSpectator(player);
 

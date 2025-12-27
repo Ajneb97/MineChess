@@ -30,7 +30,6 @@ public class MySQLConnection {
             connection = new HikariConnection(config);
             connection.getHikari().getConnection();
             createTables();
-            loadData();
             Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage(plugin.prefix+"&aSuccessfully connected to the Database."));
         }catch(Exception e) {
             Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage(plugin.prefix+"&cError while connecting to the Database."));
@@ -44,43 +43,6 @@ public class MySQLConnection {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public void loadData(){
-        Map<UUID, PlayerData> playerMap = new HashMap<>();
-        try(Connection connection = getConnection()){
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT UUID, PLAYER_NAME, WINS, LOSES, TIES, MILLIS_PLAYED " +
-                            "FROM minechess_players");
-
-            ResultSet result = statement.executeQuery();
-            while(result.next()){
-                UUID uuid = UUID.fromString(result.getString("UUID"));
-                String playerName = result.getString("PLAYER_NAME");
-                int wins = result.getInt("WINS");
-                int loses = result.getInt("LOSES");
-                int ties = result.getInt("TIES");
-                long millisPlayed = result.getLong("MILLIS_PLAYED");
-
-                PlayerData player = playerMap.get(uuid);
-                if(player == null){
-                    //Create and add it
-                    player = new PlayerData(uuid,playerName);
-                    playerMap.put(uuid, player);
-                }
-
-                player.setWins(wins);
-                player.setLoses(loses);
-                player.setTies(ties);
-                player.setMillisPlayed(millisPlayed);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-
-        plugin.getPlayerDataManager().setPlayers(playerMap);
     }
 
     public void createTables() {
