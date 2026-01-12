@@ -117,7 +117,8 @@ public class VerifyManager {
         for(int i=0;i<actions.size();i++){
             String actionOriginal = actions.get(i);
             String action = actionOriginal.replace("to_all: ","")
-                    .replace("to_opponent: ","").replace("to_winner: ","");
+                    .replace("to_opponent: ","").replace("to_winner: ","")
+                    .replace("to_loser: ","");
             String[] actionText = action.split(" ");
             String actionName = actionText[0];
             if(actionName.equals("console_command:") || actionName.equals("player_command:")

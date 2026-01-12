@@ -46,6 +46,12 @@ public class ActionUtils {
             }else if(action.startsWith("to_winner: ")){
                 action = action.replace("to_winner: ","");
                 executeAction(arena.getWinner().getPlayer(),action,plugin,variables);
+            }else if(action.startsWith("to_loser: ")){
+                action = action.replace("to_loser: ","");
+                GamePlayer loserPlayer = arena.getOpponentPlayer(arena.getWinner());
+                if(loserPlayer != null){
+                    executeAction(loserPlayer.getPlayer(),action,plugin,variables);
+                }
             }else{
                 executeAction(gamePlayer.getPlayer(),action,plugin,variables);
             }
