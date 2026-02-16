@@ -1,6 +1,7 @@
 package mc.ajneb97.manager.interactions;
 
 import mc.ajneb97.MineChess;
+import mc.ajneb97.config.model.PieceCaptureParticleConfig;
 import mc.ajneb97.manager.BoardManager;
 import mc.ajneb97.model.chess.MovementType;
 import mc.ajneb97.model.chess.Piece;
@@ -19,6 +20,8 @@ import mc.ajneb97.model.internal.CheckValidationResult;
 import mc.ajneb97.model.internal.CommonVariable;
 import mc.ajneb97.model.internal.CoordinatePiece;
 import mc.ajneb97.utils.GameUtils;
+import mc.ajneb97.utils.ParticleUtils;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -115,6 +118,9 @@ public class GamePieceInteractionManager {
 
             // Points
             capturePoints(gamePlayer,movePieceResult.getCapturedPieceType(),mainConfigManager);
+
+            // Particle
+            captureParticle(arena,seeingPos);
         }else if(movement.getType().name().startsWith("CASTLING")){
             // Castling
             String castlingCoords = null;
@@ -254,5 +260,13 @@ public class GamePieceInteractionManager {
         gamePlayer.setSeeingPos(null);
         gamePlayer.setSelectedPos(null);
         gamePlayer.setSelectedPieceAvailableMovements(null);
+    }
+
+    private void captureParticle(Arena arena,int[] seeingPos){
+        Location location = plugin.getBoardManager().getCellLocationFromPositionCentered(seeingPos,arena).clone().add(0,1,0);;
+
+        PieceCaptureParticleConfig config = plugin.getConfigsManager().getMainConfigManager().getPieceCaptureParticleConfig();
+        ParticleUtils.spawnParticle(location.getWorld(),config.getName(),location,
+                config.getSpeed(),config.getAmount(),config.getSpreadX(),config.getSpreadY(),config.getSpreadZ());
     }
 }

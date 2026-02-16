@@ -111,6 +111,29 @@ pieces_holograms:
     # Height of the hologram.
     offset_y: 5
 
+# Particle to display when a piece is captured.
+piece_capture_particle:
+  # Whether a particle should be displayed or not.
+  enabled: true
+
+  # Name of the particle.
+  # All particles here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
+  # You can spawn a Redstone particle with colors, configuring the effect as:
+  #   REDSTONE;<red>;<green>;<blue> (1.16.5-1.20.4)
+  #   DUST;<red>;<green>;<blue> (1.20.5+)
+  name: EXPLOSION
+
+  # Amount of particles.
+  amount: 1
+
+  # Speed of the particle.
+  speed: 0.01
+
+  # Random dispersion of the particle in each axis.
+  spread_x: 0
+  spread_y: 0
+  spread_z: 0
+
 # When enabled, hint holograms will appear above possible movement cells
 # after selecting a piece.
 # (ONLY MineChess+)

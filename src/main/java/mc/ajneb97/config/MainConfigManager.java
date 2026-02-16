@@ -47,6 +47,7 @@ public class MainConfigManager {
     private boolean updateNotify;
     private boolean useMiniMessage;
     private WinnerFireworksConfig winnerFireworksConfig;
+    private PieceCaptureParticleConfig pieceCaptureParticleConfig;
 
 
     public MainConfigManager(MineChess plugin){
@@ -182,6 +183,16 @@ public class MainConfigManager {
                 config.getBoolean("winner_fireworks.trail")
         );
 
+        pieceCaptureParticleConfig = new PieceCaptureParticleConfig(
+                config.getBoolean("piece_capture_particle.enabled"),
+                config.getString("piece_capture_particle.name"),
+                config.getDouble("piece_capture_particle.speed"),
+                config.getInt("piece_capture_particle.amount"),
+                config.getDouble("piece_capture_particle.spread_x"),
+                config.getDouble("piece_capture_particle.spread_y"),
+                config.getDouble("piece_capture_particle.spread_z")
+        );
+
         configureArenaDefaultValues(config);
     }
 
@@ -255,6 +266,16 @@ public class MainConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = getConfig();
+            if(!text.contains("piece_capture_particle:")){
+                config.set("piece_capture_particle.enabled",true);
+                config.set("piece_capture_particle.name","EXPLOSION");
+                config.set("piece_capture_particle.speed",0.01);
+                config.set("piece_capture_particle.amount",1);
+                config.set("piece_capture_particle.spread_x",0);
+                config.set("piece_capture_particle.spread_y",0);
+                config.set("piece_capture_particle.spread_z",0);
+                configFile.saveConfig();
+            }
             if(!text.contains("winner_fireworks:")){
                 List<String> list = new ArrayList<>();
                 list.add("WHITE");list.add("BLACK");
@@ -433,5 +454,9 @@ public class MainConfigManager {
 
     public WinnerFireworksConfig getWinnerFireworksConfig() {
         return winnerFireworksConfig;
+    }
+
+    public PieceCaptureParticleConfig getPieceCaptureParticleConfig() {
+        return pieceCaptureParticleConfig;
     }
 }

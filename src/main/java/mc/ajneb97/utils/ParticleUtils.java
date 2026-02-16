@@ -3,6 +3,7 @@ package mc.ajneb97.utils;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class ParticleUtils {
@@ -47,7 +48,7 @@ public class ParticleUtils {
         }
     }
 
-    public static void spawnParticle(Player player,String particle,Location l,float speed,int amount,double offsetX,double offsetY,double offsetZ){
+    public static void spawnParticle(Player player,String particle,Location l,double speed,int amount,double offsetX,double offsetY,double offsetZ){
         try {
             if(particle.startsWith("REDSTONE;") || particle.startsWith("DUST;")) {
                 String[] effectSeparated = particle.split(";");
@@ -59,6 +60,24 @@ public class ParticleUtils {
                 player.spawnParticle(Particle.valueOf(effectSeparated[0]),l,amount,offsetX,offsetY,offsetZ,speed,dustOptions);
             }else {
                 player.spawnParticle(Particle.valueOf(particle),l,amount,offsetX,offsetY,offsetZ,speed);
+            }
+        }catch(Exception e) {
+
+        }
+    }
+
+    public static void spawnParticle(World world, String particle, Location l, double speed, int amount, double offsetX, double offsetY, double offsetZ){
+        try {
+            if(particle.startsWith("REDSTONE;") || particle.startsWith("DUST;")) {
+                String[] effectSeparated = particle.split(";");
+                int red = Integer.parseInt(effectSeparated[1]);
+                int green = Integer.parseInt(effectSeparated[2]);
+                int blue = Integer.parseInt(effectSeparated[3]);
+
+                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(red,green,blue), 1);
+                world.spawnParticle(Particle.valueOf(effectSeparated[0]),l,amount,offsetX,offsetY,offsetZ,speed,dustOptions);
+            }else {
+                world.spawnParticle(Particle.valueOf(particle),l,amount,offsetX,offsetY,offsetZ,speed);
             }
         }catch(Exception e) {
 
