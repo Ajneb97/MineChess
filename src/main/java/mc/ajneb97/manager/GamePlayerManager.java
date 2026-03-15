@@ -1,6 +1,7 @@
 package mc.ajneb97.manager;
 
 import mc.ajneb97.MineChess;
+import mc.ajneb97.config.MainConfigManager;
 import mc.ajneb97.libs.actionbar.ActionBarAPI;
 import mc.ajneb97.manager.inventory.InventoryManager;
 import mc.ajneb97.manager.inventory.InventoryType;
@@ -11,7 +12,9 @@ import mc.ajneb97.model.game.GameStatus;
 import mc.ajneb97.model.inventory.InventoryPlayer;
 import mc.ajneb97.utils.*;
 import mc.ajneb97.config.model.PerArenaChatConfig;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -169,6 +172,7 @@ public class GamePlayerManager {
 
     public void chat(Player player, AsyncPlayerChatEvent event){
         Arena arena = getArenaByPlayer(player);
+        MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
         PerArenaChatConfig config = plugin.getConfigsManager().getMainConfigManager().getPerArenaChat();
         if(!config.isEnabled()){
             return;
@@ -184,6 +188,13 @@ public class GamePlayerManager {
             event.setCancelled(true);
             String format = config.getFormat();
             String message = event.getMessage();
+
+            // Remove message format
+            if(mainConfigManager.isUseMiniMessage()){
+                message = MiniMessage.miniMessage().escapeTags(message);
+            }else{
+                message = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',message));
+            }
 
             MessagesManager msgManager = plugin.getMessagesManager();
             for(GamePlayer p : arena.getGamePlayers()){
