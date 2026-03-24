@@ -189,7 +189,7 @@ public class Board {
             case KNIGHT -> movements = getPossibleMovementsKnight(piece,x,y);
             case BISHOP -> movements = getPossibleMovementsBishop(piece,x,y);
             case QUEEN -> movements = getPossibleMovementsQueen(piece,x,y);
-            case KING -> movements = getPossibleMovementsKing(piece,x,y);
+            case KING -> movements = getPossibleMovementsKing(piece,x,y,true);
         }
 
 
@@ -305,7 +305,7 @@ public class Board {
         return movements;
     }
 
-    private ArrayList<Movement> getPossibleMovementsKing(Piece piece,int x,int y){
+    private ArrayList<Movement> getPossibleMovementsKing(Piece piece,int x,int y,boolean includeCastling){
         /*
             0 0 0 0 0
             0 x x x 0
@@ -326,7 +326,13 @@ public class Board {
         addMovementAndMustStop(movements,x-1,y,piece);
 
         // Castling
-        if(!piece.isHasMoved()){
+        if(includeCastling && !piece.isHasMoved()){
+            // Verify in check
+            int[] kingPos = getKingPosition(piece.getColor());
+            if(isPositionAttacked(kingPos[0], kingPos[1], piece.getColor())){
+                return movements;
+            }
+
             // Short
             Piece rookShort = board[7][y];
             if(rookShort != null && !rookShort.isHasMoved()){
@@ -339,7 +345,11 @@ public class Board {
                     }
                 }
                 if(!pieceBetween){
-                    movements.add(new Movement(7,y,MovementType.CASTLING_SHORT));
+                    boolean pos1Attacked = isPositionAttacked(x+1, y, piece.getColor());
+                    boolean pos2Attacked = isPositionAttacked(x+2, y, piece.getColor());
+                    if(!pos1Attacked && !pos2Attacked){
+                        movements.add(new Movement(7,y,MovementType.CASTLING_SHORT));
+                    }
                 }
             }
 
@@ -355,7 +365,11 @@ public class Board {
                     }
                 }
                 if(!pieceBetween){
-                    movements.add(new Movement(0,y,MovementType.CASTLING_LONG));
+                    boolean pos1Attacked = isPositionAttacked(x-1, y, piece.getColor());
+                    boolean pos2Attacked = isPositionAttacked(x-2, y, piece.getColor());
+                    if(!pos1Attacked && !pos2Attacked){
+                        movements.add(new Movement(0,y,MovementType.CASTLING_LONG));
+                    }
                 }
             }
         }
@@ -596,6 +610,32 @@ public class Board {
 
     public boolean isOnLightSquare(int x, int y) {
         return (x + y) % 2 == 0;
+    }
+
+    public boolean isPositionAttacked(int x, int y, PlayerColor defenderColor){
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                Piece opponentPiece = board[i][j];
+                if(opponentPiece == null || opponentPiece.getColor() == defenderColor){
+                    continue;
+                }
+
+                ArrayList<Movement> opponentMovements;
+                if(opponentPiece.getType() == PieceType.KING){
+                    // Fix infinite loop for castling
+                    opponentMovements = getPossibleMovementsKing(opponentPiece, i, j, false);
+                }else{
+                    opponentMovements = getPossibleMovements(i, j, false);
+                }
+
+                for(Movement m : opponentMovements){
+                    if(m.getX() == x && m.getY() == y){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public void showBoardStatus(CommandSender sender){
