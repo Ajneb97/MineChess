@@ -70,6 +70,10 @@ arenas_default_values:
 # Defines whether colored armor must be equipped to the players inside the arena.
 colored_armor: true
 
+# Whether the MineChess scoreboard should be enabled or not.
+# Requires a server restart.
+scoreboard_enabled: true
+
 # Defines a list of commands players can use inside the arena.
 commands_whitelist:
   - "/minechess leave"
@@ -529,13 +533,13 @@ actions:
 
     # Rewards to be given when the arena ends because of max time reached and arena End Time option
     # is set to CHECK_POINTS.
-    # You can use the following variables: %player_winner%, %player_winner_points%
+    # You can use the following variables: %player_winner%, %player_winner_points%, %player_loser%, %player_loser_points%
     end_by_time:
       - "to_winner: console_command: eco give %player_winner% 100"
 
     # Rewards to be given when the arena ends because of a player running out of time and
     # arena gamemode is set to PLAYER_TIME
-    # You can use the following variables: %player_winner%, %player_winner_points%
+    # You can use the following variables: %player_winner%, %player_winner_points%, %player_loser%, %player_loser_points%
     end_by_player_time:
       - "to_winner: console_command: eco give %player_winner% 100"
 
@@ -553,7 +557,7 @@ actions:
       - "to_all: console_command: eco give %player% 50"
 
     # Rewards to be given when the arena ends by a checkmate.
-    # You can use the following variables: %player_winner%, %player_winner_points%
+    # You can use the following variables: %player_winner%, %player_winner_points%, %player_loser%, %player_loser_points%
     end_by_checkmate:
       - "to_winner: console_command: eco give %player_winner% 100"
 

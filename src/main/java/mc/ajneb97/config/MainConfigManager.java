@@ -32,6 +32,7 @@ public class MainConfigManager {
     private int maxDistanceFromArenaLobby;
     private int playerDataSave;
     private boolean coloredArmor;
+    private boolean scoreboardEnabled;
     private GameTimeLimitations gameTimeLimitations;
     private ArrayList<PieceStructure> pieceStructures;
     private GameItemsConfig gameItemsConfig;
@@ -68,6 +69,7 @@ public class MainConfigManager {
         maxDistanceFromArenaLobby = config.getInt("max_distance_from_arena_lobby");
         playerDataSave = config.getInt("player_data_save");
         coloredArmor = config.getBoolean("colored_armor");
+        scoreboardEnabled = config.getBoolean("scoreboard_enabled");
 
         gameTimeLimitations = new GameTimeLimitations(
                 config.getInt("game_time_limitations.min_time"),
@@ -266,6 +268,10 @@ public class MainConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = getConfig();
+            if(!text.contains("scoreboard_enabled:")){
+                config.set("scoreboard_enabled",true);
+                configFile.saveConfig();
+            }
             if(!text.contains("piece_capture_particle:")){
                 config.set("piece_capture_particle.enabled",true);
                 config.set("piece_capture_particle.name","EXPLOSION");
@@ -458,5 +464,9 @@ public class MainConfigManager {
 
     public PieceCaptureParticleConfig getPieceCaptureParticleConfig() {
         return pieceCaptureParticleConfig;
+    }
+
+    public boolean isScoreboardEnabled() {
+        return scoreboardEnabled;
     }
 }

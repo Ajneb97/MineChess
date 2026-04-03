@@ -172,8 +172,11 @@ public class GameEndManager {
                 variables.add(new CommonVariable("%player_white%",arena.getPlayerWhite().getName()));
                 variables.add(new CommonVariable("%player_black%",arena.getPlayerBlack().getName()));
                 if(winner != null){
+                    GamePlayer loser = arena.getOpponentPlayer(winner);
                     variables.add(new CommonVariable("%player_winner%",winner.getName()));
                     variables.add(new CommonVariable("%player_winner_points%",winner.getPoints()+""));
+                    variables.add(new CommonVariable("%player_loser%",loser.getName()));
+                    variables.add(new CommonVariable("%player_loser_points%",loser.getPoints()+""));
                 }
             }
             case PLAYER_TIME -> {
@@ -190,6 +193,11 @@ public class GameEndManager {
             case CHECKMATE, PLAYER_LEAVES -> {
                 variables.add(new CommonVariable("%player_winner%",winner.getName()));
                 variables.add(new CommonVariable("%player_winner_points%",winner.getPoints()+""));
+                GamePlayer loser = arena.getOpponentPlayer(winner);
+                if(loser != null){
+                    variables.add(new CommonVariable("%player_loser%",loser.getName()));
+                    variables.add(new CommonVariable("%player_loser_points%",loser.getPoints()+""));
+                }
             }
             case MOVEMENTS_WITHOUT_PROGRESS -> {
                 variables.add(new CommonVariable("%player_white%",arena.getPlayerWhite().getName()));

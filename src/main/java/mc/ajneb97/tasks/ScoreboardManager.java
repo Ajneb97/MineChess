@@ -28,6 +28,10 @@ public class ScoreboardManager {
     }
 
     public void start(){
+        if(!plugin.getConfigsManager().getMainConfigManager().isScoreboardEnabled()){
+            return;
+        }
+
         new BukkitRunnable(){
             @Override
             public void run() {
@@ -53,22 +57,9 @@ public class ScoreboardManager {
 
         String scoreboardTitle1 = messagesConfig.getString("scoreboards.arenaTimeGameMode.title");
         List<String> scoreboardBody1 = messagesConfig.getStringList("scoreboards.arenaTimeGameMode.body");
-        String statusWaiting = messagesConfig.getString("statusWaiting");
-        String statusStarting = messagesConfig.getString("statusStarting");
-        String statusIngame = messagesConfig.getString("statusIngame");
-        String statusFinishing = messagesConfig.getString("statusFinishing");
 
         for(Arena arena : arenas){
-            //Status
-            String status = null;
-            int time = arena.getCooldownTime();
-            switch (arena.getStatus()) {
-                case WAITING -> status = statusWaiting;
-                case STARTING -> status = statusStarting.replace("%time%", OtherUtils.getTimeFormat1(time));
-                case PLAYING -> status = statusIngame.replace("%time%", OtherUtils.getTimeFormat1(time));
-                case ENDING -> status = statusFinishing.replace("%time%", OtherUtils.getTimeFormat1(time));
-            }
-
+            String status = arenaManager.getArenaStatusString(arena,messagesConfig);
             updateScoreboard(arena,scoreboardBody1,status,isPlaceholderAPI,scoreboardTitle1);
         }
     }
@@ -145,6 +136,10 @@ public class ScoreboardManager {
     }
 
     public void removeScoreboard(Player player){
+        if(!plugin.getConfigsManager().getMainConfigManager().isScoreboardEnabled()){
+            return;
+        }
+
         FastBoard board = this.boards.remove(player.getUniqueId());
         if(board != null){
             board.delete();

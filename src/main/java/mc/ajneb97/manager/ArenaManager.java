@@ -14,10 +14,7 @@ import mc.ajneb97.model.game.GamePlayer;
 import mc.ajneb97.model.game.GameStatus;
 import mc.ajneb97.model.internal.CommonVariable;
 import mc.ajneb97.model.internal.CoordinateMovement;
-import mc.ajneb97.utils.ActionUtils;
-import mc.ajneb97.utils.GameUtils;
-import mc.ajneb97.utils.ItemUtils;
-import mc.ajneb97.utils.PlayerUtils;
+import mc.ajneb97.utils.*;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -385,8 +382,6 @@ public class ArenaManager {
         }
     }
 
-
-
     public void disableArena(Arena arena){
         gameEndManager.endGame(arena,GameLeaveReason.ARENA_DISABLED);
         arena.disable();
@@ -448,4 +443,23 @@ public class ArenaManager {
         return gameSpectatorManager;
     }
 
+    public String getArenaStatusString(Arena arena,FileConfiguration messagesConfig){
+        int time = arena.getCooldownTime();
+        switch (arena.getStatus()) {
+            case WAITING -> {
+                return messagesConfig.getString("statusWaiting");
+            }
+            case STARTING -> {
+                return messagesConfig.getString("statusStarting").replace("%time%", OtherUtils.getTimeFormat1(time));
+            }
+            case PLAYING -> {
+                return messagesConfig.getString("statusIngame").replace("%time%", OtherUtils.getTimeFormat1(time));
+            }
+            case ENDING -> {
+                return messagesConfig.getString("statusFinishing").replace("%time%", OtherUtils.getTimeFormat1(time));
+            }
+        }
+
+        return null;
+    }
 }
