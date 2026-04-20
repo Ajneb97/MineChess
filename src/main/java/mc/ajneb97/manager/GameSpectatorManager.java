@@ -1,6 +1,7 @@
 package mc.ajneb97.manager;
 
 import mc.ajneb97.MineChess;
+import mc.ajneb97.api.ArenaLeaveEvent;
 import mc.ajneb97.config.model.gameitems.GameItemConfig;
 import mc.ajneb97.model.game.GameLeaveReason;
 import mc.ajneb97.config.model.gameitems.GameItemsConfig;
@@ -98,5 +99,8 @@ public class GameSpectatorManager {
         //Teleport back to lobby
         Location location = plugin.getArenaManager().getMainLobbyLocation();
         player.teleport(location);
+
+        //API
+        plugin.getServer().getPluginManager().callEvent(new ArenaLeaveEvent(arena,player));
     }
 }

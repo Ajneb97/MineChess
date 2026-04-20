@@ -1,7 +1,7 @@
 package mc.ajneb97.manager;
 
 import mc.ajneb97.MineChess;
-import mc.ajneb97.api.ArenaStartEvent;
+import mc.ajneb97.api.*;
 import mc.ajneb97.config.MainConfigManager;
 import mc.ajneb97.config.model.gameitems.GameItemConfig;
 import mc.ajneb97.config.model.gameitems.GameItemsConfig;
@@ -138,6 +138,13 @@ public class ArenaManager {
             return;
         }
 
+        //API
+        ArenaPreJoinEvent event = new ArenaPreJoinEvent(arena,player);
+        plugin.getServer().getPluginManager().callEvent(event);
+        if(event.isCancelled()){
+            return;
+        }
+
         playerJoinsArena(player,arena,messagesConfig,msgManager);
     }
 
@@ -165,6 +172,13 @@ public class ArenaManager {
         Arena arena = getAvailableArena();
         if(arena == null){
             msgManager.sendMessage(player,messagesConfig.getString("noAvailableArenas"),true);
+            return;
+        }
+
+        //API
+        ArenaPreJoinEvent event = new ArenaPreJoinEvent(arena,player);
+        plugin.getServer().getPluginManager().callEvent(event);
+        if(event.isCancelled()){
             return;
         }
 
@@ -226,6 +240,9 @@ public class ArenaManager {
         if(currentPlayers >= minPlayers && arena.getStatus().equals(GameStatus.WAITING)){
             startStartingStage(arena,messagesConfig,msgManager);
         }
+
+        //API
+        plugin.getServer().getPluginManager().callEvent(new ArenaJoinEvent(arena,gamePlayer));
     }
 
     private void startStartingStage(Arena arena, FileConfiguration messagesConfig, MessagesManager msgManager){
@@ -325,6 +342,10 @@ public class ArenaManager {
         MessagesManager msgManager = plugin.getMessagesManager();
         FileConfiguration messagesConfig = plugin.getMessagesConfig();
         GamePlayer gamePlayer = arena.getGamePlayer(player,true);
+
+        //API
+        plugin.getServer().getPluginManager().callEvent(new ArenaPreLeaveEvent(arena,gamePlayer,reason));
+
         if(gamePlayer.isSpectator()){
             gameSpectatorManager.leaveArena(player,arena,reason);
             return;
@@ -380,6 +401,9 @@ public class ArenaManager {
                         .replace("%player%",player.getName()),true);
             }
         }
+
+        //API
+        plugin.getServer().getPluginManager().callEvent(new ArenaLeaveEvent(arena,player));
     }
 
     public void disableArena(Arena arena){
