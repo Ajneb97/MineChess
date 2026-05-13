@@ -12,6 +12,7 @@ arenaBuilt: "&aArena &7%arena% &abuilt! The arena is now playable, just remember
 arenaMustBeDisabled: "&cThe arena must be disabled."
 arenaDeleted: "&aArena &7%arena% &adeleted!"
 mainLobbySet: "&aMain lobby set."
+playerNotOnline: "&cThat player is not online."
 commandEnableError: "&cYou must use &7/minechess enable <arena>"
 arenaAlreadyEnabled: "&cArena &7%arena% &cis already enabled."
 arenaMainLobbyError: "&cTo enable the arena you must first set the main game lobby using &7/minechess setmainlobby"
@@ -99,6 +100,15 @@ seconds: 's'
 minutes: 'm'
 hours: 'h'
 days: 'd'
+statsCommand:
+  - " "
+  - "&f&l%player% Stats:"
+  - "&7Wins: &a%wins%"
+  - "&7Ties: &a%ties%"
+  - "&7Loses: &a%loses%"
+  - "&7Time Played: &a%time%"
+  - " "
+playerNoData: "&cPlayer &7%player% &cdoesn't have Chess data."
 inventoryEditingArenaTitle: "&4&lEditing Arena"
 inventoryEditingArenaLocationLobbyItemName: "&4&lLobby Location"
 inventoryEditingArenaLocationLobbyItemLore:

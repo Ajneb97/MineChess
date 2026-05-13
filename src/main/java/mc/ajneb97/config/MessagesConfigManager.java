@@ -55,6 +55,21 @@ public class MessagesConfigManager {
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = configFile.getConfig();
 
+            if(!text.contains("statsCommand:")){
+                List<String> list = new ArrayList<>();
+                list.add(" ");
+                list.add("&f&l%player% Stats:");
+                list.add("&7Wins: &a%wins%");
+                list.add("&7Ties: &a%ties%");
+                list.add("&7Loses: &a%loses%");
+                list.add("&7Time Played: &a%time%");
+                list.add(" ");
+                config.set("statsCommand", list);
+                config.set("playerNoData", "&cPlayer &7%player% &cdoesn't have Chess data.");
+                config.set("playerNotOnline", "&cThat player is not online.");
+                configFile.saveConfig();
+            }
+
             if(!text.contains("playerSpectateNotPlaying:")){
                 config.set("playerSpectateNotPlaying", "&cThat player is not playing.");
                 configFile.saveConfig();

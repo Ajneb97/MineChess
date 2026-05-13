@@ -18,3 +18,7 @@ permissions:
     default: true
   minechess.spectate:
     default: true
+  minechess.stats:
+    default: true
+  minechess.stats.others:
+    default: op

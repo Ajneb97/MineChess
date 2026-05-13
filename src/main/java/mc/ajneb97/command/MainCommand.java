@@ -5,6 +5,7 @@ import mc.ajneb97.manager.ArenaManager;
 import mc.ajneb97.manager.BoardManager;
 import mc.ajneb97.manager.MessagesManager;
 import mc.ajneb97.model.Arena;
+import mc.ajneb97.model.data.PlayerData;
 import mc.ajneb97.model.game.GameLeaveReason;
 import mc.ajneb97.utils.PlayerUtils;
 import org.bukkit.Bukkit;
@@ -58,6 +59,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
                 case "join" -> join(player, args, msgManager, messagesConfig);
                 case "joinrandom" -> joinrandom(player, msgManager, messagesConfig);
                 case "leave" -> leave(player, msgManager, messagesConfig);
+                case "stats" -> stats(player, args, msgManager, messagesConfig);
                 case "edit" -> edit(player, args, msgManager, messagesConfig);
                 case "spectate" -> spectate(player, args, msgManager, messagesConfig);
                 case "verify" -> verify(player,msgManager,messagesConfig);
@@ -81,6 +83,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess join <name> &8Joins an arena."));
             sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess joinrandom &8Joins a random arena."));
             sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess leave &8Leaves the Arena."));
+            sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess stats (optional)<player> &8Checks player stats."));
             sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess spectate <arena/player> &8Spectates an arena or a player."));
             sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess setmainlobby &8Sets the Main Lobby."));
             sender.sendMessage(MessagesManager.getLegacyColoredMessage("&6/minechess enable <name> &8Enables an arena."));
@@ -317,6 +320,46 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         plugin.getArenaManager().leaveArena(player,arena, GameLeaveReason.COMMAND);
     }
 
+    public void stats(Player player,String[] args,MessagesManager msgManager,FileConfiguration messagesConfig) {
+        // /minechess stats (optional)<player>
+        if (!PlayerUtils.isMineChessAdmin(player) && !player.hasPermission("minechess.stats")) {
+            msgManager.sendMessage(player, messagesConfig.getString("noPermissions"), true);
+            return;
+        }
+
+        Player playerCheck = player;
+        if(args.length > 1){
+            if(!player.hasPermission("minechess.stats.others")) {
+                msgManager.sendMessage(player, messagesConfig.getString("noPermissions"), true);
+                return;
+            }
+
+            playerCheck = Bukkit.getPlayer(args[1]);
+            if(playerCheck == null){
+                msgManager.sendMessage(player, messagesConfig.getString("playerNotOnline"), true);
+                return;
+            }
+        }
+
+        PlayerData playerData = plugin.getPlayerDataManager().getPlayer(playerCheck,false);
+        if(playerData == null){
+            msgManager.sendMessage(player, messagesConfig.getString("playerNoData")
+                    .replace("%player%",playerCheck.getName()), true);
+            return;
+        }
+
+        int wins = playerData.getWins();
+        int ties = playerData.getTies();
+        int loses = playerData.getLoses();
+        String time = plugin.getPlayerDataManager().getTimePlayed(playerCheck);
+
+        for(String line : messagesConfig.getStringList("statsCommand")){
+            msgManager.sendMessage(player,line.replace("%wins%",wins+"").replace("%ties%",ties+"")
+                    .replace("%loses%",loses+"").replace("%time%",time)
+                    .replace("%player%",playerCheck.getName()),false);
+        }
+    }
+
     public void edit(Player player,String[] args,MessagesManager msgManager,FileConfiguration messagesConfig) {
         // /minechess edit <arena>
         if (!PlayerUtils.isMineChessAdmin(player)) {
@@ -420,8 +463,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
                                 completions.addAll(playerCompletions);
                             }
                             return completions;
+                        }else if(!c.equals("stats")){
+                            return getArenaCompletions(args);
                         }
-                        return getArenaCompletions(args);
                     }
                 }
             }
@@ -444,6 +488,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         }
         if(sender.hasPermission("minechess.spectate") && args <= 1){
             commands.add("spectate");
+        }
+        if(sender.hasPermission("minechess.stats") && args <= 1){
+            commands.add("stats");
         }
 
         if(PlayerUtils.isMineChessAdmin(sender)){
