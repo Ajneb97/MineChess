@@ -75,6 +75,7 @@ public class ActionUtils {
             case "console_command" -> ActionUtils.consoleCommand(actionLine);
             case "player_command" -> ActionUtils.playerCommand(player, actionLine);
             case "playsound" -> ActionUtils.playSound(player, actionLine);
+            case "playsound_resource_pack" -> ActionUtils.playSoundResourcePack(player,actionLine);
             case "title" -> ActionUtils.title(player, actionLine);
         }
     }
@@ -94,6 +95,14 @@ public class ActionUtils {
             return;
         }
 
+        player.playSound(player.getLocation(), sound, volume, pitch);
+    }
+
+    private static void playSoundResourcePack(Player player, String soundLine){
+        String[] sep = soundLine.split(";");
+        String sound = sep[0];
+        float volume = Float.parseFloat(sep[1]);
+        float pitch = Float.parseFloat(sep[2]);
         player.playSound(player.getLocation(), sound, volume, pitch);
     }
 
