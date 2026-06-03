@@ -1,5 +1,7 @@
 package mc.ajneb97.manager;
 
+import mc.ajneb97.config.model.PlayerIpLimitations;
+import mc.ajneb97.model.ArenaPersistentPlayerData;
 import mc.ajneb97.model.game.GameLeaveReason;
 import mc.ajneb97.MineChess;
 import mc.ajneb97.api.ArenaEndEvent;
@@ -13,6 +15,7 @@ import mc.ajneb97.model.game.GameEndsReason;
 import mc.ajneb97.model.game.GamePlayer;
 import mc.ajneb97.model.game.GameStatus;
 import mc.ajneb97.model.internal.CommonVariable;
+import mc.ajneb97.model.internal.LimitationsResults;
 import mc.ajneb97.utils.ActionUtils;
 import mc.ajneb97.utils.ItemUtils;
 import org.bukkit.entity.Player;
@@ -54,15 +57,13 @@ public class GameEndManager {
             arena.setWinner(arena.getOpponentPlayer(arena.getPlayerTurn()));
         }
 
-        GameTimeLimitations gameTimeLimitations = plugin.getConfigsManager().getMainConfigManager().getGameTimeLimitations();
-        long millisPlayed = System.currentTimeMillis()-arena.getMillisStart();
-        boolean lastsMoreThanAllowed = gameLastsMoreThanAllowed(millisPlayed);
+        LimitationsResults limitationsResults = getLimitationsResults(arena);
 
         // Actions and Rewards
         List<String> actions = getActionsEndGameByReason(arena,reason,mainConfigManager);
         ArrayList<CommonVariable> variables = getEndGameVariablesByReason(arena,reason);
         ActionUtils.executeActions(null,arena,actions,plugin,variables,true);
-        if(lastsMoreThanAllowed || !gameTimeLimitations.isLimitRewards()){
+        if(limitationsResults.isMustGiveRewards()){
             giveRewards(arena,reason,mainConfigManager,false);
         }
 
@@ -74,8 +75,8 @@ public class GameEndManager {
             Player player = gamePlayer.getPlayer();
 
             //Update data
-            if(lastsMoreThanAllowed || !gameTimeLimitations.isLimitStats()){
-                playerDataManager.endGame(player,winner == gamePlayer,winner != gamePlayer,millisPlayed);
+            if(limitationsResults.isMustGiveStats()){
+                playerDataManager.endGame(player,winner == gamePlayer,winner != gamePlayer,System.currentTimeMillis()-arena.getMillisStart());
             }
 
             player.closeInventory();
@@ -213,9 +214,41 @@ public class GameEndManager {
         return variables;
     }
 
-    private boolean gameLastsMoreThanAllowed(long millisPlayed){
-        long minMillis = plugin.getConfigsManager().getMainConfigManager().getGameTimeLimitations().getMinTime()*1000L;
-        return millisPlayed >= minMillis;
+    private LimitationsResults getLimitationsResults(Arena arena){
+        boolean mustGiveStats = true;
+        boolean mustGiveRewards = true;
+        MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
+        GameTimeLimitations gameTimeLimitations = mainConfigManager.getGameTimeLimitations();
+        PlayerIpLimitations playerIpLimitations = mainConfigManager.getPlayerIpLimitations();
+
+        if(gameTimeLimitations.isLimitStats() || gameTimeLimitations.isLimitRewards()){
+            long millisPlayed = System.currentTimeMillis()-arena.getMillisStart();
+            boolean enoughTimePlayed = millisPlayed >= gameTimeLimitations.getMinTime()*1000L;
+            if(!enoughTimePlayed){
+                if(gameTimeLimitations.isLimitStats()){
+                    mustGiveStats = false;
+                }
+                if(gameTimeLimitations.isLimitRewards()){
+                    mustGiveRewards = false;
+                }
+            }
+        }
+
+        if(playerIpLimitations.isLimitStats() || playerIpLimitations.isLimitRewards()){
+            ArenaPersistentPlayerData persistentData = arena.getArenaPersistentPlayerData();
+            boolean isSameIp = persistentData.getPlayerWhiteIp() != null && persistentData.getPlayerBlackIp() != null &&
+                    persistentData.getPlayerWhiteIp().equals(persistentData.getPlayerBlackIp());
+            if(isSameIp){
+                if(playerIpLimitations.isLimitStats()){
+                    mustGiveStats = false;
+                }
+                if(playerIpLimitations.isLimitRewards()){
+                    mustGiveRewards = false;
+                }
+            }
+        }
+
+        return new LimitationsResults(mustGiveStats,mustGiveRewards);
     }
 
     private void giveRewards(Arena arena,GameEndsReason reason,MainConfigManager mainConfigManager,boolean givingAfterTeleport){
@@ -250,10 +283,8 @@ public class GameEndManager {
 
         if(arena.isInGame()){
             // Rewards after teleport
-            long millisPlayed = System.currentTimeMillis()-arena.getMillisStart();
-            boolean lastsMoreThanAllowed = gameLastsMoreThanAllowed(millisPlayed);
-            GameTimeLimitations gameTimeLimitations = plugin.getConfigsManager().getMainConfigManager().getGameTimeLimitations();
-            if(lastsMoreThanAllowed || !gameTimeLimitations.isLimitRewards()){
+            LimitationsResults limitationsResults = getLimitationsResults(arena);
+            if(limitationsResults.isMustGiveRewards()){
                 giveRewards(dummyArena,arena.getEndReason(),plugin.getConfigsManager().getMainConfigManager(),true);
             }
 

@@ -33,6 +33,7 @@ public class Arena {
     private GameEndsReason endReason;
     private long millisStart;
     private ArrayList<GamePlayer> spectators;
+    private ArenaPersistentPlayerData arenaPersistentPlayerData;
     private int movementsWithoutProgress;
 
     private ArenaCooldownManager arenaCooldownManager;
@@ -43,6 +44,7 @@ public class Arena {
         this.board = new Board();
         this.board.createInitialBoard();
         this.spectators = new ArrayList<>();
+        this.arenaPersistentPlayerData = new ArenaPersistentPlayerData();
     }
 
     public String getName() {
@@ -285,6 +287,7 @@ public class Arena {
         millisStart = 0;
         endReason = null;
         movementsWithoutProgress = 0;
+        arenaPersistentPlayerData.reset();
     }
 
     public PlayerColor getColor(GamePlayer gamePlayer){
@@ -415,5 +418,16 @@ public class Arena {
 
     public void setMovementsWithoutProgress(int movementsWithoutProgress) {
         this.movementsWithoutProgress = movementsWithoutProgress;
+    }
+
+    public void updatePersistentData(){
+        arenaPersistentPlayerData.setPlayerWhiteIp(playerWhite != null ?
+                playerWhite.getPlayer().getAddress().getAddress().getHostAddress() : null);
+        arenaPersistentPlayerData.setPlayerBlackIp(playerBlack != null ?
+                playerBlack.getPlayer().getAddress().getAddress().getHostAddress() : null);
+    }
+
+    public ArenaPersistentPlayerData getArenaPersistentPlayerData() {
+        return arenaPersistentPlayerData;
     }
 }

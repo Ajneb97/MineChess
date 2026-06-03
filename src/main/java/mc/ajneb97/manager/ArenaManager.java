@@ -260,6 +260,7 @@ public class ArenaManager {
         arena.stopCooldownTask();
         arena.setStatus(GameStatus.PLAYING);
         arena.setMillisStart(System.currentTimeMillis());
+        arena.updatePersistentData();
 
         MessagesManager msgManager = plugin.getMessagesManager();
         FileConfiguration messagesConfig = plugin.getMessagesConfig();

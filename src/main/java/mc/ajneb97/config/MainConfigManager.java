@@ -34,6 +34,7 @@ public class MainConfigManager {
     private boolean coloredArmor;
     private boolean scoreboardEnabled;
     private GameTimeLimitations gameTimeLimitations;
+    private PlayerIpLimitations playerIpLimitations;
     private ArrayList<PieceStructure> pieceStructures;
     private GameItemsConfig gameItemsConfig;
     private List<String> commandsWhitelist;
@@ -75,6 +76,10 @@ public class MainConfigManager {
                 config.getInt("game_time_limitations.min_time"),
                 config.getBoolean("game_time_limitations.limit_rewards"),
                 config.getBoolean("game_time_limitations.limit_stats")
+        );
+        playerIpLimitations = new PlayerIpLimitations(
+                config.getBoolean("player_ip_limitations.limit_rewards"),
+                config.getBoolean("player_ip_limitations.limit_stats")
         );
 
         pieceStructures = new ArrayList<>();
@@ -268,6 +273,11 @@ public class MainConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = getConfig();
+            if(!text.contains("player_ip_limitations:")){
+                getConfig().set("player_ip_limitations.limit_rewards", false);
+                getConfig().set("player_ip_limitations.limit_stats", false);
+                configFile.saveConfig();
+            }
             if(!text.contains("scoreboard_enabled:")){
                 config.set("scoreboard_enabled",true);
                 configFile.saveConfig();
@@ -468,5 +478,9 @@ public class MainConfigManager {
 
     public boolean isScoreboardEnabled() {
         return scoreboardEnabled;
+    }
+
+    public PlayerIpLimitations getPlayerIpLimitations() {
+        return playerIpLimitations;
     }
 }

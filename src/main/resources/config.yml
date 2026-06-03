@@ -93,6 +93,17 @@ game_time_limitations:
   # (win, lose, tie) will not be updated.
   limit_stats: true
 
+# Defines some limitations that will apply when two players
+# with the same IP are playing.
+player_ip_limitations:
+  # When enabled, if both players have the same IP, they will not receive
+  # rewards specified under the actions.rewards section.
+  limit_rewards: false
+
+  # When enabled, if both players have the same IP, their stats will not
+  # be updated.
+  limit_stats: false
+
 # Defines a per arena chat.
 per_arena_chat:
   # Whether this option is enabled or not.
