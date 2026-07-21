@@ -157,7 +157,7 @@ special_movements_holograms:
   enabled: false
 
   # Height of the holograms.
-  offset_y: 3.5
+  offset_y: 4
 
   # Text of the hologram on each case.
   movements:

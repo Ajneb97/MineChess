@@ -100,6 +100,8 @@ public class VerifyManager {
         verifyActions(gameActionsRewards.getEndByStalemateTieActions(),"rewards.end_by_stalemate_tie","config.yml");
         verifyActions(gameActionsRewards.getEndByCheckmateActions(),"rewards.end_by_checkmate","config.yml");
         verifyActions(gameActionsRewards.getEndByLeaveActions(),"rewards.end_by_leave","config.yml");
+        verifyActions(gameActionsRewards.getEndByMovementsWithoutProgressTie(),"rewards.end_by_movements_without_progress_tie","config.yml");
+        verifyActions(gameActionsRewards.getEndByInsufficientMaterialTie(),"rewards.end_by_insufficient_material_tie","config.yml");
 
         GameActionsEndGame gameActionsEndGame = mainConfigManager.getGameActions().getGameActionsEndGame();
         verifyActions(gameActionsEndGame.getEndByTimeActions(),"end_game.end_by_time","config.yml");
@@ -108,6 +110,8 @@ public class VerifyManager {
         verifyActions(gameActionsEndGame.getEndByStalemateTieActions(),"end_game.end_by_stalemate_tie","config.yml");
         verifyActions(gameActionsEndGame.getEndByCheckmateActions(),"end_game.end_by_checkmate","config.yml");
         verifyActions(gameActionsEndGame.getEndByLeaveActions(),"end_game.end_by_leave","config.yml");
+        verifyActions(gameActionsEndGame.getEndByMovementsWithoutProgressTie(),"end_game.end_by_movements_without_progress_tie","config.yml");
+        verifyActions(gameActionsEndGame.getEndByInsufficientMaterialTie(),"end_game.end_by_insufficient_material_tie","config.yml");
     }
 
     public void verifyActions(List<String> actions,String actionGroup,String fileName){

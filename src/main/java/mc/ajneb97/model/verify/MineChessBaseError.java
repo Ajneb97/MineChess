@@ -1,5 +1,6 @@
 package mc.ajneb97.model.verify;
 
+import mc.ajneb97.api.MineChessAPI;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -16,9 +17,11 @@ public abstract class MineChessBaseError {
         this.file = file;
         this.errorText = errorText;
         this.critical = critical;
-        this.prefix = "&e⚠ ";;
-        if(this.critical){
-            this.prefix = "&c⚠ ";
+        boolean isPaper = MineChessAPI.getPlugin().getDependencyManager().isPaper();
+        if(isPaper){
+            this.prefix = this.critical ? "<red>⚠ " : "<yellow>⚠ ";
+        }else{
+            this.prefix = this.critical ? "&c⚠ " : "&e⚠ ";
         }
     }
 
