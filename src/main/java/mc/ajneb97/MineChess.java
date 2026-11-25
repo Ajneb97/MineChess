@@ -102,6 +102,11 @@ public class MineChess extends JavaPlugin {
     public void onDisable(){
         arenaManager.endAllArenasFromServerStop();
         configsManager.getPlayersConfigManager().saveConfigs();
+
+        if(mySQLConnection != null){
+            mySQLConnection.shutdown();
+        }
+
         Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getLegacyColoredMessage("&eHas been disabled! &fVersion: "+version));
     }
     public void registerCommands(){
